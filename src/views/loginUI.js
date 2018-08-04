@@ -15,15 +15,20 @@ class LoginUi extends React.Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
-    onSubmit = async(e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
-        console.log(this.state);
-        var loginstate = await loginService(this.state.email,this.state.password);
-        console.log("herera",loginstate);
-        if(loginstate)
-        {
-            this.props.setLoginSuccess(loginstate.accessToken,loginstate.refreshToken)
+        
+        if (this.state.email === '' || this.state.password === '') {
+            alert("Empty Field")
         }
+        else {
+            var loginstate = await loginService(this.state.email, this.state.password);
+
+            if (loginstate) {
+                this.props.setLoginSuccess(loginstate.accessToken, loginstate.refreshToken)
+            }
+        }
+
     }
 
     renderRedirect = () => {
