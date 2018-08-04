@@ -1,4 +1,6 @@
 import React from 'react';
+import loginService from '../services/loginServices'
+
 
 class LoginUi extends React.Component {
     constructor() {
@@ -13,9 +15,15 @@ class LoginUi extends React.Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
-    onSubmit = (e) => {
+    onSubmit = async(e) => {
         e.preventDefault();
         console.log(this.state);
+        var loginstate = await loginService(this.state.email,this.state.password);
+        console.log("herera",loginstate);
+        if(loginstate)
+        {
+            this.props.setLoginSuccess(loginstate.accessToken,loginstate.refreshToken)
+        }
     }
 
     renderRedirect = () => {
@@ -44,7 +52,7 @@ class LoginUi extends React.Component {
                     />
 
                     <div>
-                        <input type="submit" value="Submit" />
+                        <input type="submit" value="Log In" />
                         <button type="button" onClick={() => {
                             console.log("asdasd");
                             this.renderRedirect();
