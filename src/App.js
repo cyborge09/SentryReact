@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
-// import logo from './logo.svg';
-import { Provider } from 'react-redux';
-import './App.css';
-import store from './store';
-import Login from './views/login';
-import SignUp from './views/signup';
-import { Redirect } from 'react-router-dom';
-import { Switch, BrowserRouter, Route } from 'react-router-dom';
+import React, { Component } from "react";
+import { Provider } from "react-redux";
 
+import { Switch, BrowserRouter, Route } from "react-router-dom";
+
+import "./App.css";
+import store from "./store";
+
+import MainComponent from "./views/MainComponent";
 
 class App extends Component {
   render() {
@@ -15,12 +14,7 @@ class App extends Component {
       <Provider store={store}>
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" render={() => (
-              <Redirect to="/login" />
-            )} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={SignUp} />
-            {/* <Route exact path="/main" component={Main} /> */}
+            <Route component={MainComponent} />
           </Switch>
         </BrowserRouter>
       </Provider>

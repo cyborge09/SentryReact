@@ -1,12 +1,13 @@
 import React from "react";
-import * as loginService from "../services/loginServices";
+import * as https from "../utils/https";
 
-class LoginUi extends React.Component {
+class SignUp extends React.Component {
   constructor() {
     super();
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      newAdminSuccess: false
     };
   }
 
@@ -17,28 +18,44 @@ class LoginUi extends React.Component {
   onSubmit = async e => {
     e.preventDefault();
 
-    var loginState = await loginService.validateAdminStatus(
-      this.state.email,
-      this.state.password
-    );
+    let data = {
+      email: this.state.email,
+      password: this.state.password
+    };
+    let response = await https
+      .post("signUp", data)
+      .then(data => {
+        if (data.status === 201) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch(err => console.log(err));
 
-    if (loginState) {
-      this.props.setLoginSuccess(
-        loginState.accessToken,
-        loginState.refreshToken
-      );
+    if (response) {
+      this.setState({
+        newAdminSuccess: true
+      });
     }
   };
 
-  redirectToSignUp = () => {
-    this.props.history.push(`/signup`);
+  redirectToLogin = () => {
+    this.props.history.push(`/login`);
+  };
+
+  adminCreated = () => {
+    if (this.state.newAdminSuccess) {
+      return <h1>New Admin Created</h1>;
+    }
   };
 
   render() {
     return (
       <div>
+        {this.adminCreated()}
         <form onSubmit={this.onSubmit}>
-          <h1>LOGIN</h1>
+          <h1>SIGNUP</h1>
           <label>EMAIL : </label>
           <input
             value={this.state.email}
@@ -56,18 +73,18 @@ class LoginUi extends React.Component {
           />
 
           <div>
-            <input type="submit" value="Log In" />
+            <input type="submit" value="SIGNUP" />
           </div>
         </form>
         <div>
-          <p> New here? Click below to sign up </p>
+          <p> Click below to go back to login</p>
           <button
             type="button"
             onClick={() => {
-              this.redirectToSignUp();
+              this.redirectToLogin();
             }}
           >
-            Sign Up
+            LOG IN
           </button>
         </div>
       </div>
@@ -75,4 +92,4 @@ class LoginUi extends React.Component {
   }
 }
 
-export default LoginUi;
+export default SignUp;
