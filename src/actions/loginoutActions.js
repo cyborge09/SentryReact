@@ -1,6 +1,6 @@
 export const SET_LOGIN_SUCCESS = 'SET_LOGIN_SUCCESS';
 export const SET_LOGIN_ERROR = 'SET_LOGIN_ERROR';
-export const TODO_LOGOUT = 'LOGOUT';
+export const LOGOUT = 'LOGOUT';
 export const ACCESSTOKEN_CHANGE = 'ACCESSTOKEN_CHANGE';
 
 export const setLoginSuccess = (accessToken, refreshToken) => ({
@@ -17,8 +17,8 @@ export const setLoginError = () => ({
 
 
 
-export const todoLogout = () => ({
-    type: TODO_LOGOUT
+export const Logout = () => ({
+    type: LOGOUT
 });
 
 // export const accessToken_Change = (accessToken) => ({

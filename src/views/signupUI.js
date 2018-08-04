@@ -18,6 +18,10 @@ class SignUpUi extends React.Component {
         console.log(this.state);
     }
 
+    renderRedirect = () => {
+        this.props.history.push(`/login`)
+    }
+
     render() {
         return (
             <div>
@@ -30,7 +34,7 @@ class SignUpUi extends React.Component {
                         type="text"
                         name="email"
                     />
-                    <br/>
+                    <br />
                     <label>PASSWORD : </label>
                     <input
                         value={this.state.password}
@@ -41,7 +45,11 @@ class SignUpUi extends React.Component {
 
                     <div>
                         <input type="submit" value="SIGNUP" />
-                      
+                        <button type="button" onClick={() => {
+                            this.renderRedirect();
+                        }
+
+                        }>LOG IN</button>
                     </div>
                 </form>
             </div>

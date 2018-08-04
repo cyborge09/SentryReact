@@ -1,4 +1,4 @@
-import { SET_LOGIN_SUCCESS, SET_LOGIN_ERROR, TODO_LOGOUT, ACCESSTOKEN_CHANGE } from '../actions/loginoutActions';
+import { SET_LOGIN_SUCCESS, SET_LOGIN_ERROR, LOGOUT, ACCESSTOKEN_CHANGE } from '../actions/loginoutActions';
 
 const INITIAL_STATE = {
     user: {
@@ -34,7 +34,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
                 }
             }
 
-        case TODO_LOGOUT:
+        case LOGOUT:
             return {
                 ...state,
                 user: {

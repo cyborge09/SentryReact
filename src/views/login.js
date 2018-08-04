@@ -2,7 +2,13 @@ import { connect } from 'react-redux';
 import LoginUI from './loginUI';
 
 const mapStateToProps = state => {
-    return 0;
+    return {
+
+        islogin: state.loginReducer.user.islogin,
+        accessToken: state.loginReducer.user.accessToken,
+        refreshToken: state.loginReducer.user.refreshToken
+
+    };
 };
 
 const mapDispatchToProps = dispatch => {
