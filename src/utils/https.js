@@ -28,10 +28,11 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export function get(url, params = {}) {
+export function get(url, headers = {}, params = {}) {
   return axiosInstance({
     method: "get",
     url: url,
+    headers,
     params
   });
 }

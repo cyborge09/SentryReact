@@ -1,5 +1,6 @@
 import React from "react";
 import * as loginService from "../services/loginServices";
+import { Redirect } from "react-router-dom";
 
 class LoginUi extends React.Component {
   constructor() {
@@ -35,7 +36,9 @@ class LoginUi extends React.Component {
   };
 
   render() {
-    return (
+    return this.props.islogin ? (
+      <Redirect to="/dashboard" />
+    ) : (
       <div>
         <form onSubmit={this.onSubmit}>
           <h1>LOGIN</h1>
