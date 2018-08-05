@@ -5,8 +5,23 @@ export const fetchRelatedProjects = async adminEmail => {
     let headers = {
       email: adminEmail
     };
-    console.log("i want it wall sadf email", adminEmail);
+
     let response = await https.get("project", headers);
+    console.log("the response is ", response);
+    return response;
+  } catch (err) {
+    console.error("CCCCCCCCCCCCCCCCCCCCCCCCCC");
+  }
+};
+
+export const createNewProject = async (projectName, adminEmail) => {
+  try {
+    let data = {
+      project_name: projectName,
+      admin_email: adminEmail
+    };
+
+    let response = await https.post("project", data);
     console.log("the response is ", response);
     return response;
   } catch (err) {

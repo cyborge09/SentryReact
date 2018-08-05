@@ -1,0 +1,12 @@
+.dashboard-wrapper {
+  width: 600px;
+  height: 600px;
+  margin: 0 auto;
+  background: grey;
+}
+
+.add-new-project {
+  width: 200px;
+  height: 150px;
+  border: 2px solid black;
+}
