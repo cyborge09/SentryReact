@@ -3,9 +3,8 @@ import { setLoginSuccess } from "../actions/loginoutActions";
 import LoginUI from "./loginUI";
 
 const mapStateToProps = state => {
-  console.log("state", state);
   return {
-    islogin: state.login.user.islogin,
+    isLogin: state.login.user.isLogin,
     accessToken: state.login.user.accessToken,
     refreshToken: state.login.user.refreshToken
   };

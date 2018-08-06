@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 import * as projectServices from "../services/projectServices";
+import Header from '../component/Header';
+
 
 export default class ProjectInstance extends Component {
   constructor() {
@@ -19,7 +21,7 @@ export default class ProjectInstance extends Component {
 
         <label>Instance Name : </label>
         <input
-          value={this.state.instancetName}
+          value={this.state.instanceName}
           onChange={this.onChange}
           type="text"
           name="instanceName"
@@ -29,6 +31,11 @@ export default class ProjectInstance extends Component {
           <input
             type="submit"
             value="CREATE INSTANCE"
+            onClick={this.onSubmit}
+          />
+          <button
+            type="button"
+            value="DashBoard"
             onClick={this.onSubmit}
           />
         </div>
@@ -45,6 +52,9 @@ export default class ProjectInstance extends Component {
 
   onSubmit = async () => {
     console.log("clicked", this.state.instanceName);
+    if (this.state.instanceName === '') {
+      return alert("Empty Field")
+    }
     //here write api call to create a new instance
     const respond = await projectServices
       .createNewProjectInstance(
@@ -52,6 +62,7 @@ export default class ProjectInstance extends Component {
         this.props.activeProject
       )
       .then(res => {
+        console.log("here", res)
         return res.data.data;
       });
 
@@ -62,17 +73,18 @@ export default class ProjectInstance extends Component {
     });
   };
 
-  componentDidMount() {
-    console.log("i am mount", this.props);
-  }
+
   render() {
     return (
-      <div className="dashboard-wrapper">
-        <p> Project : {this.props.activeProject}</p>
-        {this.addNewProject()}
-        <div className="instance-key-wrapper">
-          your instance key is:
+      <div>
+        <Header {...this.props} />
+        <div className="dashboard-wrapper">
+          <p> Project : {this.props.activeProject}</p>
+          {this.addNewProject()}
+          <div className="instance-key-wrapper">
+            your instance key is:
           {this.state.instanceKey}
+          </div>
         </div>
       </div>
     );

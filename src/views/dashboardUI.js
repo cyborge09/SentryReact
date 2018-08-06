@@ -1,8 +1,9 @@
 import React from "react";
 import * as jwt from "../utils/token";
 import * as projectServices from "../services/projectServices";
+import Table from '../component/ProjectTable';
+import Header from '../component/Header';
 
-import "./dashboard.css";
 
 class DashboardUI extends React.Component {
   constructor() {
@@ -11,10 +12,10 @@ class DashboardUI extends React.Component {
     this.state = {
       projectName: "",
       userEmail: null,
-      list: []
     };
   }
   componentDidMount() {
+
     // const accessToken = this.props.accessToken;
     const localAccessToken = localStorage.getItem("AccessToken");
     const result = jwt.verifyAccessToken(localAccessToken);
@@ -30,15 +31,23 @@ class DashboardUI extends React.Component {
   };
 
   displayUserName = () => {
+
     return (
-      <div>
-        Hello
-        <strong> {this.state.userEmail} </strong>
+      <div className="header">
+        <div className="header-wrapper clearfix">
+          <div className="title">
+            PROJECT DASHBOARD
+        </div>
+          <div className="user">
+            <strong> WELCOME {this.state.userEmail} </strong>
+          </div>
+        </div>
       </div>
     );
   };
 
-  onSubmit = () => {
+  onSubmit = async () => {
+
     console.log("the project name is", this.state.projectName);
 
     //make an api call
@@ -46,7 +55,7 @@ class DashboardUI extends React.Component {
       console.log("empty ");
       return 1;
     }
-    const respond = projectServices.createNewProject(
+    const respond = await projectServices.createNewProject(
       this.state.projectName,
       this.state.userEmail
     );
@@ -56,27 +65,30 @@ class DashboardUI extends React.Component {
 
   addNewProject = () => {
     return (
-      <div className="add-new-project">
-        <p>
-          <strong>Add a new Project</strong>
-        </p>
-        <form>
-          <label>Project Name : </label>
-          <input
-            value={this.state.projectName}
-            onChange={this.onChange}
-            type="text"
-            name="projectName"
-          />
+      <div>
+        <div className="clearfix">
+          <div className="add-new-project">
+            <form>
+              <input
+                value={this.state.projectName}
+                onChange={this.onChange}
+                type="text"
+                name="projectName"
+                placeholder="PROJECT NAME"
+              />
 
-          <div>
-            <input
-              type="submit"
-              value="CREATE PROJECT"
-              onClick={this.onSubmit}
-            />
+              <div className="search-btn">
+                <button
+                  type="button"
+                  value="CREATE PROJECT"
+                  onClick={this.onSubmit}
+                >
+                  ADD PROJECT
+              </button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     );
   };
@@ -89,16 +101,16 @@ class DashboardUI extends React.Component {
       list: respond
     });
     console.log("the related projects were ", this.state.list);
+    if (this.state.list !== []) {//callback function for project data fetch success 
+      this.props.onDataFetched(this.state.list)
+    }
+
   };
 
-  handleClick = e => {
-    console.log("i am clicked", e.target.name);
-    //route into the project instance of this project
-    this.props.setCurrentProject(e.target.name);
-    this.props.history.push(`/projectInstance`);
-  };
+
 
   displayProject = list => {
+    console.log("list", list)
     if (list.length === 0) {
       return (
         <div>
@@ -107,29 +119,43 @@ class DashboardUI extends React.Component {
       );
     }
     return (
-      <div>
-        <p>Your current Projects are:</p>
-        {list.map(item => (
-          <button
-            key={item.id}
-            name={item.project_name}
-            onClick={this.handleClick}
-          >
-            {" "}
-            {item.project_name}
-          </button>
-        ))}
-      </div>
+      <Table data={list} handleClick={this.handleClick} />
+      // <div>
+      //   <p>Your current Projects are:</p>
+      //   {console.log("list",list)}
+      //   {list.map(item => (
+      //     <button
+      //       key={item.id}
+      //       name={item.project_name}
+      //       onClick={this.handleClick}
+      //     >
+      //       {item.project_name}
+      //     </button>
+      //   ))}
+      // </div>
     );
   };
+
+  handleClick = (projectName) => {
+    console.log("i am clicked", projectName);
+    this.props.setCurrentProject(projectName);
+    this.props.history.push(`/projectInstance`);
+  };
+
+  handle
+
   render() {
     return (
-      <div className="dashboard-wrapper">
+      <div>
+        <Header {...this.props}/>
         {this.displayUserName()}
-        <p> welcome to dashboard</p>
-
-        {this.addNewProject()}
-        {this.displayProject(this.state.list)}
+        <div className="dashboard-wrapper ">
+          <div className="show-add-project">
+            <div className="project"> PROJECTS</div>
+            {this.addNewProject()}
+          </div>
+          {this.displayProject(this.props.data)}
+        </div>
       </div>
     );
   }

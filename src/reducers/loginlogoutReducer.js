@@ -7,7 +7,7 @@ import {
 
 const INITIAL_STATE = {
   user: {
-    islogin: false,
+    isLogin: false,
     accessToken: "",
     refreshToken: ""
   }
@@ -20,7 +20,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         ...state,
         user: {
           ...state.user,
-          islogin: true,
+          isLogin: true,
           accessToken: action.payload.accessToken,
           refreshToken: action.payload.refreshToken
         }
@@ -31,7 +31,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         user: {
-          islogin: false
+          isLogin: false
         }
       };
     }
@@ -41,7 +41,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         ...state,
         user: {
           ...state.user,
-          islogin: false,
+          isLogin: false,
           accessToken: "",
           refreshToken: ""
         }

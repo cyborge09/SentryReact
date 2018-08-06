@@ -1,5 +1,7 @@
 import React from "react";
 import * as https from "../utils/https";
+import { Redirect } from "react-router-dom";
+import UserActionHeader from "../component/UserActionHeader";
 
 class SignUp extends React.Component {
   constructor() {
@@ -22,6 +24,10 @@ class SignUp extends React.Component {
       email: this.state.email,
       password: this.state.password
     };
+
+    if (data.email === '' || data.password === '') {
+      return alert("Empty Field")
+    }
     let response = await https
       .post("signUp", data)
       .then(data => {
@@ -32,7 +38,7 @@ class SignUp extends React.Component {
         }
       })
       .catch(err => console.log(err));
-
+    console.log("response", response)
     if (response) {
       this.setState({
         newAdminSuccess: true
@@ -46,46 +52,38 @@ class SignUp extends React.Component {
 
   adminCreated = () => {
     if (this.state.newAdminSuccess) {
-      return <h1>New Admin Created</h1>;
+      return <Redirect to="/login" />
     }
   };
 
   render() {
     return (
       <div>
+        <UserActionHeader {...this.props} />
         {this.adminCreated()}
-        <form onSubmit={this.onSubmit}>
-          <h1>SIGNUP</h1>
-          <label>EMAIL : </label>
-          <input
-            value={this.state.email}
-            onChange={this.onChange}
-            type="text"
-            name="email"
-          />
-          <br />
-          <label>PASSWORD : </label>
-          <input
-            value={this.state.password}
-            onChange={this.onChange}
-            type="password"
-            name="password"
-          />
+        <div className="signUp-Wrapper">
+          <form className="form" >
+            <input
+              value={this.state.email}
+              onChange={this.onChange}
+              placeholder="USER-EMAIL"
+              type="text"
+              name="email"
+            />
+            <br />
+            <input
+              value={this.state.password}
+              onChange={this.onChange}
+              placeholder="USER-PASSWORD"
+              type="password"
+              name="password"
+            />
 
-          <div>
-            <input type="submit" value="SIGNUP" />
+            <button className="signUp-btn" type="button" onClick={this.onSubmit} >SIGN UP</button>
+          </form>
+          <div className="redirect-LogIn" >
+            <p>  Already Registered? <a href="#" onClick={() => this.redirectToLogin()}>LogIn</a> </p>
           </div>
-        </form>
-        <div>
-          <p> Click below to go back to login</p>
-          <button
-            type="button"
-            onClick={() => {
-              this.redirectToLogin();
-            }}
-          >
-            LOG IN
-          </button>
         </div>
       </div>
     );
