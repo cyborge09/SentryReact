@@ -94,6 +94,8 @@ class DashboardUI extends React.Component {
   handleClick = e => {
     console.log("i am clicked", e.target.name);
     //route into the project instance of this project
+    this.props.setCurrentProject(e.target.name);
+    this.props.history.push(`/projectInstance`);
   };
 
   displayProject = list => {

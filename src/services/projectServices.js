@@ -28,3 +28,18 @@ export const createNewProject = async (projectName, adminEmail) => {
     console.error("CCCCCCCCCCCCCCCCCCCCCCCCCC");
   }
 };
+
+export const createNewProjectInstance = async (instanceName, projectName) => {
+  try {
+    let data = {
+      project_name: projectName,
+      instanceName: instanceName
+    };
+
+    let response = await https.post("projectInstance", data);
+    console.log("the response is ", response);
+    return response;
+  } catch (err) {
+    console.error("error in creating new project Instance");
+  }
+};

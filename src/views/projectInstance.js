@@ -1,13 +1,10 @@
 import { connect } from "react-redux";
 import { setLoginSuccess } from "../actions/loginoutActions";
-import LoginUI from "./loginUI";
+import projectInstanceUI from "./projectInstanceUI";
 
 const mapStateToProps = state => {
-  console.log("state", state);
   return {
-    islogin: state.login.user.islogin,
-    accessToken: state.login.user.accessToken,
-    refreshToken: state.login.user.refreshToken
+    activeProject: state.admin.project.currentProject
   };
 };
 
@@ -24,6 +21,6 @@ const mapDispatchToProps = dispatch => {
 const logIn = connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginUI);
+)(projectInstanceUI);
 
 export default logIn;
