@@ -25,8 +25,8 @@ class SignUp extends React.Component {
       password: this.state.password
     };
 
-    if (data.email === '' || data.password === '') {
-      return alert("Empty Field")
+    if (data.email === "" || data.password === "") {
+      return alert("Empty Field");
     }
     let response = await https
       .post("signUp", data)
@@ -38,7 +38,7 @@ class SignUp extends React.Component {
         }
       })
       .catch(err => console.log(err));
-    console.log("response", response)
+    console.log("response", response);
     if (response) {
       this.setState({
         newAdminSuccess: true
@@ -52,7 +52,7 @@ class SignUp extends React.Component {
 
   adminCreated = () => {
     if (this.state.newAdminSuccess) {
-      return <Redirect to="/login" />
+      return <Redirect to="/login" />;
     }
   };
 
@@ -62,7 +62,7 @@ class SignUp extends React.Component {
         <UserActionHeader {...this.props} />
         {this.adminCreated()}
         <div className="signUp-Wrapper">
-          <form className="form" >
+          <form className="form">
             <input
               value={this.state.email}
               onChange={this.onChange}
@@ -79,10 +79,22 @@ class SignUp extends React.Component {
               name="password"
             />
 
-            <button className="signUp-btn" type="button" onClick={this.onSubmit} >SIGN UP</button>
+            <button
+              className="signUp-btn"
+              type="button"
+              onClick={this.onSubmit}
+            >
+              SIGN UP
+            </button>
           </form>
-          <div className="redirect-LogIn" >
-            <p>  Already Registered? <a href="#" onClick={() => this.redirectToLogin()}>LogIn</a> </p>
+          <div className="redirect-LogIn">
+            <p>
+              {" "}
+              Already Registered?{" "}
+              <a href="login" onClick={() => this.redirectToLogin()}>
+                LogIn
+              </a>{" "}
+            </p>
           </div>
         </div>
       </div>

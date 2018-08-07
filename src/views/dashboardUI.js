@@ -1,9 +1,8 @@
 import React from "react";
 import * as jwt from "../utils/token";
 import * as projectServices from "../services/projectServices";
-import Table from '../component/ProjectTable';
-import Header from '../component/Header';
-
+import Table from "../component/ProjectTable";
+import Header from "../component/Header";
 
 class DashboardUI extends React.Component {
   constructor() {
@@ -11,11 +10,10 @@ class DashboardUI extends React.Component {
 
     this.state = {
       projectName: "",
-      userEmail: null,
+      userEmail: null
     };
   }
   componentDidMount() {
-
     // const accessToken = this.props.accessToken;
     const localAccessToken = localStorage.getItem("AccessToken");
     const result = jwt.verifyAccessToken(localAccessToken);
@@ -31,13 +29,10 @@ class DashboardUI extends React.Component {
   };
 
   displayUserName = () => {
-
     return (
       <div className="header">
         <div className="header-wrapper clearfix">
-          <div className="title">
-            PROJECT DASHBOARD
-        </div>
+          <div className="title">PROJECT DASHBOARD</div>
           <div className="user">
             <strong> WELCOME {this.state.userEmail} </strong>
           </div>
@@ -47,7 +42,6 @@ class DashboardUI extends React.Component {
   };
 
   onSubmit = async () => {
-
     console.log("the project name is", this.state.projectName);
 
     //make an api call
@@ -84,7 +78,7 @@ class DashboardUI extends React.Component {
                   onClick={this.onSubmit}
                 >
                   ADD PROJECT
-              </button>
+                </button>
               </div>
             </form>
           </div>
@@ -101,16 +95,14 @@ class DashboardUI extends React.Component {
       list: respond
     });
     console.log("the related projects were ", this.state.list);
-    if (this.state.list !== []) {//callback function for project data fetch success 
-      this.props.onDataFetched(this.state.list)
+    if (this.state.list !== []) {
+      //callback function for project data fetch success
+      this.props.onDataFetched(this.state.list);
     }
-
   };
 
-
-
   displayProject = list => {
-    console.log("list", list)
+    console.log("list", list);
     if (list.length === 0) {
       return (
         <div>
@@ -118,36 +110,21 @@ class DashboardUI extends React.Component {
         </div>
       );
     }
-    return (
-      <Table data={list} handleClick={this.handleClick} />
-      // <div>
-      //   <p>Your current Projects are:</p>
-      //   {console.log("list",list)}
-      //   {list.map(item => (
-      //     <button
-      //       key={item.id}
-      //       name={item.project_name}
-      //       onClick={this.handleClick}
-      //     >
-      //       {item.project_name}
-      //     </button>
-      //   ))}
-      // </div>
-    );
+    return <Table data={list} handleClick={this.handleClick} />;
   };
 
-  handleClick = (projectName) => {
+  handleClick = projectName => {
     console.log("i am clicked", projectName);
     this.props.setCurrentProject(projectName);
     this.props.history.push(`/projectInstance`);
   };
 
-  handle
+  handle;
 
   render() {
     return (
       <div>
-        <Header {...this.props}/>
+        <Header {...this.props} />
         {this.displayUserName()}
         <div className="dashboard-wrapper ">
           <div className="show-add-project">
