@@ -77,7 +77,7 @@ export default class ProjectInstance extends Component {
   render() {
     return (
       <div>
-        <Header {...this.props} />
+        <Header/>
         <div className="dashboard-wrapper">
           <p> Project : {this.props.activeProject}</p>
           {this.addNewProject()}

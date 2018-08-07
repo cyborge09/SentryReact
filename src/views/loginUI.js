@@ -2,6 +2,8 @@ import React from "react";
 import * as loginService from "../services/loginServices";
 import { Redirect } from "react-router-dom";
 import UserActionHeader from "../component/UserActionHeader";
+import { Link } from 'react-router-dom'
+
 
 class LoginUi extends React.Component {
   constructor() {
@@ -71,7 +73,7 @@ class LoginUi extends React.Component {
 
             </form>
             <div className="redirect-SignUp" >
-              <p> New here? Click here to <a href="#" onClick={() => this.redirectToSignUp()}>sign up</a> </p>
+              <p> New here? Click here to <Link to={'/SignUp'}>Sign Up</Link> </p>
             </div>
           </div>
         </div>

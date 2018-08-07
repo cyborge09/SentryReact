@@ -2,6 +2,8 @@ import React from "react";
 import * as https from "../utils/https";
 import { Redirect } from "react-router-dom";
 import UserActionHeader from "../component/UserActionHeader";
+import { Link } from 'react-router-dom'
+
 
 class SignUp extends React.Component {
   constructor() {
@@ -46,10 +48,6 @@ class SignUp extends React.Component {
     }
   };
 
-  redirectToLogin = () => {
-    this.props.history.push(`/login`);
-  };
-
   adminCreated = () => {
     if (this.state.newAdminSuccess) {
       return <Redirect to="/login" />
@@ -59,7 +57,7 @@ class SignUp extends React.Component {
   render() {
     return (
       <div>
-        <UserActionHeader {...this.props} />
+        <UserActionHeader/>
         {this.adminCreated()}
         <div className="signUp-Wrapper">
           <form className="form" >
@@ -82,7 +80,7 @@ class SignUp extends React.Component {
             <button className="signUp-btn" type="button" onClick={this.onSubmit} >SIGN UP</button>
           </form>
           <div className="redirect-LogIn" >
-            <p>  Already Registered? <a href="#" onClick={() => this.redirectToLogin()}>LogIn</a> </p>
+            <p>  Already Registered? <Link to={'/login'}>LogIn</Link> </p>
           </div>
         </div>
       </div>
