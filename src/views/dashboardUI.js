@@ -15,8 +15,6 @@ class DashboardUI extends React.Component {
     };
   }
   componentDidMount() {
-
-    // const accessToken = this.props.accessToken;
     const localAccessToken = localStorage.getItem("AccessToken");
     const result = jwt.verifyAccessToken(localAccessToken);
     this.setState({
@@ -34,7 +32,7 @@ class DashboardUI extends React.Component {
 
     return (
       <div className="header">
-        <div className="header-wrapper clearfix">
+        <div className="header-dashboard-wrapper clearfix">
           <div className="title">
             PROJECT DASHBOARD
         </div>
@@ -147,7 +145,7 @@ class DashboardUI extends React.Component {
   render() {
     return (
       <div>
-        <Header {...this.props}/>
+        <Header {...this.props} />
         {this.displayUserName()}
         <div className="dashboard-wrapper ">
           <div className="show-add-project">
