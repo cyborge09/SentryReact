@@ -1,8 +1,7 @@
-import axios from "axios";
-// import * as loginService from "../services/loginService";
+import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: "http://127.0.0.1:8848/api/"
+  baseURL: 'http://127.0.0.1:8848/api/',
 });
 
 axiosInstance.interceptors.response.use(
@@ -30,18 +29,25 @@ axiosInstance.interceptors.response.use(
 
 export function get(url, headers = {}, params = {}) {
   return axiosInstance({
-    method: "get",
+    method: 'get',
     url: url,
     headers,
-    params
+    params,
   });
 }
 
 export function post(url, data, params = {}) {
   return axiosInstance({
-    method: "post",
+    method: 'post',
     url,
     data,
-    params
+    params,
+  });
+}
+
+export function remove(url) {
+  return axiosInstance({
+    method: 'delete',
+    url,
   });
 }

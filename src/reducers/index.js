@@ -1,11 +1,11 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
-import adminReducer from "./adminReducer";
-import loginlogoutReducer from "./loginlogoutReducer";
+import adminReducer from './adminReducer';
+import loginlogoutReducer from './loginlogoutReducer';
 
 const reducer = combineReducers({
   admin: adminReducer,
-  login: loginlogoutReducer
+  login: loginlogoutReducer,
 });
 
 export default reducer;

@@ -1,6 +1,11 @@
 .App {
   text-align: center;
+}
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .App-logo {
@@ -29,31 +34,30 @@
   margin: 0 auto;
 }
 
-
-.project{
+.project {
   float: left;
   font-size: xx-large;
   font-family: initial;
 }
 
-.show-add-project{
+.show-add-project {
   margin: 20px 0px;
 }
 
-
-.add-new-project{
+.add-new-project {
   float: right;
- 
-  }
-
-.search-btn{
-  float: right;
-  
 }
 
-.search-btn button{
+.search-btn {
+  float: right;
+}
+
+.search-btn button {
   background-color: #3fb53f;
   height: 26px;
+  border: none;
+  border-radius: 0px;
+  padding: 5px;
 }
 
 @keyframes App-logo-spin {
@@ -74,134 +78,146 @@
   word-wrap: break-word;
 }
 
-.login-wrapper,.signUp-Wrapper{
+.login-wrapper,
+.signUp-Wrapper {
   height: auto;
   width: auto;
   position: absolute;
   top: 25%;
   left: 40%;
   background-color: #00b44e;
+  padding-bottom: 10px;
 }
 
-
-
-
-.form{
+.form {
   height: auto;
   width: 300px;
   padding-top: 30px;
 }
 
-.form input{
-  margin-bottom: 5px;
+.form input {
+  margin: 5px 0;
   margin-left: 25px;
- 
+  border: none;
+  border-radius: 0px;
+  padding: 5px;
+  background-color: #f4ffe9;
 }
 
-.login-btn,.signUp-btn{
+.login-form-header,
+.signUp-form-header {
+  text-align: center;
+  background-color: #000;
+  padding: 10px;
+  font-weight: bolder;
+  color: #d8d0d0;
+  font-size: 1.3em;
+}
+
+.login-btn,
+.signUp-btn {
+  margin: 20px 0;
   margin-left: 55px;
   width: 60%;
   height: 30px;
-  margin-top: 20px;
-  background-color: antiquewhite;
+  border: none;
+  border-radius: 0px;
+  background-color: #000;
+  color: #d8d0d0;
+  font-size: 0.8em;
 }
 
-.redirect-SignUp,.redirect-LogIn{
+.redirect-SignUp,
+.redirect-LogIn {
   text-align: center;
 }
 
-.redirect-SignUp a{
+.redirect-SignUp a {
   text-decoration: none;
 }
 
-.redirect-LogIn a{
+.redirect-LogIn a {
   text-decoration: none;
 }
 
-.redirect-LogIn a:hover{
+.redirect-LogIn a:hover {
   color: wheat;
 }
 
-.redirect-SignUp a:hover{
+.redirect-SignUp a:hover {
   color: wheat;
 }
-.my-table
-{
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+.my-table {
+  font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
   margin: 0 auto;
 }
 
 .clearfix::after {
-  content: "";
+  content: '';
   clear: both;
   display: table;
 }
 
-.my-table th
-{
+.my-table th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: center;
   background-color: #807171;
   color: white;
-
 }
 
-.my-table tr,td
-{
+.my-table tr,
+td {
   /* border: 1px solid #ddd; */
   padding: 8px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   text-align: center;
 }
 
-.td:hover{
+.td:hover {
   background-color: aqua;
   cursor: pointer;
 }
 
-.td a{
+.td a {
   text-transform: uppercase;
   font-weight: bold;
   text-decoration: none;
   padding: 5px;
   color: black;
-  
 }
 
-.td a:hover{
-  color: #4CAF50
+.td a:hover {
+  color: #4caf50;
 }
 
-.header{
+.header {
   width: 100%;
   background-color: #3fb53f;
   padding: 10px 0px;
 }
 
-.title{
+.title {
   float: left;
 }
 
-.header-dashboard-wrapper{
+.header-dashboard-wrapper {
   width: 92%;
   margin-left: 53px;
 }
 
-.user{
+.user {
   float: right;
 }
 
-
 /* css for header.js */
-.header-Head{
+.header-Head {
   background-color: #000000;
 }
 
-
-.header-Wrapper{
+.header-Wrapper {
   width: 92%;
   margin-left: 35px;
 }
@@ -210,11 +226,9 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  
 }
 
 .header-Wrapper li {
-
   float: left;
 }
 
@@ -235,14 +249,12 @@
 
 /* css for header.js ends */
 
-
 /* css for UserActionHeader.js */
-.user-Header-Head{
+.user-Header-Head {
   background-color: #000000;
 }
 
-
-.user-Header-Wrapper{
+.user-Header-Wrapper {
   width: 92%;
   height: auto;
   margin: 0 auto;
@@ -251,7 +263,6 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
-  
 }
 
 .user-Header-Wrapper li {
@@ -275,3 +286,68 @@
 
 /* css for UserActionHeader.js ends */
 
+/* for react modal animation */
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+/* css for react modal of add and delete project */
+
+.modal-AddProject {
+  position: relative;
+  width: 250px;
+  /* height:250px; */
+  top: 25%;
+  margin: auto auto;
+  background-color: rgb(244, 244, 244);
+}
+.add-project-modal-header {
+  background-color: #00b44e;
+  text-align: center;
+  padding: 10px;
+}
+.add-project-modal-header span {
+  float: right;
+  color: #ffffff;
+  cursor: pointer;
+}
+.add-project-form-wrapper {
+  padding: 20px;
+  width: 100%;
+}
+
+.add-project-form-wrapper input {
+  width: 100%;
+  border: none;
+  padding: 10px;
+  border-radius: 0px;
+  background-color: #d8d0d0;
+  margin: 5px 0px;
+}
+.add-project-form-wrapper button {
+  border-radius: 0px;
+  background-color: #00b44e;
+  border: none;
+  padding: 10px;
+  width: 50%;
+  display: block;
+  margin: 5px auto;
+}
+
+.delete-Info img {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 5px;
+}
+
+/* css for react modal of add project ends */

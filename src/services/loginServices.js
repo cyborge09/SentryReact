@@ -1,4 +1,4 @@
-import * as https from "../utils/https";
+import * as https from '../utils/https';
 
 export const validateAdminStatus = async (email, password) => {
   let loginStatus = false;
@@ -17,22 +17,21 @@ export const validateAdminStatus = async (email, password) => {
   try {
     let data = {
       email: email,
-      password: password
+      password: password,
     };
 
-    response = await https.post("auth/login", data);
-    console.log("the response is ", response);
+    response = await https.post('auth/login', data);
 
     if (response.status === 200) {
       loginStatus = true;
       const { accessToken, refreshToken } = {
         accessToken: response.data.data.accessToken,
-        refreshToken: response.data.data.refreshToken
+        refreshToken: response.data.data.refreshToken,
       };
       return { loginStatus, accessToken, refreshToken };
     }
   } catch (err) {
-    alert("ADMIN NOT FOUND");
+    alert('ADMIN NOT FOUND');
   }
   //   }
 };

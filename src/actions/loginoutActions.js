@@ -4,21 +4,19 @@ export const LOGOUT = 'LOGOUT';
 export const ACCESSTOKEN_CHANGE = 'ACCESSTOKEN_CHANGE';
 
 export const setLoginSuccess = (accessToken, refreshToken) => ({
-    type: SET_LOGIN_SUCCESS,
-    payload: {
-        accessToken: accessToken,
-        refreshToken: refreshToken
-    }
+  type: SET_LOGIN_SUCCESS,
+  payload: {
+    accessToken: accessToken,
+    refreshToken: refreshToken,
+  },
 });
 
 export const setLoginError = () => ({
-    type: SET_LOGIN_ERROR
+  type: SET_LOGIN_ERROR,
 });
 
-
-
 export const Logout = () => ({
-    type: LOGOUT
+  type: LOGOUT,
 });
 
 // export const accessToken_Change = (accessToken) => ({

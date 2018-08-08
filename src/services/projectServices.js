@@ -1,17 +1,17 @@
-import * as https from "../utils/https";
+import * as https from '../utils/https';
 
 export const fetchRelatedProjects = async adminEmail => {
   try {
     let headers = {
       email: adminEmail,
-      origin : "*" 
+      origin: '*',
     };
 
-    let response = await https.get("project", headers);
-    console.log("the response is ", response);
+    let response = await https.get('project', headers);
+
     return response;
   } catch (err) {
-    console.error("CCCCCCCCCCCCCCCCCCCCCCCCCC",err);
+    console.error('CCCCCCCCCCCCCCCCCCCCCCCCCC', err);
   }
 };
 
@@ -19,14 +19,13 @@ export const createNewProject = async (projectName, adminEmail) => {
   try {
     let data = {
       project_name: projectName,
-      admin_email: adminEmail
+      admin_email: adminEmail,
     };
 
-    let response = await https.post("project", data);
-    console.log("the response is ", response);
+    let response = await https.post('project', data);
     return response;
   } catch (err) {
-    console.error("CCCCCCCCCCCCCCCCCCCCCCCCCC");
+    console.error('CCCCCCCCCCCCCCCCCCCCCCCCCC');
   }
 };
 
@@ -34,13 +33,21 @@ export const createNewProjectInstance = async (instanceName, projectName) => {
   try {
     let data = {
       project_name: projectName,
-      instanceName: instanceName
+      instanceName: instanceName,
     };
 
-    let response = await https.post("projectInstance", data);
-    console.log("the response is ", response);
+    let response = await https.post('projectInstance', data);
     return response;
   } catch (err) {
-    console.error("error in creating new project Instance");
+    console.error('error in creating new project Instance');
+  }
+};
+
+export const deleteSpecificProject = async projectID => {
+  try {
+    let response = await https.remove(`project/${projectID}`);
+    return response;
+  } catch (err) {
+    console.error('error deleting data');
   }
 };

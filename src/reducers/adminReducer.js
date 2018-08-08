@@ -1,10 +1,14 @@
-import { SET_CURRENT_PROJECT, PROJECT_FETCH_SUCCESS } from "../actions/adminActions";
+import {
+  SET_CURRENT_PROJECT,
+  PROJECT_FETCH_SUCCESS,
+  PROJECT_DELETE_SUCCESS,
+} from '../actions/adminActions';
 
 const INITIAL_STATE = {
   project: {
-    currentProject: "",
-    data: ''
-  }
+    currentProject: '',
+    data: '',
+  },
 };
 
 const adminReducer = (state = INITIAL_STATE, action) => {
@@ -14,8 +18,8 @@ const adminReducer = (state = INITIAL_STATE, action) => {
         ...state,
         project: {
           ...state.project,
-          currentProject: action.payload.projectName
-        }
+          currentProject: action.payload.projectName,
+        },
       };
     }
 
@@ -24,9 +28,14 @@ const adminReducer = (state = INITIAL_STATE, action) => {
         ...state,
         project: {
           ...state.project,
-          data: action.payload.data
-      }
+          data: action.payload.data,
+        },
+      };
+    }
 
+    case PROJECT_DELETE_SUCCESS: {
+      return {
+        ...state,
       };
     }
 

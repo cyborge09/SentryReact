@@ -2,15 +2,15 @@ import {
   SET_LOGIN_SUCCESS,
   SET_LOGIN_ERROR,
   LOGOUT,
-  ACCESSTOKEN_CHANGE
-} from "../actions/loginoutActions";
+  ACCESSTOKEN_CHANGE,
+} from '../actions/loginoutActions';
 
 const INITIAL_STATE = {
   user: {
     isLogin: false,
-    accessToken: "",
-    refreshToken: ""
-  }
+    accessToken: '',
+    refreshToken: '',
+  },
 };
 
 const loginReducer = (state = INITIAL_STATE, action) => {
@@ -22,8 +22,8 @@ const loginReducer = (state = INITIAL_STATE, action) => {
           ...state.user,
           isLogin: true,
           accessToken: action.payload.accessToken,
-          refreshToken: action.payload.refreshToken
-        }
+          refreshToken: action.payload.refreshToken,
+        },
       };
     }
 
@@ -31,8 +31,8 @@ const loginReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         user: {
-          isLogin: false
-        }
+          isLogin: false,
+        },
       };
     }
 
@@ -42,9 +42,9 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         user: {
           ...state.user,
           isLogin: false,
-          accessToken: "",
-          refreshToken: ""
-        }
+          accessToken: '',
+          refreshToken: '',
+        },
       };
 
     case ACCESSTOKEN_CHANGE:
@@ -52,8 +52,8 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         ...state,
         user: {
           ...state.user,
-          accessToken: action.payload.accessToken
-        }
+          accessToken: action.payload.accessToken,
+        },
       };
 
     default:
