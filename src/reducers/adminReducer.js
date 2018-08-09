@@ -4,6 +4,8 @@ import {
   PROJECT_DELETE_SUCCESS,
 } from '../actions/adminActions';
 
+import { LOGOUT } from '../actions/loginoutActions';
+
 const INITIAL_STATE = {
   project: {
     currentProject: '',
@@ -38,6 +40,9 @@ const adminReducer = (state = INITIAL_STATE, action) => {
         ...state,
       };
     }
+
+    case LOGOUT:
+      return INITIAL_STATE;
 
     default:
       return state;
