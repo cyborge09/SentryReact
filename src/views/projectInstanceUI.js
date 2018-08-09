@@ -1,14 +1,15 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import * as projectServices from "../services/projectServices";
+import * as projectServices from '../services/projectServices';
+import * as logServices from '../services/logServices';
 import Header from '../component/Header';
-
 
 export default class ProjectInstance extends Component {
   constructor() {
     super();
     this.state = {
-      instanceName: ""
+      instanceName: '',
+      fetchedLogs: [],
     };
   }
 
@@ -33,11 +34,7 @@ export default class ProjectInstance extends Component {
             value="CREATE INSTANCE"
             onClick={this.onSubmit}
           />
-          <button
-            type="button"
-            value="DashBoard"
-            onClick={this.onSubmit}
-          />
+          <button type="button" value="DashBoard" onClick={this.onSubmit} />
         </div>
       </div>
     );
@@ -46,14 +43,43 @@ export default class ProjectInstance extends Component {
   onChange = e => {
     this.setState({
       instanceName: e.target.value,
-      instanceKey: ""
+      instanceKey: '',
+    });
+    {
+      this.displayRelatedLogs(this.props.activeProject);
+    }
+  };
+
+  displayRelatedLogs = async projectName => {
+    const relatedLogsList = await logServices
+      .fetchRelatedLogs(this.props.activeProject)
+      .then(data => {
+        return data.data.data;
+      });
+
+    this.setState({
+      fetchedLogs: relatedLogsList,
     });
   };
 
+  displayLogs = () => {
+    return (
+      <div>
+        The related Logs are:
+        {this.state.fetchedLogs.map(index => (
+          <li>
+            {' '}
+            {index.type}
+            {index.message}
+          </li>
+        ))}
+      </div>
+    );
+  };
+
   onSubmit = async () => {
-    console.log("clicked", this.state.instanceName);
     if (this.state.instanceName === '') {
-      return alert("Empty Field")
+      return alert('Empty Field');
     }
     //here write api call to create a new instance
     const respond = await projectServices
@@ -62,30 +88,29 @@ export default class ProjectInstance extends Component {
         this.props.activeProject
       )
       .then(res => {
-        console.log("here", res)
         return res.data.data;
       });
 
-    console.log("the respond from api is ", respond);
-
     this.setState({
-      instanceKey: respond.instance_key
+      instanceKey: respond.instance_key,
     });
   };
-
 
   render() {
     return (
       <div>
-        <Header/>
+        <Header />
         <div className="dashboard-wrapper">
           <p> Project : {this.props.activeProject}</p>
+
           {this.addNewProject()}
+
           <div className="instance-key-wrapper">
             your instance key is:
-          {this.state.instanceKey}
+            {this.state.instanceKey}
           </div>
         </div>
+        {this.displayLogs()}
       </div>
     );
   }

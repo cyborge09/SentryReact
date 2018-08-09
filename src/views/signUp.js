@@ -1,17 +1,16 @@
-import React from "react";
-import * as https from "../utils/https";
-import { Redirect } from "react-router-dom";
-import UserActionHeader from "../component/UserActionHeader";
-import { Link } from 'react-router-dom'
-
+import React from 'react';
+import * as https from '../utils/https';
+import { Redirect } from 'react-router-dom';
+import UserActionHeader from '../component/UserActionHeader';
+import { Link } from 'react-router-dom';
 
 class SignUp extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: "",
-      password: "",
-      newAdminSuccess: false
+      email: '',
+      password: '',
+      newAdminSuccess: false,
     };
   }
 
@@ -24,14 +23,14 @@ class SignUp extends React.Component {
 
     let data = {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
     };
 
     if (data.email === '' || data.password === '') {
-      return alert("Empty Field")
+      return alert('Empty Field');
     }
     let response = await https
-      .post("signUp", data)
+      .post('signUp', data)
       .then(data => {
         if (data.status === 201) {
           return true;
@@ -40,27 +39,29 @@ class SignUp extends React.Component {
         }
       })
       .catch(err => console.log(err));
-    console.log("response", response)
     if (response) {
       this.setState({
-        newAdminSuccess: true
+        newAdminSuccess: true,
       });
     }
   };
 
   adminCreated = () => {
     if (this.state.newAdminSuccess) {
-      return <Redirect to="/login" />
+      return <Redirect to="/login" />;
     }
   };
 
   render() {
     return (
       <div>
-        <UserActionHeader/>
+        <UserActionHeader />
         {this.adminCreated()}
         <div className="signUp-Wrapper">
-          <form className="form" >
+          <div className="signUp-form-header">
+            <span> SIGN UP</span>
+          </div>
+          <form className="form">
             <input
               value={this.state.email}
               onChange={this.onChange}
@@ -77,10 +78,19 @@ class SignUp extends React.Component {
               name="password"
             />
 
-            <button className="signUp-btn" type="button" onClick={this.onSubmit} >SIGN UP</button>
+            <button
+              className="signUp-btn"
+              type="button"
+              onClick={this.onSubmit}
+            >
+              SIGN UP
+            </button>
           </form>
-          <div className="redirect-LogIn" >
-            <p>  Already Registered? <Link to={'/login'}>LogIn</Link> </p>
+          <div className="redirect-LogIn">
+            <p>
+              {' '}
+              Already Registered? <Link to={'/login'}>LogIn</Link>{' '}
+            </p>
           </div>
         </div>
       </div>

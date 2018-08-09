@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 // import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import Login from "./login";
-import SignUp from "./signUp";
-import Dashboard from "./dashboard";
-import ProjectInstance from "./projectInstance";
+import Login from './login';
+import SignUp from './signUp';
+import Dashboard from './dashboard';
+import ProjectInstance from './projectInstance';
 
 class MainComponent extends Component {
   render() {
