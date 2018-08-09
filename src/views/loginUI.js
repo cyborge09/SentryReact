@@ -10,6 +10,7 @@ class LoginUi extends React.Component {
     this.state = {
       email: '',
       password: '',
+      headerMessage: 'LOGIN',
     };
   }
 
@@ -22,15 +23,23 @@ class LoginUi extends React.Component {
     if (this.state.email === '' || this.state.password === '') {
       alert('Empty Field');
     } else {
+      this.props.setLoginBegin();
       var loginState = await loginService.validateAdminStatus(
         this.state.email,
         this.state.password
       );
-      if (loginState) {
+
+      // console.log('LSd', loginState.loginStatus);
+
+      if (loginState.loginStatus) {
         this.props.setLoginSuccess(
           loginState.accessToken,
           loginState.refreshToken
         );
+      } else {
+        console.log('LS', loginState.data.error.message);
+        this.props.setLoginError();
+        this.setState({ headerMessage: loginState.data.error.message });
       }
     }
   };
@@ -48,7 +57,11 @@ class LoginUi extends React.Component {
 
         <div className="login-wrapper">
           <div className="login-form-header">
-            <span> LOGIN</span>
+            {this.props.loggingIn ? (
+              <span>PLEASE WAIT</span>
+            ) : (
+              <span>{this.state.headerMessage}</span>
+            )}
           </div>
           <form className="form">
             <input

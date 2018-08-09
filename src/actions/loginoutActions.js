@@ -1,3 +1,4 @@
+export const SET_LOGIN_BEGIN = 'SET_LOGIN_BEGIN';
 export const SET_LOGIN_SUCCESS = 'SET_LOGIN_SUCCESS';
 export const SET_LOGIN_ERROR = 'SET_LOGIN_ERROR';
 export const LOGOUT = 'LOGOUT';
@@ -11,11 +12,15 @@ export const setLoginSuccess = (accessToken, refreshToken) => ({
   },
 });
 
+export const setLoginBegin = () => ({
+  type: SET_LOGIN_BEGIN,
+});
+
 export const setLoginError = () => ({
   type: SET_LOGIN_ERROR,
 });
 
-export const Logout = () => ({
+export const logout = () => ({
   type: LOGOUT,
 });
 

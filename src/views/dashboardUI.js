@@ -158,7 +158,7 @@ class DashboardUI extends React.Component {
   render() {
     return (
       <div>
-        <Header {...this.props} />
+        <Header />
 
         {/* react modal for Add project */}
 

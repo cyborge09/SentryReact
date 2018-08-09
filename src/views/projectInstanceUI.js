@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Redirect } from 'react-router-dom';
 import * as projectServices from '../services/projectServices';
 import * as logServices from '../services/logServices';
 import Header from '../component/Header';
@@ -95,6 +95,10 @@ export default class ProjectInstance extends Component {
       instanceKey: respond.instance_key,
     });
   };
+
+  componentWillMount() {
+    return <Redirect to="/login" />;
+  }
 
   render() {
     return (
