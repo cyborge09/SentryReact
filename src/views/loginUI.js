@@ -4,6 +4,8 @@ import { Redirect } from 'react-router-dom';
 import UserActionHeader from '../component/UserActionHeader';
 import { Link } from 'react-router-dom';
 import validateForm from '../utils/validateForm';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 class LoginUi extends React.Component {
   constructor() {
@@ -21,18 +23,13 @@ class LoginUi extends React.Component {
 
   onSubmit = async e => {
     e.preventDefault();
+    const validation = validateForm(
+      this.state.email,
+      this.state.password,
+      'login'
+    );
 
-    if (this.state.email === '' || this.state.password === '') {
-      this.setState({ headerMessage: 'EMPTY FIELD' });
-    } else {
-      var validation = validateForm(
-        this.state.email,
-        this.state.password,
-        'login'
-      );
-    }
-
-    if (validation) {
+    if (validation === 'Valid') {
       this.props.setLoginBegin();
       var loginState = await loginService.validateAdminStatus(
         this.state.email,
@@ -49,6 +46,8 @@ class LoginUi extends React.Component {
         this.props.setLoginError();
         this.setState({ headerMessage: loginState.data.error.message });
       }
+    } else {
+      this.setState({ headerMessage: validation });
     }
   };
 
@@ -72,31 +71,47 @@ class LoginUi extends React.Component {
             )}
           </div>
           <form className="form">
-            <input
+            <TextField
+              id="email"
+              label="Email"
+              placeholder="Email"
+              margin="normal"
               value={this.state.email}
               onChange={this.onChange}
               type="text"
               name="email"
-              placeholder="EMAIL"
             />
+            <span className="error" id="email-error">
+              {' '}
+            </span>
+
             <br />
-            <input
+            <TextField
               value={this.state.password}
               onChange={this.onChange}
               type="password"
               name="password"
               placeholder="PASSWORD"
+              id="password"
+              label="Password"
             />
+            <span className="error" id="email-pass" />
 
-            <button
+            <br />
+            <br />
+
+            <Button
+              variant="contained"
+              color="primary"
               className="login-btn"
               type="button"
               value="Log In"
               onClick={this.onSubmit}
             >
               LOG IN
-            </button>
+            </Button>
           </form>
+
           <div className="redirect-SignUp">
             <p>
               {' '}
