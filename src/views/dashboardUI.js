@@ -46,12 +46,10 @@ class DashboardUI extends React.Component {
 
   componentDidMount() {
     ReactModal.setAppElement('body');
-    const localAccessToken = localStorage.getItem('AccessToken');
-    const result = jwt.verifyAccessToken(localAccessToken);
     this.setState({
-      userEmail: result.payload.email,
+      userEmail: this.props.userEmail,
     });
-    this.getProject(result.payload.email);
+    this.getProject(this.props.userEmail);
   }
 
   onChange = e => {

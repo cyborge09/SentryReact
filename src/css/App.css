@@ -81,27 +81,27 @@
 .login-wrapper,
 .signUp-Wrapper {
   height: auto;
-  width: auto;
-  position: absolute;
-  top: 25%;
-  left: 40%;
+  width: 21.2%;
   background-color: #00b44e;
   padding-bottom: 10px;
+  margin: 100px auto;
+  display: block;
 }
 
 .form {
   height: auto;
-  width: 300px;
+  width: 100%;
   padding-top: 30px;
 }
 
 .form input {
-  margin: 5px 0;
-  margin-left: 25px;
   border: none;
   border-radius: 0px;
   padding: 5px;
   background-color: #f4ffe9;
+  display: block;
+  margin: 0 auto;
+  width: 80%;
 }
 
 .login-form-header,
@@ -112,19 +112,20 @@
   font-weight: bolder;
   color: #d8d0d0;
   font-size: 1.3em;
+  width: 100%;
 }
 
 .login-btn,
 .signUp-btn {
-  margin: 20px 0;
-  margin-left: 55px;
   width: 60%;
-  height: 30px;
   border: none;
   border-radius: 0px;
   background-color: #000;
   color: #d8d0d0;
   font-size: 0.8em;
+  padding: 10px;
+  margin: 15px auto;
+  display: block;
 }
 
 .redirect-SignUp,
@@ -211,80 +212,6 @@ td {
 .user {
   float: right;
 }
-
-/* css for header.js */
-.header-Head {
-  background-color: #000000;
-}
-
-.header-Wrapper {
-  width: 92%;
-  margin-left: 35px;
-}
-.header-Wrapper ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-.header-Wrapper li {
-  float: left;
-}
-
-.header-Wrapper li a {
-  display: block;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  padding-right: 30px;
-  padding: 15px 18px;
-}
-
-.header-Wrapper li a:hover {
-  background-color: #3fb53f;
-}
-
-/* css for header.js ends */
-
-/* css for UserActionHeader.js */
-.user-Header-Head {
-  background-color: #000000;
-}
-
-.user-Header-Wrapper {
-  width: 92%;
-  height: auto;
-  margin: 0 auto;
-}
-.user-Header-Wrapper ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.user-Header-Wrapper li {
-  float: right;
-}
-
-.user-Header-Wrapper li a {
-  display: block;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  padding-right: 30px;
-  padding: 15px 18px;
-}
-
-.user-Header-Wrapper li a:hover {
-  background-color: #3fb53f;
-}
-
-/* css for UserActionHeader.js ends */
 
 /* for react modal animation */
 

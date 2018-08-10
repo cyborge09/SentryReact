@@ -11,7 +11,8 @@ const mapStateToProps = state => {
   return {
     islogin: state.login.user.islogin,
     accessToken: state.login.user.accessToken,
-    data: state.admin.project.data,
+    data: state.project.project.data,
+    userEmail: state.login.user.userEmail,
   };
 };
 

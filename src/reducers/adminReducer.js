@@ -1,51 +1,82 @@
 import {
-  SET_CURRENT_PROJECT,
-  PROJECT_FETCH_SUCCESS,
-  PROJECT_DELETE_SUCCESS,
-} from '../actions/adminActions';
-
-import { LOGOUT } from '../actions/loginoutActions';
+  SET_LOGIN_SUCCESS,
+  SET_LOGIN_ERROR,
+  LOGOUT,
+  ACCESSTOKEN_CHANGE,
+  SET_LOGIN_BEGIN,
+  TOKEN_CHANGE,
+} from '../actions/loginoutActions';
 
 const INITIAL_STATE = {
-  project: {
-    currentProject: '',
-    data: '',
+  user: {
+    isLogin: localStorage.getItem('AccessToken') ? true : false,
+    accessToken: localStorage.getItem('AccessToken') || '',
+    refreshToken: localStorage.getItem('RefreshToken') || '',
+    loggingIn: false,
+    userEmail: localStorage.getItem('UserEmail') || '',
   },
 };
 
-const adminReducer = (state = INITIAL_STATE, action) => {
+const loginReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SET_CURRENT_PROJECT: {
+    case SET_LOGIN_BEGIN: {
       return {
         ...state,
-        project: {
-          ...state.project,
-          currentProject: action.payload.projectName,
+        user: {
+          ...state.user,
+          loggingIn: true,
         },
       };
     }
 
-    case PROJECT_FETCH_SUCCESS: {
+    case SET_LOGIN_SUCCESS: {
       return {
         ...state,
-        project: {
-          ...state.project,
-          data: action.payload.data,
+        user: {
+          ...state.user,
+          isLogin: localStorage.getItem('AccessToken') ? true : false,
+          accessToken: action.payload.accessToken,
+          refreshToken: action.payload.refreshToken,
+          userEmail: action.payload.userEmail,
+          loggingIn: false,
         },
       };
     }
 
-    case PROJECT_DELETE_SUCCESS: {
+    case SET_LOGIN_ERROR: {
       return {
         ...state,
+        user: {
+          isLogin: false,
+          loggingIn: false,
+        },
       };
     }
 
     case LOGOUT:
-      return INITIAL_STATE;
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          isLogin: false,
+          accessToken: '',
+          refreshToken: '',
+        },
+      };
+
+    case TOKEN_CHANGE:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          accessToken: action.payload.accessToken,
+          refreshToken: action.payload.refreshToken,
+        },
+      };
 
     default:
       return state;
   }
 };
-export default adminReducer;
+
+export default loginReducer;

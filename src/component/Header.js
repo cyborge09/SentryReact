@@ -11,7 +11,6 @@ class Header extends React.Component {
   };
 
   forceLogOut = () => {
-    console.log('here');
     this.logOut();
     return <Redirect to="/login" />;
   };

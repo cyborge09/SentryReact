@@ -3,6 +3,7 @@ import * as loginService from '../services/loginServices';
 import { Redirect } from 'react-router-dom';
 import UserActionHeader from '../component/UserActionHeader';
 import { Link } from 'react-router-dom';
+import validateForm from '../utils/validateForm';
 
 class LoginUi extends React.Component {
   constructor() {
@@ -20,24 +21,31 @@ class LoginUi extends React.Component {
 
   onSubmit = async e => {
     e.preventDefault();
+
     if (this.state.email === '' || this.state.password === '') {
-      alert('Empty Field');
+      this.setState({ headerMessage: 'EMPTY FIELD' });
     } else {
+      var validation = validateForm(
+        this.state.email,
+        this.state.password,
+        'login'
+      );
+    }
+
+    if (validation) {
       this.props.setLoginBegin();
       var loginState = await loginService.validateAdminStatus(
         this.state.email,
         this.state.password
       );
 
-      // console.log('LSd', loginState.loginStatus);
-
       if (loginState.loginStatus) {
         this.props.setLoginSuccess(
           loginState.accessToken,
-          loginState.refreshToken
+          loginState.refreshToken,
+          this.state.email
         );
       } else {
-        console.log('LS', loginState.data.error.message);
         this.props.setLoginError();
         this.setState({ headerMessage: loginState.data.error.message });
       }
