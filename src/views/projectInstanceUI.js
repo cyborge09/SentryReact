@@ -13,7 +13,7 @@ export default class ProjectInstance extends Component {
     };
   }
 
-  addNewProject = () => {
+  addNewProjectInstance = () => {
     return (
       <div className="add-new-project-instance">
         <p>
@@ -107,7 +107,7 @@ export default class ProjectInstance extends Component {
         <div className="dashboard-wrapper">
           <p> Project : {this.props.activeProject}</p>
 
-          {this.addNewProject()}
+          {this.addNewProjectInstance()}
 
           <div className="instance-key-wrapper">
             your instance key is:

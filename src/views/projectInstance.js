@@ -4,7 +4,7 @@ import projectInstanceUI from './projectInstanceUI';
 
 const mapStateToProps = state => {
   return {
-    activeProject: state.admin.project.currentProject,
+    activeProject: state.project.project.currentProject,
   };
 };
 

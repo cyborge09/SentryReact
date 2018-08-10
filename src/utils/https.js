@@ -1,29 +1,42 @@
 import axios from 'axios';
 import store from '../store';
+import { tokenChange } from '../actions/loginoutActions';
+
 const axiosInstance = axios.create({
   baseURL: 'http://127.0.0.1:8848/api/',
 });
 
 axiosInstance.interceptors.response.use(
-  function(response) {
+  response => {
     // Do something with response data
-    // console.log("from interceptor");
+    console.log('from interceptor', response);
     return response;
   },
-  async function(error) {
+  async error => {
+    console.log('error', error.response.status);
     // Do something with response error
-    // const originalRequest = error.config;
-    // console.log("originalRequest was ", originalRequest);
-    // if (error.response.status === 401) {
-    //   // console.log("User access token has expired", error.response);
-    //   const accessToken = await loginService.refreshAccessToken();
-    //   localStorage.setItem("accessToken", accessToken);
-    //   originalRequest.headers.authorization = accessToken;
-    //   return axiosInstance(originalRequest);
-    // } else {
-    // console.log("the error from interceptor", error.response);
-    return Promise.reject(error);
-    // }
+
+    const originalRequest = error.config;
+
+    if (error.response.status === 401) {
+      console.log('inside');
+      let res = await axios({
+        method: 'post',
+        url: 'http://127.0.0.1:8848/api/auth/refresh',
+        headers: {
+          'Content-Type': 'application/json',
+          refreshToken: store.getState().login.user.refreshToken,
+        },
+      });
+      //save to locals
+      localStorage.setItem('AccessToken', res.data.access);
+      localStorage.setItem('RefreshToken', res.data.refresh);
+
+      //dispatch Change token
+      store.dispatch(tokenChange(res.data.access, res.data.refresh));
+      originalRequest.headers.authorization = res.data.access;
+      return axiosInstance(originalRequest);
+    }
   }
 );
 
