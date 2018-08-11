@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import validateForm from '../utils/validateForm';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 class LoginUi extends React.Component {
   constructor() {
@@ -29,7 +30,7 @@ class LoginUi extends React.Component {
       'login'
     );
 
-    if (validation === 'Valid') {
+    if (validation === true) {
       this.props.setLoginBegin();
       var loginState = await loginService.validateAdminStatus(
         this.state.email,
@@ -46,9 +47,9 @@ class LoginUi extends React.Component {
         this.props.setLoginError();
         this.setState({ headerMessage: loginState.data.error.message });
       }
-    } else {
-      this.setState({ headerMessage: validation });
     }
+
+    return validation;
   };
 
   redirectToSignUp = () => {
@@ -70,8 +71,9 @@ class LoginUi extends React.Component {
               <span>{this.state.headerMessage}</span>
             )}
           </div>
-          <form className="form">
-            <TextField
+
+          <ValidatorForm ref="form" className="form" onSubmit={this.onSubmit}>
+            <TextValidator
               id="email"
               label="Email"
               placeholder="Email"
@@ -80,13 +82,12 @@ class LoginUi extends React.Component {
               onChange={this.onChange}
               type="text"
               name="email"
+              validators={['required', 'isEmail']}
+              errorMessages={['this field is required', 'email is not valid']}
             />
-            <span className="error" id="email-error">
-              {' '}
-            </span>
 
             <br />
-            <TextField
+            <TextValidator
               value={this.state.password}
               onChange={this.onChange}
               type="password"
@@ -94,8 +95,9 @@ class LoginUi extends React.Component {
               placeholder="PASSWORD"
               id="password"
               label="Password"
+              validators={['required']}
+              errorMessages={['this field is required']}
             />
-            <span className="error" id="email-pass" />
 
             <br />
             <br />
@@ -104,17 +106,15 @@ class LoginUi extends React.Component {
               variant="contained"
               color="primary"
               className="login-btn"
-              type="button"
+              type="submit"
               value="Log In"
-              onClick={this.onSubmit}
             >
               LOG IN
             </Button>
-          </form>
+          </ValidatorForm>
 
           <div className="redirect-SignUp">
             <p>
-              {' '}
               New here? Click here to <Link to={'/SignUp'}>Sign Up</Link>{' '}
             </p>
           </div>

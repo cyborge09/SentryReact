@@ -9,9 +9,12 @@
 }
 
 #root{
-  background: url('../img/back.jpg');
+  /* background: url('../img/back.jpg');
+   */
+   background: #222;
   background-size: contain;
   height: 670px;;
+  color:  white;
 }
 
 .App-logo {
@@ -87,7 +90,7 @@
 .login-wrapper,
 .signUp-Wrapper {
   height: auto;
-  background-color: whitesmoke;
+  background-color:lightslategray;
   padding-bottom: 10px;
   margin: 100px auto;
   display: block;
@@ -107,7 +110,7 @@ form {
 .login-form-header,
 .signUp-form-header {
   text-align: center;
-  background-color: #000;
+  background-color: green;
   padding: 10px;
   font-weight: bolder;
   color: #d8d0d0;
