@@ -27,7 +27,6 @@ class SignUp extends React.Component {
       email: this.state.email,
       password: this.state.password,
     };
-
     if (data.email === '' || data.password === '') {
       return alert('Empty Field');
     }
