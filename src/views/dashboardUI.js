@@ -147,7 +147,7 @@ class DashboardUI extends React.Component {
     //api call for delete
 
     const respond = await projectServices.deleteSpecificProject(PID);
-    if (respond.status === 204) {
+    if (respond.status === 200) {
       this.getProject(this.state.userEmail);
       this.props.onDataDelete();
     }

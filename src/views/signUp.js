@@ -3,6 +3,8 @@ import * as https from '../utils/https';
 import { Redirect } from 'react-router-dom';
 import UserActionHeader from '../component/UserActionHeader';
 import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 class SignUp extends React.Component {
   constructor() {
@@ -25,7 +27,6 @@ class SignUp extends React.Component {
       email: this.state.email,
       password: this.state.password,
     };
-
     if (data.email === '' || data.password === '') {
       return alert('Empty Field');
     }
@@ -61,31 +62,48 @@ class SignUp extends React.Component {
           <div className="signUp-form-header">
             <span> SIGN UP</span>
           </div>
-          <form className="form">
-            <input
+
+          <ValidatorForm ref="form" className="form" onSubmit={this.onSubmit}>
+            <TextValidator
+              id="email"
+              label="Email"
+              placeholder="Email"
+              margin="normal"
               value={this.state.email}
               onChange={this.onChange}
-              placeholder="USER-EMAIL"
               type="text"
               name="email"
-            />
-            <br />
-            <input
-              value={this.state.password}
-              onChange={this.onChange}
-              placeholder="USER-PASSWORD"
-              type="password"
-              name="password"
+              validators={['required', 'isEmail']}
+              errorMessages={['this field is required', 'email is not valid']}
             />
 
-            <button
-              className="signUp-btn"
-              type="button"
-              onClick={this.onSubmit}
+            <br />
+            <TextValidator
+              value={this.state.password}
+              onChange={this.onChange}
+              type="password"
+              name="password"
+              placeholder="PASSWORD"
+              id="password"
+              label="Password"
+              validators={['required']}
+              errorMessages={['this field is required']}
+            />
+
+            <br />
+            <br />
+
+            <Button
+              variant="contained"
+              color="primary"
+              className="login-btn"
+              type="submit"
+              value="Log In"
             >
               SIGN UP
-            </button>
-          </form>
+            </Button>
+          </ValidatorForm>
+
           <div className="redirect-LogIn">
             <p>
               {' '}

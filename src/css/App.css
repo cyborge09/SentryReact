@@ -9,9 +9,12 @@
 }
 
 #root{
-  background: url('../img/back.jpg');
+  /* background: url('../img/back.jpg');
+   */
+   /* background: #222; */
   background-size: contain;
-  height: 670px;;
+  /* height: 670px;; */
+  /* color:  white; */
 }
 
 .App-logo {
@@ -87,7 +90,7 @@
 .login-wrapper,
 .signUp-Wrapper {
   height: auto;
-  background-color: whitesmoke;
+  background-color:lightslategray;
   padding-bottom: 10px;
   margin: 100px auto;
   display: block;
@@ -107,7 +110,7 @@ form {
 .login-form-header,
 .signUp-form-header {
   text-align: center;
-  background-color: #000;
+  background-color: green;
   padding: 10px;
   font-weight: bolder;
   color: #d8d0d0;
@@ -149,10 +152,9 @@ padding-left: 20px;
   color: wheat;
 }
 .my-table {
-  font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-  margin: 0 auto;
+color: black;
+font-size: 18px;
+background: white;
 }
 
 .clearfix::after {
@@ -164,9 +166,9 @@ padding-left: 20px;
 .my-table th {
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: center;
-  background-color: #807171;
-  color: white;
+  text-align: left;
+
+
 }
 
 .my-table tr,
@@ -174,12 +176,13 @@ td {
   /* border: 1px solid #ddd; */
   padding: 8px;
   background-color: #ffffff;
-  text-align: center;
 }
 
 .td:hover {
-  background-color: aqua;
+  color: green;
   cursor: pointer;
+  font-size: 18px;
+  padding: 5px;
 }
 
 .td a {

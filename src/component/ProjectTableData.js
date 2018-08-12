@@ -1,4 +1,6 @@
 import React from 'react';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 
 const TableData = ({
   data = [],
@@ -6,25 +8,24 @@ const TableData = ({
   handleDeleteClick = f => f,
 }) => {
   return data.map((data, i) => (
-    <tr key={i} className="tr">
-      <td className="td">{i + 1}</td>
-      <td
+    <TableRow key={i}>
+      <TableCell>{i + 1}</TableCell>
+      <TableCell
         className="td"
         onClick={() => {
           handleClick(data.project_name);
         }}
       >
         {data.project_name}
-      </td>
-      <td
-        className="td"
+      </TableCell>
+      <TableCell
         onClick={() => {
           handleDeleteClick(data.id, data.project_name);
         }}
       >
         <img src={require('../img/delete.png')} alt="delete" />
-      </td>
-    </tr>
+      </TableCell>
+    </TableRow>
   ));
 };
 
