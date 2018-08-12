@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import * as projectServices from '../services/projectServices';
+import * as projectInstanceServices from '../services/projectInstanceServices';
 import * as logServices from '../services/logServices';
 import Header from '../component/Header';
 
@@ -46,6 +46,7 @@ export default class ProjectInstance extends Component {
       instanceKey: '',
     });
     {
+      console.log('asdas', this.props.activeProject);
       this.displayRelatedLogs(this.props.activeProject);
     }
   };
@@ -82,7 +83,7 @@ export default class ProjectInstance extends Component {
       return alert('Empty Field');
     }
     //here write api call to create a new instance
-    const respond = await projectServices
+    const respond = await projectInstanceServices
       .createNewProjectInstance(
         this.state.instanceName,
         this.props.activeProject
@@ -96,14 +97,24 @@ export default class ProjectInstance extends Component {
     });
   };
 
-  componentWillMount() {
-    return <Redirect to="/login" />;
-  }
+  getProjectInstance = async projectName => {
+    const respond = await projectInstanceServices.getRelatedProjectInstances(
+      projectName
+    );
+    console.log('respond', respond);
+  };
 
   render() {
     return (
       <div>
         <Header />
+        <button
+          onClick={() => {
+            this.getProjectInstance(this.props.activeProject);
+          }}
+        >
+          CLICKME
+        </button>
         <div className="dashboard-wrapper">
           <p> Project : {this.props.activeProject}</p>
 

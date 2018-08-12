@@ -37,6 +37,8 @@ axiosInstance.interceptors.response.use(
       originalRequest.headers.authorization = res.data.access;
       return axiosInstance(originalRequest);
     }
+
+    return Promise.reject(error);
   }
 );
 
