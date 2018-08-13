@@ -136,15 +136,15 @@ class DashboardUI extends React.Component {
     );
   };
 
-  handleClick = projectName => {
-    this.props.setCurrentProject(projectName);
-    this.props.history.push('/projectInstance');
+  handleClick = ({ id, name }) => {
+    this.props.history.push({
+      pathname: '/projects/' + id + '/project-instances/',
+    });
   };
 
   handleDeleteClick = async (PID, projectName) => {
     //api call for delete
     const respond = await projectServices.deleteSpecificProject(PID);
-    console.log('dele', respond);
     if (respond.status === 204) {
       this.getProject(this.state.userEmail);
       this.props.onDataDelete();

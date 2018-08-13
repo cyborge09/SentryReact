@@ -3,7 +3,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-const LogTableData = ({
+const projectInstanceTableData = ({
   data = [],
   // handleClick = f => f,
   // handleDeleteClick = f => f,
@@ -43,4 +43,4 @@ const LogTableData = ({
   ));
 };
 
-export default LogTableData;
+export default projectInstanceTableData;

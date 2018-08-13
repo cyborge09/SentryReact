@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as projectInstanceServices from '../services/projectInstanceServices';
 import * as logServices from '../services/logServices';
 import Header from '../component/Header';
-import LogTable from '../component/LogTable';
+import ProjectInstanceTable from '../component/ProjectInstanceTable';
 import ReactModal from 'react-modal';
 
 export default class ProjectInstance extends Component {
@@ -27,18 +27,28 @@ export default class ProjectInstance extends Component {
   };
 
   //to fetch and display project instances//
-  componentDidMount() {
+  async componentDidMount() {
     ReactModal.setAppElement('body');
+    console.log('pros', this.props);
+    this.getProjectName(this.props.match.params.id);
     this.setState({
-      activeProject: this.props.activeProject,
+      activeProject: await this.getProjectName(this.props.match.params.id),
     });
-    this.getProjectInstances(this.props.activeProject);
+
+    this.getProjectInstances(this.props.match.params.id);
   }
 
-  getProjectInstances = async projectName => {
+  getProjectName = async projectID => {
+    const respond = await projectInstanceServices.getRelatedProjectName(
+      projectID
+    );
+    return respond.data.data.project_name;
+  };
+
+  getProjectInstances = async projectID => {
     this.props.projectInstanceFetchBegin();
     const respond = await projectInstanceServices.getRelatedProjectInstances(
-      projectName
+      projectID
     );
 
     if (respond.status === 200) {
@@ -54,7 +64,7 @@ export default class ProjectInstance extends Component {
       return <div>No Project-Instances yet!</div>;
     }
     return (
-      <LogTable
+      <ProjectInstanceTable
         data={projectInstances}
         copyInstanceKey={this.copyInstanceKey}
         // handleClick={this.handleClick}
@@ -129,12 +139,11 @@ export default class ProjectInstance extends Component {
     //here write api call to create a new instance
     const respond = await projectInstanceServices.createNewProjectInstance(
       this.state.instanceName,
-      this.props.activeProject
+      this.props.match.params.id
     );
     if (respond.status === 201) {
-      console.log('u asd');
       this.props.projectInstanceCreateSuccess();
-      this.getProjectInstances(this.state.activeProject);
+      this.getProjectInstances(this.props.match.params.id);
     }
     // this.setState({
     //   instanceKey: respond.instance_key,
@@ -179,7 +188,7 @@ export default class ProjectInstance extends Component {
         </ReactModal>
 
         <div className="dashboard-wrapper">
-          <p> Project : {this.props.activeProject}</p>
+          <p> Project : {this.state.activeProject}</p>
           {this.addNewProjectInstance()}
         </div>
 

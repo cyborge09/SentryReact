@@ -11,7 +11,6 @@ import projectInstanceUI from './projectInstanceUI';
 
 const mapStateToProps = state => {
   return {
-    activeProject: state.project.project.currentProject,
     projectInstance: state.projectInstance.projectInstance.data,
   };
 };
@@ -36,9 +35,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const logIn = connect(
+const projectInstance = connect(
   mapStateToProps,
   mapDispatchToProps
 )(projectInstanceUI);
 
-export default logIn;
+export default projectInstance;

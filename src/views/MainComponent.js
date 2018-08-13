@@ -15,13 +15,18 @@ class MainComponent extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/login" />} />
-            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/projects" component={Dashboard} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signUp" component={SignUp} />
+
             <Route
               exact
-              path={'/projectInstance'}
+              path={'/projects/:id/project-instances'}
               component={ProjectInstance}
+            />
+            <Redirect
+              from="/projects/:id"
+              to="/projects/:id/project-instances"
             />
           </Switch>
         </BrowserRouter>

@@ -9,17 +9,14 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   response => {
     // Do something with response data
-    console.log('from interceptor', response);
     return response;
   },
   async error => {
-    console.log('error', error.response.status);
     // Do something with response error
 
     const originalRequest = error.config;
 
     if (error.response.status === 401) {
-      console.log('inside');
       let res = await axios({
         method: 'post',
         url: 'http://127.0.0.1:8848/api/auth/refresh',

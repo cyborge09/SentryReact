@@ -3,6 +3,9 @@ import {
   SET_LOGIN_ERROR,
   LOGOUT,
   SET_LOGIN_BEGIN,
+  SET_SIGNUP_BEGIN,
+  SET_SIGNUP_ERROR,
+  SET_SIGNUP_SUCCESS,
   TOKEN_CHANGE,
 } from '../actions/loginoutActions';
 
@@ -12,7 +15,9 @@ const INITIAL_STATE = {
     accessToken: localStorage.getItem('AccessToken') || '',
     refreshToken: localStorage.getItem('RefreshToken') || '',
     loggingIn: false,
+    signingUp: false,
     userEmail: localStorage.getItem('UserEmail') || '',
+    userId: localStorage.getItem('UserId') || '',
   },
 };
 
@@ -38,6 +43,7 @@ const loginReducer = (state = INITIAL_STATE, action) => {
           refreshToken: action.payload.refreshToken,
           userEmail: action.payload.userEmail,
           loggingIn: false,
+          userId: action.payload.userId,
         },
       };
     }
@@ -48,6 +54,36 @@ const loginReducer = (state = INITIAL_STATE, action) => {
         user: {
           isLogin: false,
           loggingIn: false,
+        },
+      };
+    }
+    case SET_SIGNUP_BEGIN: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          signingUp: true,
+        },
+      };
+    }
+
+    case SET_SIGNUP_SUCCESS: {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          signingUp: false,
+        },
+      };
+    }
+
+    case SET_SIGNUP_ERROR: {
+      return {
+        ...state,
+        user: {
+          isLogin: false,
+          loggingIn: false,
+          signingUp: false,
         },
       };
     }
