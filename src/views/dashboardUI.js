@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-
-import * as jwt from '../utils/token';
 import * as projectServices from '../services/projectServices';
 import Table from '../component/ProjectTable';
 import Header from '../component/Header';
@@ -17,6 +15,7 @@ class DashboardUI extends React.Component {
       showModalDeleteProject: false,
       toDeleteProjectId: '',
       toDeleteProjectName: '',
+      confirm: '',
     };
   }
 
@@ -132,7 +131,6 @@ class DashboardUI extends React.Component {
       <Table
         data={list}
         handleClick={this.handleClick}
-        // handleDeleteClick={this.handleDeleteClick}
         handleDeleteClick={this.handleOpenModalDeleteProject}
       />
     );
@@ -140,13 +138,13 @@ class DashboardUI extends React.Component {
 
   handleClick = projectName => {
     this.props.setCurrentProject(projectName);
-    this.props.history.push(`/projectInstance`);
+    this.props.history.push('/projectInstance');
   };
 
   handleDeleteClick = async (PID, projectName) => {
     //api call for delete
-
     const respond = await projectServices.deleteSpecificProject(PID);
+    console.log('dele', respond);
     if (respond.status === 204) {
       this.getProject(this.state.userEmail);
       this.props.onDataDelete();
@@ -165,28 +163,36 @@ class DashboardUI extends React.Component {
           onRequestClose={this.handleCloseModalAddProject}
           className="modal-AddProject"
         >
-          <div className="add-project-modal-header">
-            ADD NEW PROJECT
-            <span onClick={this.handleCloseModalAddProject}> X</span>
-          </div>
+          <form
+            className="react-Modal"
+            onSubmit={() => {
+              this.handleCloseModalAddProject();
+              this.onSubmit();
+            }}
+          >
+            <div className="add-project-modal-header">
+              ADD NEW PROJECT
+              <span onClick={this.handleCloseModalAddProject}> X</span>
+            </div>
 
-          <div className="add-project-form-wrapper">
-            <input
-              value={this.state.projectName}
-              onChange={this.onChange}
-              type="text"
-              name="projectName"
-              placeholder="PROJECT NAME"
-            />
-            <button
-              onClick={() => {
-                this.handleCloseModalAddProject();
-                this.onSubmit();
-              }}
-            >
-              Create
-            </button>
-          </div>
+            <div className="add-project-form-wrapper">
+              <input
+                value={this.state.projectName}
+                onChange={this.onChange}
+                type="text"
+                name="projectName"
+                placeholder="PROJECT NAME"
+              />
+              <button
+                onClick={() => {
+                  this.handleCloseModalAddProject();
+                  this.onSubmit();
+                }}
+              >
+                Create
+              </button>
+            </div>
+          </form>
         </ReactModal>
 
         {/* react modal for Add project end */}
@@ -197,36 +203,70 @@ class DashboardUI extends React.Component {
           onRequestClose={this.handleCloseModalDeleteProject}
           className="modal-AddProject"
         >
-          <div className="add-project-modal-header">
-            DELETE PROJECT
-            <span onClick={this.handleCloseModalDeleteProject}> X</span>
-          </div>
-
-          <div className="add-project-form-wrapper">
-            <div className="delete-Info">
-              <img src={require('../img/deletePROJECT.png')} alt="delete" />
-              <span>PROJECT NAME: {this.state.toDeleteProjectName}</span>
-            </div>
-            <button
-              onClick={() => {
+          <form
+            className="react-Modal"
+            onSubmit={() => {
+              if (this.state.confirm === 'CONFIRM') {
                 this.handleCloseModalDeleteProject();
                 this.handleDeleteClick(
                   this.state.toDeleteProjectId,
                   this.state.toDeleteProjectName
                 );
-              }}
-            >
-              CONFIRM
-            </button>
-          </div>
+              } else {
+                this.setState({ confirm: '' });
+                this.handleCloseModalDeleteProject();
+              }
+            }}
+          >
+            <div className="add-project-modal-header">
+              DELETE PROJECT
+              <span onClick={this.handleCloseModalDeleteProject}> X</span>
+            </div>
+
+            <div className="add-project-form-wrapper">
+              <div className="delete-Info">
+                <img src={require('../img/deletePROJECT.png')} alt="delete" />
+                <span>PROJECT NAME: {this.state.toDeleteProjectName}</span>
+              </div>
+              <span>
+                <input
+                  name="confirm"
+                  value={this.state.confirm}
+                  placeholder="TYPE CONFIRM"
+                  onChange={this.onChange}
+                />
+              </span>
+
+              <button
+                onClick={() => {
+                  if (this.state.confirm === 'CONFIRM') {
+                    this.setState({ confirm: '' });
+                    this.handleCloseModalDeleteProject();
+                    this.handleDeleteClick(
+                      this.state.toDeleteProjectId,
+                      this.state.toDeleteProjectName
+                    );
+                  } else {
+                    this.setState({ confirm: '' });
+                    this.handleCloseModalDeleteProject();
+                  }
+                }}
+              >
+                CONFIRM
+              </button>
+            </div>
+          </form>
         </ReactModal>
+
         {/* react modal for Delete project ends */}
         {this.displayUserName()}
+
         <div className="dashboard-wrapper ">
           <div className="show-add-project">
             <div className="project"> PROJECTS</div>
             {this.addNewProject()}
           </div>
+
           {this.displayProject(this.props.data)}
         </div>
       </div>

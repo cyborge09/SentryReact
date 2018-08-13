@@ -4,6 +4,8 @@ import { Redirect } from 'react-router-dom';
 import UserActionHeader from '../component/UserActionHeader';
 import { Link } from 'react-router-dom';
 import validateForm from '../utils/validateForm';
+import Button from '@material-ui/core/Button';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 class LoginUi extends React.Component {
   constructor() {
@@ -21,18 +23,13 @@ class LoginUi extends React.Component {
 
   onSubmit = async e => {
     e.preventDefault();
+    const validation = validateForm(
+      this.state.email,
+      this.state.password,
+      'login'
+    );
 
-    if (this.state.email === '' || this.state.password === '') {
-      this.setState({ headerMessage: 'EMPTY FIELD' });
-    } else {
-      var validation = validateForm(
-        this.state.email,
-        this.state.password,
-        'login'
-      );
-    }
-
-    if (validation) {
+    if (validation === true) {
       this.props.setLoginBegin();
       var loginState = await loginService.validateAdminStatus(
         this.state.email,
@@ -50,6 +47,8 @@ class LoginUi extends React.Component {
         this.setState({ headerMessage: loginState.data.error.message });
       }
     }
+
+    return validation;
   };
 
   redirectToSignUp = () => {
@@ -71,35 +70,50 @@ class LoginUi extends React.Component {
               <span>{this.state.headerMessage}</span>
             )}
           </div>
-          <form className="form">
-            <input
+
+          <ValidatorForm ref="form" className="form" onSubmit={this.onSubmit}>
+            <TextValidator
+              id="email"
+              label="Email"
+              placeholder="Email"
+              margin="normal"
               value={this.state.email}
               onChange={this.onChange}
               type="text"
               name="email"
-              placeholder="EMAIL"
+              validators={['required', 'isEmail']}
+              errorMessages={['this field is required', 'email is not valid']}
             />
+
             <br />
-            <input
+            <TextValidator
               value={this.state.password}
               onChange={this.onChange}
               type="password"
               name="password"
               placeholder="PASSWORD"
+              id="password"
+              label="Password"
+              validators={['required']}
+              errorMessages={['this field is required']}
             />
 
-            <button
+            <br />
+            <br />
+
+            <Button
+              variant="contained"
+              color="primary"
               className="login-btn"
-              type="button"
+              type="submit"
               value="Log In"
-              onClick={this.onSubmit}
             >
               LOG IN
-            </button>
-          </form>
+            </Button>
+          </ValidatorForm>
+
           <div className="redirect-SignUp">
             <p>
-              {' '}
               New here? Click here to <Link to={'/SignUp'}>Sign Up</Link>{' '}
             </p>
           </div>

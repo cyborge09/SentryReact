@@ -1,15 +1,16 @@
 import React from 'react';
-import TableData from './ProjectTableData';
+import LogTableData from './LogTableData';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-const table = ({
+const LogTable = ({
   data = [],
-  handleClick = f => f,
-  handleDeleteClick = f => f,
+  // handleClick = f => f,
+  // handleDeleteClick = f => f,
+  copyInstanceKey = f => f,
 }) => {
   return (
     <div>
@@ -17,16 +18,18 @@ const table = ({
         <TableHead>
           <TableRow>
             <TableCell numeric>ID</TableCell>
-            <TableCell>PROJECT NAME</TableCell>
+            <TableCell>INSTANCE NAME</TableCell>
+            <TableCell>INSTANCE KEY</TableCell>
             <TableCell>DELETE</TableCell>
           </TableRow>
         </TableHead>
 
         <TableBody>
-          <TableData
+          <LogTableData
             data={data}
-            handleClick={handleClick}
-            handleDeleteClick={handleDeleteClick}
+            copyInstanceKey={copyInstanceKey}
+            // handleClick={handleClick}
+            // handleDeleteClick={handleDeleteClick}
           />
         </TableBody>
       </Table>
@@ -34,4 +37,4 @@ const table = ({
   );
 };
 
-export default table;
+export default LogTable;

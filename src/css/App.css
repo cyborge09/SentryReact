@@ -2,10 +2,22 @@
   text-align: center;
 }
 
+button {
+  cursor: pointer;
+}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+#root {
+  /* background: url('../img/back.jpg');
+   */
+  /* background: #222; */
+  background-size: contain;
+  /* height: 670px;; */
+  /* color:  white; */
 }
 
 .App-logo {
@@ -60,15 +72,6 @@
   padding: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .instance-key-wrapper {
   width: 400px;
 
@@ -81,33 +84,24 @@
 .login-wrapper,
 .signUp-Wrapper {
   height: auto;
-  width: 300px;
-  background-color: #00b44e;
+  background-color: lightslategray;
   padding-bottom: 10px;
   margin: 100px auto;
   display: block;
+  width: 400px;
 }
 
-.form {
-  height: auto;
-  width: 100%;
-  padding-top: 30px;
-}
-
-.form input {
-  border: none;
-  border-radius: 0px;
-  padding: 5px;
-  background-color: #f4ffe9;
+form {
   display: block;
   margin: 0 auto;
-  width: 80%;
+  padding: 20px;
+  text-align: center;
 }
 
 .login-form-header,
 .signUp-form-header {
   text-align: center;
-  background-color: #000;
+  background-color: green;
   padding: 10px;
   font-weight: bolder;
   color: #d8d0d0;
@@ -130,6 +124,9 @@
 
 .redirect-SignUp,
 .redirect-LogIn {
+  margin: 0 auto;
+  display: block;
+  width: 80%;
   text-align: center;
 }
 
@@ -149,10 +146,16 @@
   color: wheat;
 }
 .my-table {
-  font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-  margin: 0 auto;
+  color: black;
+  font-size: 18px;
+  background: white;
+}
+
+.instanceKey img {
+  float: right;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
 }
 
 .clearfix::after {
@@ -164,9 +167,7 @@
 .my-table th {
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: center;
-  background-color: #807171;
-  color: white;
+  text-align: left;
 }
 
 .my-table tr,
@@ -174,12 +175,13 @@ td {
   /* border: 1px solid #ddd; */
   padding: 8px;
   background-color: #ffffff;
-  text-align: center;
 }
 
 .td:hover {
-  background-color: aqua;
+  color: green;
   cursor: pointer;
+  font-size: 18px;
+  padding: 5px;
 }
 
 .td a {
@@ -190,8 +192,16 @@ td {
   color: black;
 }
 
-.td a:hover {
+/* .td a:hover {
   color: #4caf50;
+} */
+
+.delete {
+  cursor: pointer;
+}
+.delete:hover img {
+  height: 20px;
+  width: 20px;
 }
 
 .header {
@@ -206,7 +216,7 @@ td {
 
 .header-dashboard-wrapper {
   width: 92%;
-  margin-left: 53px;
+  margin: 0 auto;
 }
 
 .user {
@@ -229,6 +239,13 @@ td {
 }
 
 /* css for react modal of add and delete project */
+
+.react-Modal {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0px;
+}
 
 .modal-AddProject {
   position: relative;
@@ -277,4 +294,7 @@ td {
   margin-bottom: 5px;
 }
 
+.error {
+  color: red;
+}
 /* css for react modal of add project ends */

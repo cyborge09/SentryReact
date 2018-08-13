@@ -21,8 +21,6 @@ export const getRelatedProjectInstances = async projectName => {
     };
 
     let response = await https.get('projectInstance', headers);
-    console.log(response, 'responses from response  ...');
-
     return response;
   } catch (err) {}
 };
