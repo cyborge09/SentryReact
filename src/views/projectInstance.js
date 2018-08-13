@@ -36,9 +36,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const logIn = connect(
+const projectInstance = connect(
   mapStateToProps,
   mapDispatchToProps
 )(projectInstanceUI);
 
-export default logIn;
+export default projectInstance;

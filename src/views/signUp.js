@@ -22,7 +22,6 @@ class SignUp extends React.Component {
 
   onSubmit = async e => {
     e.preventDefault();
-    
     let data = {
       email: this.state.email,
       password: this.state.password,
