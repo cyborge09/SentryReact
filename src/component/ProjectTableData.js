@@ -19,6 +19,7 @@ const TableData = ({
         {data.project_name}
       </TableCell>
       <TableCell
+        className="delete"
         onClick={() => {
           console.log('handleDelete', handleDeleteClick);
           handleDeleteClick(data.id, data.project_name);

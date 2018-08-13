@@ -20,7 +20,7 @@ class MainComponent extends Component {
             <Route exact path="/signUp" component={SignUp} />
             <Route
               exact
-              path="/projectInstance/:name"
+              path={'/projectInstance'}
               component={ProjectInstance}
             />
           </Switch>

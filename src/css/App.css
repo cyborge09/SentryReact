@@ -2,16 +2,19 @@
   text-align: center;
 }
 
+button {
+  cursor: pointer;
+}
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-#root{
+#root {
   /* background: url('../img/back.jpg');
    */
-   /* background: #222; */
+  /* background: #222; */
   background-size: contain;
   /* height: 670px;; */
   /* color:  white; */
@@ -69,15 +72,6 @@
   padding: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .instance-key-wrapper {
   width: 400px;
 
@@ -90,21 +84,18 @@
 .login-wrapper,
 .signUp-Wrapper {
   height: auto;
-  background-color:lightslategray;
+  background-color: lightslategray;
   padding-bottom: 10px;
   margin: 100px auto;
   display: block;
   width: 400px;
 }
 
-
-
 form {
   display: block;
-  margin:  0 auto;
+  margin: 0 auto;
   padding: 20px;
- 
-
+  text-align: center;
 }
 
 .login-form-header,
@@ -133,7 +124,10 @@ form {
 
 .redirect-SignUp,
 .redirect-LogIn {
-padding-left: 20px;
+  margin: 0 auto;
+  display: block;
+  width: 80%;
+  text-align: center;
 }
 
 .redirect-SignUp a {
@@ -152,9 +146,16 @@ padding-left: 20px;
   color: wheat;
 }
 .my-table {
-color: black;
-font-size: 18px;
-background: white;
+  color: black;
+  font-size: 18px;
+  background: white;
+}
+
+.instanceKey img {
+  float: right;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
 }
 
 .clearfix::after {
@@ -167,8 +168,6 @@ background: white;
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-
-
 }
 
 .my-table tr,
@@ -193,8 +192,16 @@ td {
   color: black;
 }
 
-.td a:hover {
+/* .td a:hover {
   color: #4caf50;
+} */
+
+.delete {
+  cursor: pointer;
+}
+.delete:hover img {
+  height: 20px;
+  width: 20px;
 }
 
 .header {
@@ -209,7 +216,7 @@ td {
 
 .header-dashboard-wrapper {
   width: 92%;
-  margin-left: 53px;
+  margin: 0 auto;
 }
 
 .user {
@@ -232,6 +239,13 @@ td {
 }
 
 /* css for react modal of add and delete project */
+
+.react-Modal {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0px;
+}
 
 .modal-AddProject {
   position: relative;
@@ -280,8 +294,7 @@ td {
   margin-bottom: 5px;
 }
 
-.error{
-color: red;
-  
+.error {
+  color: red;
 }
 /* css for react modal of add project ends */

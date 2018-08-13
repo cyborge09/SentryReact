@@ -22,14 +22,12 @@ class SignUp extends React.Component {
 
   onSubmit = async e => {
     e.preventDefault();
-
+    
     let data = {
       email: this.state.email,
       password: this.state.password,
     };
-    if (data.email === '' || data.password === '') {
-      return alert('Empty Field');
-    }
+
     let response = await https
       .post('signUp', data)
       .then(data => {

@@ -1,19 +1,37 @@
 import { connect } from 'react-redux';
-import { setLoginSuccess } from '../actions/loginoutActions';
+import {
+  projectInstanceFetchBegin,
+  projectInstanceFetchSuccess,
+  projectInstanceFetchError,
+  projectInstanceDeleteSuccess,
+  projectInstanceCreateSuccess,
+} from '../actions/adminActions';
+
 import projectInstanceUI from './projectInstanceUI';
 
 const mapStateToProps = state => {
   return {
     activeProject: state.project.project.currentProject,
+    projectInstance: state.projectInstance.projectInstance.data,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLoginSuccess: (accessToken, refreshToken) => {
-      localStorage.setItem('RefreshToken', refreshToken);
-      localStorage.setItem('AccessToken', accessToken);
-      dispatch(setLoginSuccess(accessToken, refreshToken));
+    projectInstanceFetchBegin: () => {
+      dispatch(projectInstanceFetchBegin());
+    },
+    projectInstanceFetchSuccess: projectInstances => {
+      dispatch(projectInstanceFetchSuccess(projectInstances));
+    },
+    projectInstanceFetchError: error => {
+      dispatch(projectInstanceFetchError(error));
+    },
+    projectInstanceDeleteSuccess: () => {
+      dispatch(projectInstanceDeleteSuccess());
+    },
+    projectInstanceCreateSuccess: () => {
+      dispatch(projectInstanceCreateSuccess());
     },
   };
 };

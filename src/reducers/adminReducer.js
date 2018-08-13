@@ -2,7 +2,6 @@ import {
   SET_LOGIN_SUCCESS,
   SET_LOGIN_ERROR,
   LOGOUT,
-  ACCESSTOKEN_CHANGE,
   SET_LOGIN_BEGIN,
   TOKEN_CHANGE,
 } from '../actions/loginoutActions';

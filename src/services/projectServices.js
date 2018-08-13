@@ -28,20 +28,6 @@ export const createNewProject = async (projectName, adminEmail) => {
   }
 };
 
-export const createNewProjectInstance = async (instanceName, projectName) => {
-  try {
-    let data = {
-      project_name: projectName,
-      instanceName: instanceName,
-    };
-
-    let response = await https.post('projectInstance', data);
-    return response;
-  } catch (err) {
-    console.error('error in creating new project Instance');
-  }
-};
-
 export const deleteSpecificProject = async projectID => {
   try {
     let response = await https.remove(`project/${projectID}`);
