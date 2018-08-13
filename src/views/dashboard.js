@@ -27,8 +27,6 @@ const mapDispatchToProps = dispatch => {
     onDataDelete: () => {
       dispatch(projectDeleteSuccess());
     },
-
-    OnDispatch: dispatch,
   };
 };
 

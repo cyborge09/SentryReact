@@ -132,18 +132,19 @@ class DashboardUI extends React.Component {
       <Table
         data={list}
         handleClick={this.handleClick}
-        // handleDeleteClick={this.handleDeleteClick}
-        handleDeleteClick={this.handleOpenModalDeleteProject}
+        handleDeleteClick={this.handleDeleteClick}
+        // handleDeleteClick={this.handleOpenModalDeleteProject}
       />
     );
   };
 
   handleClick = projectName => {
     this.props.setCurrentProject(projectName);
-    this.props.history.push(`/projectInstance`);
+    this.props.history.push(`/projectInstance/+'this.state.projectName);
   };
 
   handleDeleteClick = async (PID, projectName) => {
+    console.log('i am inside handle delete click');
     //api call for delete
 
     const respond = await projectServices.deleteSpecificProject(PID);

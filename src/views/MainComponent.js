@@ -18,7 +18,11 @@ class MainComponent extends Component {
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signUp" component={SignUp} />
-            <Route exact path="/projectInstance" component={ProjectInstance} />
+            <Route
+              exact
+              path="/projectInstance/:name"
+              component={ProjectInstance}
+            />
           </Switch>
         </BrowserRouter>
       </div>

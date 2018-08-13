@@ -20,6 +20,7 @@ const TableData = ({
       </TableCell>
       <TableCell
         onClick={() => {
+          console.log('handleDelete', handleDeleteClick);
           handleDeleteClick(data.id, data.project_name);
         }}
       >
