@@ -7,6 +7,7 @@ import Login from './login';
 import SignUp from './signUp';
 import Dashboard from './dashboard';
 import ProjectInstance from './projectInstance';
+import log from './log';
 
 class MainComponent extends Component {
   render() {
@@ -19,6 +20,11 @@ class MainComponent extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signUp" component={SignUp} />
 
+            <Route
+              exact
+              path="/projects/:id/project-instances/:iid/logs"
+              component={log}
+            />
             <Route
               exact
               path={'/projects/:id/project-instances'}

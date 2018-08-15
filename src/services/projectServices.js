@@ -36,3 +36,13 @@ export const deleteSpecificProject = async projectID => {
     console.error('error deleting data');
   }
 };
+
+export const getRelatedProjectName = async (projectID, userId) => {
+  let headers = {
+    userId,
+  };
+  try {
+    let response = await https.get(`project/${projectID}`, headers);
+    return response;
+  } catch (err) {}
+};

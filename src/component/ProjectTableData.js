@@ -1,6 +1,8 @@
 import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
 
 const TableData = ({
   data = [],
@@ -25,7 +27,9 @@ const TableData = ({
           handleDeleteClick(data.id, data.project_name);
         }}
       >
-        <img src={require('../img/delete.png')} alt="delete" />
+        <Tooltip TransitionComponent={Zoom} placement="top" title="Delete">
+          <img src={require('../img/delete.png')} alt="delete" />
+        </Tooltip>
       </TableCell>
     </TableRow>
   ));

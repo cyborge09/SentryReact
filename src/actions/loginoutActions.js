@@ -37,7 +37,7 @@ export const setSignUpBegin = () => ({
   type: SET_SIGNUP_BEGIN,
 });
 
-export const setSignupError = () => ({
+export const setSignUpError = () => ({
   type: SET_SIGNUP_ERROR,
 });
 

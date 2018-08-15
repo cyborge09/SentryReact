@@ -21,10 +21,12 @@ class Header extends React.Component {
     ) : (
       <div className="header-Head">
         <div className="header-Wrapper clearfix">
-          {/* name not sure */}
           <ul>
             <li>
               <Link to={'/projects'}>PROJECTS</Link>
+            </li>
+            <li>
+              <Link to={'/projects/all'}>INSTANCES</Link>
             </li>
             <li onClick={this.logOut}>
               <Link to={'/login'}>SIGN OUT</Link>

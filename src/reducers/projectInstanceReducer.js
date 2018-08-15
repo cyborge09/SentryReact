@@ -14,7 +14,7 @@ const INITIAL_STATE = {
   },
 };
 
-const projectReducer = (state = INITIAL_STATE, action) => {
+const projecInstanceReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case PROJECT_INSTANCE_FETCH_SUCCESS: {
       return {
@@ -55,4 +55,4 @@ const projectReducer = (state = INITIAL_STATE, action) => {
       return state;
   }
 };
-export default projectReducer;
+export default projecInstanceReducer;

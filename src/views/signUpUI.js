@@ -29,26 +29,30 @@ class SignUpUI extends React.Component {
       this.state.password,
       'signUp'
     );
-
-    let data = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-
-    let response = await https
-      .post('signUp', data)
-      .then(data => {
-        if (data.status === 201) {
-          return true;
-        } else {
-          return false;
-        }
-      })
-      .catch(err => console.log(err));
-    if (response) {
-      this.setState({
-        newAdminSuccess: true,
-      });
+    console.log('validate', validation);
+    if (validation) {
+      let data = {
+        email: this.state.email,
+        password: this.state.password,
+      };
+      this.props.setSignUpBegin();
+      let response = await https
+        .post('signUp', data)
+        .then(data => {
+          if (data.status === 201) {
+            this.props.setSignUpSuccess();
+            return true;
+          } else {
+            this.props.setSignUpError();
+            return false;
+          }
+        })
+        .catch(err => console.log(err));
+      if (response) {
+        this.setState({
+          newAdminSuccess: true,
+        });
+      }
     }
   };
 

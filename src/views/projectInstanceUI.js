@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import * as projectInstanceServices from '../services/projectInstanceServices';
-import * as logServices from '../services/logServices';
+import * as projectServices from '../services/projectServices';
 import Header from '../component/Header';
 import ProjectInstanceTable from '../component/ProjectInstanceTable';
 import ReactModal from 'react-modal';
@@ -15,6 +15,9 @@ export default class ProjectInstance extends Component {
       fetchedLogs: [],
       activeProject: '',
       fetchedProjectInstances: [],
+      showModalChangeProject: false,
+      allProjects: [],
+      projectId: '--',
     };
   }
 
@@ -26,35 +29,69 @@ export default class ProjectInstance extends Component {
     this.setState({ showModalAddProject: false });
   };
 
+  handleOpenModalChangeProject = () => {
+    this.setState({ showModalChangeProject: true });
+  };
+  handleCloseModalChangeProject = () => {
+    this.setState({
+      showModalChangeProject: false,
+      allProjects: [],
+    });
+  };
   //to fetch and display project instances//
   async componentDidMount() {
     ReactModal.setAppElement('body');
-    console.log('pros', this.props);
-    this.getProjectName(this.props.match.params.id);
+    var projectName = await this.getProjectName(
+      this.props.match.params.id,
+      this.props.userId
+    );
     this.setState({
-      activeProject: await this.getProjectName(this.props.match.params.id),
+      activeProject: projectName,
+      projectId: this.props.match.params.id,
     });
 
-    this.getProjectInstances(this.props.match.params.id);
+    this.props.setCurrentProject(projectName);
+    this.getProjectInstances(this.props.match.params.id, this.props.userId);
   }
 
-  getProjectName = async projectID => {
-    const respond = await projectInstanceServices.getRelatedProjectName(
-      projectID
+  getProjectName = async (projectID, userId) => {
+    if (projectID === 'all') {
+      return 'All Projects Instances';
+    }
+    const respond = await projectServices.getRelatedProjectName(
+      projectID,
+      userId
     );
-    return respond.data.data.project_name;
+
+    if (respond.data.data.length !== 0) {
+      return respond.data.data[0].project_name;
+    } else {
+      return '';
+    }
   };
 
-  getProjectInstances = async projectID => {
-    this.props.projectInstanceFetchBegin();
-    const respond = await projectInstanceServices.getRelatedProjectInstances(
-      projectID
+  getAllProjects = async () => {
+    const respond = await projectServices.getRelatedProjectName(
+      'all',
+      this.props.userId
     );
+    this.setState({ allProjects: respond.data.data });
+  };
 
-    if (respond.status === 200) {
-      this.setState({ fetchedProjectInstances: respond.data.data });
-      this.props.projectInstanceFetchSuccess(respond.data.data);
-    } else {
+  getProjectInstances = async (projectID, userId) => {
+    this.props.projectInstanceFetchBegin();
+    try {
+      var respond = await projectInstanceServices.getRelatedProjectInstances(
+        projectID,
+        userId
+      );
+      if (respond.status === 200) {
+        this.setState({ fetchedProjectInstances: respond.data.data });
+        this.props.projectInstanceFetchSuccess(respond.data.data);
+      } else {
+        throw respond.err;
+      }
+    } catch (err) {
       this.props.projectInstanceFetchError(respond.status);
     }
   };
@@ -67,69 +104,56 @@ export default class ProjectInstance extends Component {
       <ProjectInstanceTable
         data={projectInstances}
         copyInstanceKey={this.copyInstanceKey}
-        // handleClick={this.handleClick}
+        handleClick={this.handleClick}
         // handleDeleteClick={this.handleDeleteClick}
         // handleDeleteClick={this.handleOpenModalDeleteProject}
       />
     );
   };
   //----------------------------------------------------------//
+  handleClick = (existingUrl, instanceId, instanceName, projectId) => {
+    this.props.history.push({
+      pathname:
+        '/projects/' +
+        projectId +
+        '/project-instances/' +
+        instanceId +
+        '/logs/',
+    });
+  };
+
+  showAllLogs = () => {
+    return (
+      <button
+        className="search-btn"
+        type="button"
+        value="All Logs"
+        onClick={this.handleClick}
+      >
+        All Logs
+      </button>
+    );
+  };
 
   addNewProjectInstance = () => {
-    return (
-      <div>
-        <div className="clearfix">
-          <div className="add-new-project">
-            <form>
-              <div className="search-btn">
-                <button
-                  type="button"
-                  value="CREATE PROJECT"
-                  onClick={this.handleOpenModalAddProject}
-                >
-                  ADD PROJECT INSTANCE
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    );
+    if (this.props.match.params.id === 'all') {
+      return false;
+    } else {
+      return (
+        <button
+          className="search-btn"
+          type="button"
+          value="CREATE PROJECT"
+          onClick={this.handleOpenModalAddProject}
+        >
+          ADD PROJECT INSTANCE
+        </button>
+      );
+    }
   };
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
-
-    // {
-    //   this.displayRelatedLogs(this.props.activeProject);
-    // }
-  };
-
-  displayRelatedLogs = async projectName => {
-    const relatedLogsList = await logServices
-      .fetchRelatedLogs(this.props.activeProject)
-      .then(data => {
-        return data.data.data;
-      });
-
-    this.setState({
-      fetchedLogs: relatedLogsList,
-    });
-  };
-
-  displayLogs = () => {
-    return (
-      <div>
-        The related Logs are:
-        {this.state.fetchedLogs.map(index => (
-          <li>
-            {' '}
-            {index.type}
-            {index.message}
-          </li>
-        ))}
-      </div>
-    );
   };
 
   onSubmit = async () => {
@@ -143,7 +167,7 @@ export default class ProjectInstance extends Component {
     );
     if (respond.status === 201) {
       this.props.projectInstanceCreateSuccess();
-      this.getProjectInstances(this.props.match.params.id);
+      this.getProjectInstances(this.props.match.params.id, this.props.userId);
     }
     // this.setState({
     //   instanceKey: respond.instance_key,
@@ -156,6 +180,7 @@ export default class ProjectInstance extends Component {
         {/*header Component*/}
         <Header />
         {/*Add Project Instances modal*/}
+
         <ReactModal
           isOpen={this.state.showModalAddProject}
           onRequestClose={this.handleCloseModalAddProject}
@@ -187,14 +212,80 @@ export default class ProjectInstance extends Component {
           </form>
         </ReactModal>
 
+        <ReactModal
+          isOpen={this.state.showModalChangeProject}
+          onRequestClose={this.handleCloseModalChangeProject}
+          className="modal-AddProject"
+        >
+          <form className="react-Modal">
+            <div className="add-project-modal-header">
+              CHANGE PROJECT
+              <span onClick={this.handleCloseModalChangeProject}> X</span>
+            </div>
+            <div className="add-project-form-wrapper">
+              <select
+                className="change-project-select"
+                name="projectId"
+                onChange={e => {
+                  this.onChange(e);
+                }}
+              >
+                <option key={'--'} value={'--'}>
+                  --
+                </option>
+                <option key={'all'} value={'all'}>
+                  All
+                </option>
+                {this.state.allProjects.map((data, id) => (
+                  <option key={id} value={data.project_id}>
+                    {id + 1}. {data.project_name}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={() => {
+                  if (
+                    this.state.projectId !==
+                    (this.props.match.params.id || '--')
+                  ) {
+                    this.props.history.push({
+                      pathname: '/projects/' + this.state.projectId,
+                    });
+                  }
+                  this.handleCloseModalChangeProject();
+                }}
+              >
+                OK
+              </button>
+            </div>
+
+            <div />
+          </form>
+        </ReactModal>
+
         <div className="dashboard-wrapper">
-          <p> Project : {this.state.activeProject}</p>
-          {this.addNewProjectInstance()}
+          <div className="project-name-add clearfix">
+            <p>
+              <img src={require('../img/instances.png')} alt="Project" />
+              <span
+                className="change-project"
+                onClick={() => {
+                  this.handleOpenModalChangeProject();
+                  this.getAllProjects();
+                }}
+              >
+                {this.state.activeProject}
+                <img src={require('../img/click.png')} alt="click" />
+              </span>
+            </p>
+
+            <span> {this.addNewProjectInstance()}</span>
+          </div>
+
+          {/*display projeect Instances*/}
+
+          <div> {this.displayProjectInstances(this.props.projectInstance)}</div>
         </div>
-
-        {/*this.displayLogs()*/}
-
-        {this.displayProjectInstances(this.props.projectInstance)}
       </div>
     );
   }

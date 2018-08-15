@@ -1,16 +1,17 @@
 import React from 'react';
-import ProjectInstanceTableData from './ProjectInstanceTableData';
+import LogTableData from './logTableData';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-const projectInstanceTable = ({
+const LogTable = ({
   data = [],
-  handleClick = f => f,
+  handleChangeStatus = f => f,
+  //   handleClick = f => f,
   // handleDeleteClick = f => f,
-  copyInstanceKey = f => f,
+  //   copyInstanceKey = f => f,
 }) => {
   return (
     <div>
@@ -18,17 +19,20 @@ const projectInstanceTable = ({
         <TableHead>
           <TableRow>
             <TableCell numeric>ID</TableCell>
-            <TableCell>INSTANCE NAME</TableCell>
-            <TableCell>INSTANCE KEY</TableCell>
-            <TableCell>DELETE</TableCell>
+            <TableCell>ISSUED AT</TableCell>
+            <TableCell>LOG TYPE</TableCell>
+            <TableCell>LOG DESCRIPTION</TableCell>
+            <TableCell>Delete</TableCell>
+            <TableCell>STATUS</TableCell>
           </TableRow>
         </TableHead>
 
         <TableBody>
-          <ProjectInstanceTableData
+          <LogTableData
             data={data}
-            copyInstanceKey={copyInstanceKey}
-            handleClick={handleClick}
+            handleChangeStatus={handleChangeStatus}
+            // copyInstanceKey={copyInstanceKey}
+            // handleClick={handleClick}
             // handleDeleteClick={handleDeleteClick}
           />
         </TableBody>
@@ -37,4 +41,4 @@ const projectInstanceTable = ({
   );
 };
 
-export default projectInstanceTable;
+export default LogTable;

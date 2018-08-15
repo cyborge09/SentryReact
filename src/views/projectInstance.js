@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import {
+  setCurrentProject,
   projectInstanceFetchBegin,
   projectInstanceFetchSuccess,
   projectInstanceFetchError,
@@ -11,12 +12,16 @@ import projectInstanceUI from './projectInstanceUI';
 
 const mapStateToProps = state => {
   return {
+    userId: state.login.user.userId,
     projectInstance: state.projectInstance.projectInstance.data,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    setCurrentProject: projectName => {
+      dispatch(setCurrentProject(projectName));
+    },
     projectInstanceFetchBegin: () => {
       dispatch(projectInstanceFetchBegin());
     },

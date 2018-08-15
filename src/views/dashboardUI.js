@@ -86,23 +86,14 @@ class DashboardUI extends React.Component {
 
   addNewProject = () => {
     return (
-      <div>
-        <div className="clearfix">
-          <div className="add-new-project">
-            <form>
-              <div className="search-btn">
-                <button
-                  type="button"
-                  value="CREATE PROJECT"
-                  onClick={this.handleOpenModalAddProject}
-                >
-                  ADD PROJECT
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+      <button
+        type="button"
+        className="search-btn"
+        value="CREATE PROJECT"
+        onClick={this.handleOpenModalAddProject}
+      >
+        ADD PROJECT
+      </button>
     );
   };
 
@@ -260,14 +251,17 @@ class DashboardUI extends React.Component {
 
         {/* react modal for Delete project ends */}
         {this.displayUserName()}
-
-        <div className="dashboard-wrapper ">
-          <div className="show-add-project">
-            <div className="project"> PROJECTS</div>
-            {this.addNewProject()}
+        <div className="dashboard-wrapper">
+          <div className="project-name-add clearfix">
+            <p>
+              <img src={require('../img/project.png')} alt="Project" />{' '}
+              <span> PROJECTS</span>
+            </p>
+            <span> {this.addNewProject()}</span>
           </div>
 
-          {this.displayProject(this.props.data)}
+          {/*display projeect Instances*/}
+          <div>{this.displayProject(this.props.data)}</div>
         </div>
       </div>
     );
