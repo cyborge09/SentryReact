@@ -1,4 +1,5 @@
 export const SET_CURRENT_PROJECT = 'SET_CURRENT_PROJECT';
+export const PROJECT_CREATE_SUCCESS = 'PROJECT_CREATE_SUCCESS';
 export const PROJECT_FETCH_SUCCESS = 'PROJECT_FETCH_SUCCESS';
 export const PROJECT_DELETE_SUCCESS = 'PROJECT_DELETE_SUCCESS';
 export const PROJECT_INSTANCE_FETCH_BEGIN = 'PROJECT_INSTANCE_FETCH_BEGIN';
@@ -18,6 +19,10 @@ export const setCurrentProject = projectName => ({
   payload: {
     projectName: projectName,
   },
+});
+
+export const projectCreateSuccess = () => ({
+  type: PROJECT_CREATE_SUCCESS,
 });
 
 export const projectFetchSuccess = data => ({

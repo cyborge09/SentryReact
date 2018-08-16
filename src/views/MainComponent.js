@@ -34,6 +34,10 @@ class MainComponent extends Component {
               from="/projects/:id"
               to="/projects/:id/project-instances"
             />
+            <Redirect
+              from="/logs/:pid/:lid"
+              to="/projects/:pid/project-instances/:lid/logs"
+            />
           </Switch>
         </BrowserRouter>
       </div>

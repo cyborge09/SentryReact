@@ -28,6 +28,9 @@ class Header extends React.Component {
             <li>
               <Link to={'/projects/all'}>INSTANCES</Link>
             </li>
+            <li>
+              <Link to={'/logs/all/all'}>LOGS</Link>
+            </li>
             <li onClick={this.logOut}>
               <Link to={'/login'}>SIGN OUT</Link>
             </li>

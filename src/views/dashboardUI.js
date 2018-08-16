@@ -80,6 +80,7 @@ class DashboardUI extends React.Component {
 
     if (respond.status === 201) {
       this.setState({ projectName: '' });
+      this.props.projectCreateSuccess();
       this.getProject(this.state.userEmail);
     }
   };

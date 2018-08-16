@@ -1,10 +1,11 @@
 import * as https from '../utils/https';
 
-export const fetchRelatedLogs = async (instanceId, projectId) => {
+export const fetchRelatedLogs = async (instanceId, projectId, userId) => {
   try {
     let headers = {
       instanceId: instanceId,
       projectId: projectId,
+      userId: userId,
     };
 
     let response = await https.get('logs', headers);

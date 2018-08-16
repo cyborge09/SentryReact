@@ -25,3 +25,12 @@ export const getRelatedProjectInstances = async (projectID, userId) => {
     return response;
   } catch (err) {}
 };
+
+export const deleteSpecificProjectInstances = async instanceId => {
+  try {
+    let response = await https.remove(`projectInstance/${instanceId}`);
+    return response;
+  } catch (err) {
+    console.error('error deleting data');
+  }
+};

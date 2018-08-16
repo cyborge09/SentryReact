@@ -29,7 +29,7 @@ class SignUpUI extends React.Component {
       this.state.password,
       'signUp'
     );
-    console.log('validate', validation);
+
     if (validation) {
       let data = {
         email: this.state.email,

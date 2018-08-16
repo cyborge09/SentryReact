@@ -20,6 +20,9 @@ const TableData = ({
   return data.map((data, i) => (
     <TableRow key={i}>
       <TableCell>{i + 1}</TableCell>
+      <TableCell>{data.project_name}</TableCell>
+
+      <TableCell>{data.instance_name}</TableCell>
 
       <TableCell
         onClick={() => {

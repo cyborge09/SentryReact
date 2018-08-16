@@ -19,6 +19,8 @@ const LogTable = ({
         <TableHead>
           <TableRow>
             <TableCell numeric>ID</TableCell>
+            <TableCell>PROJECT</TableCell>
+            <TableCell>INSTANCE</TableCell>
             <TableCell>ISSUED AT</TableCell>
             <TableCell>LOG TYPE</TableCell>
             <TableCell>LOG DESCRIPTION</TableCell>

@@ -18,6 +18,10 @@ export default class ProjectInstance extends Component {
       showModalChangeProject: false,
       allProjects: [],
       projectId: '--',
+      showModalDeleteInstance: false,
+      toDeleteInstanceId: '',
+      toDeleteInstanceName: '',
+      confirm: '',
     };
   }
 
@@ -38,6 +42,22 @@ export default class ProjectInstance extends Component {
       allProjects: [],
     });
   };
+
+  handleOpenModalDeleteInstance = (IID, instanceName) => {
+    this.setState({
+      showModalDeleteInstance: true,
+      toDeleteInstanceId: IID,
+      toDeleteInstanceName: instanceName,
+    });
+  };
+
+  handleCloseModalDeleteInstance = () => {
+    this.setState({
+      showModalDeleteInstance: false,
+      toDeleteInstanceId: '',
+      toDeleteInstanceName: '',
+    });
+  };
   //to fetch and display project instances//
   async componentDidMount() {
     ReactModal.setAppElement('body');
@@ -45,6 +65,7 @@ export default class ProjectInstance extends Component {
       this.props.match.params.id,
       this.props.userId
     );
+
     this.setState({
       activeProject: projectName,
       projectId: this.props.match.params.id,
@@ -67,6 +88,19 @@ export default class ProjectInstance extends Component {
       return respond.data.data[0].project_name;
     } else {
       return '';
+    }
+  };
+
+  handleDeleteClick = async (IID, instanceName) => {
+    console.log('iid', IID);
+    //api call for delete
+    const respond = await projectInstanceServices.deleteSpecificProjectInstances(
+      IID
+    );
+    console.log('res', respond);
+    if (respond.status === 204) {
+      this.getProjectInstances(this.props.match.params.id, this.props.userId);
+      this.props.projectInstanceDeleteSuccess();
     }
   };
 
@@ -106,7 +140,7 @@ export default class ProjectInstance extends Component {
         copyInstanceKey={this.copyInstanceKey}
         handleClick={this.handleClick}
         // handleDeleteClick={this.handleDeleteClick}
-        // handleDeleteClick={this.handleOpenModalDeleteProject}
+        handleDeleteClick={this.handleOpenModalDeleteInstance}
       />
     );
   };
@@ -212,6 +246,8 @@ export default class ProjectInstance extends Component {
           </form>
         </ReactModal>
 
+        {/*Change project modal*/}
+
         <ReactModal
           isOpen={this.state.showModalChangeProject}
           onRequestClose={this.handleCloseModalChangeProject}
@@ -223,25 +259,27 @@ export default class ProjectInstance extends Component {
               <span onClick={this.handleCloseModalChangeProject}> X</span>
             </div>
             <div className="add-project-form-wrapper">
-              <select
-                className="change-project-select"
-                name="projectId"
-                onChange={e => {
-                  this.onChange(e);
-                }}
-              >
-                <option key={'--'} value={'--'}>
-                  --
-                </option>
-                <option key={'all'} value={'all'}>
-                  All
-                </option>
-                {this.state.allProjects.map((data, id) => (
-                  <option key={id} value={data.project_id}>
-                    {id + 1}. {data.project_name}
+              <label className="custom-select">
+                <select
+                  className="change-project-select"
+                  name="projectId"
+                  onChange={e => {
+                    this.onChange(e);
+                  }}
+                >
+                  <option key={'--'} value={'--'}>
+                    SELECT PROJECTS
                   </option>
-                ))}
-              </select>
+                  <option key={'all'} value={'all'}>
+                    All
+                  </option>
+                  {this.state.allProjects.map((data, id) => (
+                    <option key={id} value={data.project_id}>
+                      {data.project_name}
+                    </option>
+                  ))}
+                </select>
+              </label>
               <button
                 onClick={() => {
                   if (
@@ -260,6 +298,67 @@ export default class ProjectInstance extends Component {
             </div>
 
             <div />
+          </form>
+        </ReactModal>
+
+        {/*Delete instance modal*/}
+        <ReactModal
+          isOpen={this.state.showModalDeleteInstance}
+          onRequestClose={this.handleCloseModalDeleteInstance}
+          className="modal-AddProject"
+        >
+          <form
+            className="react-Modal"
+            onSubmit={() => {
+              if (this.state.confirm === 'CONFIRM') {
+                this.handleCloseModalDeleteInstance();
+                this.handleDeleteClick(
+                  this.state.toDeleteProjectId,
+                  this.state.toDeleteProjectName
+                );
+              } else {
+                this.setState({ confirm: '' });
+                this.handleCloseModalDeleteInstance();
+              }
+            }}
+          >
+            <div className="add-project-modal-header">
+              DELETE INSTANCE
+              <span onClick={this.handleCloseModalDeleteInstance}> X</span>
+            </div>
+
+            <div className="add-project-form-wrapper">
+              <div className="delete-Info">
+                <img src={require('../img/deletePROJECT.png')} alt="delete" />
+                <span>INSTANCE NAME: {this.state.toDeleteInstanceName}</span>
+              </div>
+              <span>
+                <input
+                  name="confirm"
+                  value={this.state.confirm}
+                  placeholder="TYPE CONFIRM"
+                  onChange={this.onChange}
+                />
+              </span>
+
+              <button
+                onClick={async () => {
+                  if (this.state.confirm === 'CONFIRM') {
+                    this.setState({ confirm: '' });
+                    this.handleCloseModalDeleteInstance();
+                    await this.handleDeleteClick(
+                      this.state.toDeleteInstanceId,
+                      this.state.toDeleteInstanceName
+                    );
+                  } else {
+                    this.setState({ confirm: '' });
+                    this.handleCloseModalDeleteInstance();
+                  }
+                }}
+              >
+                CONFIRM
+              </button>
+            </div>
           </form>
         </ReactModal>
 

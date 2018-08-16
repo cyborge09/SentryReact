@@ -8,7 +8,7 @@ import Zoom from '@material-ui/core/Zoom';
 const projectInstanceTableData = ({
   data = [],
   handleClick = f => f,
-  // handleDeleteClick = f => f,
+  handleDeleteClick = f => f,
 }) => {
   return data.map((data, i) => (
     <TableRow key={i}>
@@ -27,7 +27,7 @@ const projectInstanceTableData = ({
       >
         {data.instance_name}
       </TableCell>
-
+      <TableCell>{data.project_name}</TableCell>
       <TableCell className="instanceKey">
         {data.instance_key}
         <Tooltip TransitionComponent={Zoom} placement="top" title="Copy">
@@ -40,7 +40,7 @@ const projectInstanceTableData = ({
       <TableCell
         className="delete"
         onClick={() => {
-          // handleDeleteClick(data.id, data.project_name);
+          handleDeleteClick(data.id, data.instance_name);
         }}
       >
         <Tooltip TransitionComponent={Zoom} placement="top" title="Delete">
