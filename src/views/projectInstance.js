@@ -11,7 +11,6 @@ import projectInstanceUI from './projectInstanceUI';
 
 const mapStateToProps = state => {
   return {
-    activeProject: state.project.project.currentProject,
     projectInstance: state.projectInstance.projectInstance.data,
   };
 };

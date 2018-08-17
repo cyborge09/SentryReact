@@ -13,7 +13,8 @@ const TableData = ({
       <TableCell
         className="td"
         onClick={() => {
-          handleClick(data.project_name);
+          // handleClick(data.project_name);
+          handleClick({ id: data.id, name: data.project_name });
         }}
       >
         {data.project_name}

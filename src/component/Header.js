@@ -24,7 +24,7 @@ class Header extends React.Component {
           {/* name not sure */}
           <ul>
             <li>
-              <Link to={'/dashboard'}>DASHBOARD</Link>
+              <Link to={'/projects'}>PROJECTS</Link>
             </li>
             <li onClick={this.logOut}>
               <Link to={'/login'}>SIGN OUT</Link>

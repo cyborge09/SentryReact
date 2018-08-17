@@ -21,11 +21,13 @@ const mapDispatchToProps = dispatch => {
       dispatch(setLoginBegin());
     },
 
-    setLoginSuccess: (accessToken, refreshToken, userEmail) => {
+    setLoginSuccess: (accessToken, refreshToken, userEmail, userId) => {
       localStorage.setItem('RefreshToken', refreshToken);
       localStorage.setItem('AccessToken', accessToken);
       localStorage.setItem('UserEmail', userEmail);
-      dispatch(setLoginSuccess(accessToken, refreshToken, userEmail));
+      localStorage.setItem('UserEmail', userEmail);
+      localStorage.setItem('UserId', userId);
+      dispatch(setLoginSuccess(accessToken, refreshToken, userEmail, userId));
     },
 
     setLoginError: () => {

@@ -1,9 +1,9 @@
 import * as https from '../utils/https';
 
-export const createNewProjectInstance = async (instanceName, projectName) => {
+export const createNewProjectInstance = async (instanceName, projectID) => {
   try {
     let data = {
-      project_name: projectName,
+      projectID: projectID,
       instanceName: instanceName,
     };
 
@@ -14,13 +14,20 @@ export const createNewProjectInstance = async (instanceName, projectName) => {
   }
 };
 
-export const getRelatedProjectInstances = async projectName => {
+export const getRelatedProjectInstances = async projectID => {
   try {
     let headers = {
-      projectName,
+      projectID,
     };
 
     let response = await https.get('projectInstance', headers);
+    return response;
+  } catch (err) {}
+};
+
+export const getRelatedProjectName = async projectID => {
+  try {
+    let response = await https.get(`project/${projectID}`);
     return response;
   } catch (err) {}
 };

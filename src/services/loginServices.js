@@ -11,14 +11,15 @@ export const validateAdminStatus = async (email, password) => {
     };
 
     response = await https.post('auth/login', data);
-    console.log('res', response);
+
     if (response.status === 200) {
       loginStatus = true;
-      const { accessToken, refreshToken } = {
+      const { accessToken, refreshToken, userId } = {
         accessToken: response.data.data.accessToken,
         refreshToken: response.data.data.refreshToken,
+        userId: response.data.data.data.id,
       };
-      return { loginStatus, accessToken, refreshToken };
+      return { loginStatus, accessToken, refreshToken, userId };
     }
   } catch (err) {
     return err.response;

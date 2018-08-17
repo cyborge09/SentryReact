@@ -1,19 +1,19 @@
 import React from 'react';
-import * as loginService from '../services/loginServices';
+import * as https from '../utils/https';
 import { Redirect } from 'react-router-dom';
 import UserActionHeader from '../component/UserActionHeader';
 import { Link } from 'react-router-dom';
-import validateForm from '../utils/validateForm';
 import Button from '@material-ui/core/Button';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import validateForm from '../utils/validateForm';
 
-class LoginUi extends React.Component {
+class SignUpUI extends React.Component {
   constructor() {
     super();
     this.state = {
       email: '',
       password: '',
-      headerMessage: 'LOGIN',
+      newAdminSuccess: false,
     };
   }
 
@@ -23,53 +23,49 @@ class LoginUi extends React.Component {
 
   onSubmit = async e => {
     e.preventDefault();
+
     const validation = validateForm(
       this.state.email,
       this.state.password,
-      'login'
+      'signUp'
     );
 
-    if (validation === true) {
-      this.props.setLoginBegin();
-      var loginState = await loginService.validateAdminStatus(
-        this.state.email,
-        this.state.password
-      );
+    let data = {
+      email: this.state.email,
+      password: this.state.password,
+    };
 
-      if (loginState.loginStatus) {
-        this.props.setLoginSuccess(
-          loginState.accessToken,
-          loginState.refreshToken,
-          this.state.email,
-          loginState.userId
-        );
-      } else {
-        this.props.setLoginError();
-        this.setState({ headerMessage: loginState.data.error.message });
-      }
+    let response = await https
+      .post('signUp', data)
+      .then(data => {
+        if (data.status === 201) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch(err => console.log(err));
+    if (response) {
+      this.setState({
+        newAdminSuccess: true,
+      });
     }
-
-    return validation;
   };
 
-  redirectToSignUp = () => {
-    this.props.history.push(`/signup`);
+  adminCreated = () => {
+    if (this.state.newAdminSuccess) {
+      return <Redirect to="/login" />;
+    }
   };
 
   render() {
-    return this.props.isLogin ? (
-      <Redirect to="/projects" />
-    ) : (
+    return (
       <div>
         <UserActionHeader />
-
-        <div className="login-wrapper">
-          <div className="login-form-header">
-            {this.props.loggingIn ? (
-              <span>PLEASE WAIT</span>
-            ) : (
-              <span>{this.state.headerMessage}</span>
-            )}
+        {this.adminCreated()}
+        <div className="signUp-Wrapper">
+          <div className="signUp-form-header">
+            <span> SIGN UP</span>
           </div>
 
           <ValidatorForm ref="form" className="form" onSubmit={this.onSubmit}>
@@ -109,13 +105,14 @@ class LoginUi extends React.Component {
               type="submit"
               value="Log In"
             >
-              LOG IN
+              SIGN UP
             </Button>
           </ValidatorForm>
 
-          <div className="redirect-SignUp">
+          <div className="redirect-LogIn">
             <p>
-              New here? Click here to <Link to={'/SignUp'}>Sign Up</Link>{' '}
+              {' '}
+              Already Registered? <Link to={'/login'}>LogIn</Link>{' '}
             </p>
           </div>
         </div>
@@ -124,4 +121,4 @@ class LoginUi extends React.Component {
   }
 }
 
-export default LoginUi;
+export default SignUpUI;
