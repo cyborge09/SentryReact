@@ -22,7 +22,6 @@ const TableData = ({
         {data.project_name}
       </TableCell>
       <TableCell
-        className="delete"
         onClick={() => {
           handleDeleteClick(data.id, data.project_name);
         }}

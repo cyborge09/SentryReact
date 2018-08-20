@@ -1,4 +1,13 @@
 import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import AddIcon from '@material-ui/icons/Add';
+import Tooltip from '@material-ui/core/Tooltip';
 import * as projectInstanceServices from '../services/projectInstanceServices';
 import * as projectServices from '../services/projectServices';
 import Header from '../component/Header';
@@ -173,14 +182,16 @@ export default class ProjectInstance extends Component {
       return false;
     } else {
       return (
-        <button
-          className="search-btn"
-          type="button"
-          value="CREATE PROJECT"
-          onClick={this.handleOpenModalAddProject}
-        >
-          ADD PROJECT INSTANCE
-        </button>
+        <Tooltip title="Add Instances">
+          <Button
+            variant="fab"
+            onClick={this.handleOpenModalAddProject}
+            color="primary"
+            aria-label="Add"
+          >
+            <AddIcon />
+          </Button>
+        </Tooltip>
       );
     }
   };
@@ -212,38 +223,42 @@ export default class ProjectInstance extends Component {
       <div>
         {/*header Component*/}
         <Header />
-        {/*Add Project Instances modal*/}
 
-        <ReactModal
-          isOpen={this.state.showModalAddProject}
-          onRequestClose={this.handleCloseModalAddProject}
-          className="modal-AddProject"
+        <Dialog
+          open={this.state.showModalAddProject}
+          onClose={this.handleCloseModalAddProject}
+          aria-labelledby="form-dialog-title"
         >
-          <form className="react-Modal" onSubmit={this.onSubmit}>
-            <div className="add-project-modal-header">
-              ADD PROJECT INSTANCE
-              <span onClick={this.handleCloseModalAddProject}> X</span>
-            </div>
+          <DialogTitle id="form-dialog-title">ADD Instances</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="Project Instance"
+              fullWidth
+              value={this.state.projectName}
+              onChange={this.onChange}
+              type="text"
+              name="instanceName"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleCloseModalAddProject} color="primary">
+              Cancel
+            </Button>
+            <Button
+              onClick={e => {
+                this.handleCloseModalAddProject();
+                this.onSubmit();
+              }}
+              color="primary"
+            >
+              ADD
+            </Button>
+          </DialogActions>
+        </Dialog>
 
-            <div className="add-project-form-wrapper">
-              <input
-                value={this.state.projectName}
-                onChange={this.onChange}
-                type="text"
-                name="instanceName"
-                placeholder="INSTANCE NAME"
-              />
-              <button
-                onClick={() => {
-                  this.handleCloseModalAddProject();
-                  this.onSubmit();
-                }}
-              >
-                Create
-              </button>
-            </div>
-          </form>
-        </ReactModal>
+        {/*Add Project Instances modal*/}
 
         {/*Change project modal*/}
 

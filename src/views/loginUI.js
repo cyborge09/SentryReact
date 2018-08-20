@@ -2,10 +2,12 @@ import React from 'react';
 import * as loginService from '../services/loginServices';
 import { Redirect } from 'react-router-dom';
 import UserActionHeader from '../component/UserActionHeader';
+import Loader from '../component/Loader';
 import { Link } from 'react-router-dom';
 import validateForm from '../utils/validateForm';
 import Button from '@material-ui/core/Button';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import Typography from '@material-ui/core/Typography';
 
 class LoginUi extends React.Component {
   constructor() {
@@ -65,11 +67,13 @@ class LoginUi extends React.Component {
 
         <div className="login-wrapper">
           <div className="login-form-header">
-            {this.props.loggingIn ? (
-              <span>PLEASE WAIT</span>
-            ) : (
-              <span>{this.state.headerMessage}</span>
-            )}
+            <Typography variant="headline">
+              {this.props.loggingIn ? (
+                <Loader />
+              ) : (
+                <span>{this.state.headerMessage}</span>
+              )}
+            </Typography>
           </div>
 
           <ValidatorForm ref="form" className="form" onSubmit={this.onSubmit}>

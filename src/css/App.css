@@ -81,8 +81,10 @@ button {
 .login-wrapper,
 .signUp-Wrapper {
   height: auto;
-  background-color: #7dc961;
+  background-color: lightgoldenrodyellow;
   padding-bottom: 10px;
+  border-radius: 10px;
+  border: 1px solid green;
   margin: 100px auto;
   display: block;
   width: 400px;
@@ -178,8 +180,6 @@ td {
 .td:hover {
   color: green;
   cursor: pointer;
-  font-size: 18px;
-  padding: 5px;
 }
 
 .td a {

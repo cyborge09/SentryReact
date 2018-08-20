@@ -13,7 +13,6 @@ export const PROJECT_INSTANCE_CREATE_SUCCESS =
 
 export const PROJECT_INSTANCE_DELETE_SUCCESS =
   'PROJECT_INSTANCE_DELETE_SUCCESS';
-
 export const setCurrentProject = projectName => ({
   type: SET_CURRENT_PROJECT,
   payload: {
@@ -33,7 +32,6 @@ export const projectFetchSuccess = data => ({
 export const projectDeleteSuccess = () => ({
   type: PROJECT_DELETE_SUCCESS,
 });
-
 export const projectInstanceFetchBegin = () => ({
   type: PROJECT_INSTANCE_FETCH_BEGIN,
 });

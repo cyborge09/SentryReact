@@ -14,6 +14,7 @@ class SignUpUI extends React.Component {
       email: '',
       password: '',
       newAdminSuccess: false,
+      errorMessages: '',
     };
   }
 
@@ -23,8 +24,14 @@ class SignUpUI extends React.Component {
 
   onSubmit = async e => {
     e.preventDefault();
-    const validation = validateForm(this.state.email, this.state.password);
 
+    const validation = validateForm(
+      this.state.email,
+      this.state.password,
+      'signUp'
+    );
+
+    console.log('validate', validation);
     if (validation) {
       let data = {
         email: this.state.email,
@@ -43,11 +50,16 @@ class SignUpUI extends React.Component {
           }
         })
         .catch(err => console.log(err));
+      console.log(response, 'this is response messsage from signup form ');
       if (response) {
         this.setState({
           newAdminSuccess: true,
         });
+      } else {
+        this.setState({ errorMessages: 'email is Already in use' });
       }
+    } else {
+      this.setState({ errorMessages: 'password lenght must be more than 4' });
     }
   };
 
@@ -80,7 +92,6 @@ class SignUpUI extends React.Component {
               validators={['required', 'isEmail']}
               errorMessages={['this field is required', 'email is not valid']}
             />
-
             <br />
             <TextValidator
               value={this.state.password}
@@ -93,10 +104,11 @@ class SignUpUI extends React.Component {
               validators={['required']}
               errorMessages={['this field is required']}
             />
-
             <br />
             <br />
-
+            <div className="error"> {this.state.errorMessages}</div>
+            <br />
+            <br />
             <Button
               variant="contained"
               color="primary"
