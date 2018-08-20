@@ -1,6 +1,7 @@
 import './css/App.css';
 import './css/Header.css';
 import './css/UserActionHeader.css';
+import './css/ToggleBar.css';
 import store from './store';
 import MainComponent from './views/MainComponent';
 import React, { Component } from 'react';

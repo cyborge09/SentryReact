@@ -14,6 +14,7 @@ class SignUpUI extends React.Component {
       email: '',
       password: '',
       newAdminSuccess: false,
+      errorMessages: '',
     };
   }
 
@@ -30,25 +31,35 @@ class SignUpUI extends React.Component {
       'signUp'
     );
 
-    let data = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-
-    let response = await https
-      .post('signUp', data)
-      .then(data => {
-        if (data.status === 201) {
-          return true;
-        } else {
-          return false;
-        }
-      })
-      .catch(err => console.log(err));
-    if (response) {
-      this.setState({
-        newAdminSuccess: true,
-      });
+    console.log('validate', validation);
+    if (validation) {
+      let data = {
+        email: this.state.email,
+        password: this.state.password,
+      };
+      this.props.setSignUpBegin();
+      let response = await https
+        .post('signUp', data)
+        .then(data => {
+          if (data.status === 201) {
+            this.props.setSignUpSuccess();
+            return true;
+          } else {
+            this.props.setSignUpError();
+            return false;
+          }
+        })
+        .catch(err => console.log(err));
+      console.log(response, 'this is response messsage from signup form ');
+      if (response) {
+        this.setState({
+          newAdminSuccess: true,
+        });
+      } else {
+        this.setState({ errorMessages: 'email is Already in use' });
+      }
+    } else {
+      this.setState({ errorMessages: 'password lenght must be more than 4' });
     }
   };
 
@@ -81,7 +92,6 @@ class SignUpUI extends React.Component {
               validators={['required', 'isEmail']}
               errorMessages={['this field is required', 'email is not valid']}
             />
-
             <br />
             <TextValidator
               value={this.state.password}
@@ -94,10 +104,11 @@ class SignUpUI extends React.Component {
               validators={['required']}
               errorMessages={['this field is required']}
             />
-
             <br />
             <br />
-
+            <div className="error"> {this.state.errorMessages}</div>
+            <br />
+            <br />
             <Button
               variant="contained"
               color="primary"

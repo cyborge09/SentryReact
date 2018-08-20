@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import {
   setSignUpSuccess,
   setSignUpBegin,
-  setSignupError,
+  setSignUpError,
 } from '../actions/loginoutActions';
 import SignUpUI from './signUpUI';
 
@@ -23,7 +23,7 @@ const mapDispatchToProps = dispatch => {
     },
 
     setSignupError: () => {
-      dispatch(setSignupError());
+      dispatch(setSignUpError());
     },
   };
 };

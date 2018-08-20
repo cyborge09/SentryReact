@@ -1,27 +1,69 @@
-import React from 'react';
+import React, { Component } from 'react';
 import * as logServices from '../services/logServices';
+import Header from '../component/Header';
+import LogTable from '../component/logTable';
 
-class LogUI extends React.Component {
+export default class ProjectInstance extends Component {
   constructor() {
     super();
+    this.state = {
+      fetchedLogs: [],
+      activeProject: '',
+    };
   }
+  componentDidMount = () => {
+    this.getRelatedLogs(
+      this.props.match.params.iid,
+      this.props.match.params.id
+    );
+  };
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
-  componentDidMount() {
-    console.log('compound did mount is called', this.props);
-    this.getProjectLogs('jptProject');
-  }
+  getRelatedLogs = async (instanceId, projectId) => {
+    this.props.logFetchBegin();
+    const respond = await logServices.fetchRelatedLogs(instanceId, projectId);
+    if (respond.status === 200) {
+      this.props.logFetchSuccess(respond.data.data);
+      this.setState({
+        fetchedLogs: respond.data.data,
+      });
+    } else {
+      this.props.logFetchError(respond.status);
+    }
+  };
 
-  getProjectLogs = async projectName => {
-    this.props.setLogFetchBegin();
-    const res = await logServices.fetchRelatedLogs(projectName).then(data => {
-      console.log(data, '++++++++++');
-      return data.data.data;
-    });
-    console.log(res);
+  displayProject = () => {
+    var logList = this.state.fetchedLogs;
+    if (logList.length === 0) {
+      return <div>NO LOGS!!!!</div>;
+    }
+    return (
+      <LogTable
+        data={logList}
+        handleChangeStatus={this.handleChangeStatus}
+        // handleClick={this.handleClick}
+        // handleDeleteClick={this.handleOpenModalDeleteProject}
+      />
+    );
+  };
+
+  handleChangeStatus = async logId => {
+    const respond = await logServices.changeStatus(logId);
+    if (respond.status === 204) {
+      //dispatch action
+    }
   };
 
   render() {
-    return <div> hello from space </div>;
+    return (
+      <div>
+        {/*header Component*/}
+        <Header />
+        {/*--------------*/}
+        {this.displayProject()}
+      </div>
+    );
   }
 }
-export default LogUI;

@@ -67,6 +67,17 @@ export function post(url, data, headers = {}, params = {}) {
   });
 }
 
+export function put(url, headers = {}, params = {}) {
+  headers = setHeader(headers);
+
+  return axiosInstance({
+    method: 'put',
+    url,
+    headers,
+    params,
+  });
+}
+
 export function remove(url, headers = {}) {
   headers = setHeader(headers);
   return axiosInstance({

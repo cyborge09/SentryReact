@@ -1,25 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 class UserActionHeader extends React.Component {
   render() {
     return (
-      <div className="user-Header-Head ">
-        <div className="user-Header-Wrapper clearfix">
-          {/* name not sure */}
-
-          <ul>
-            <li>
-              <Link to={'/SignUp'}>SignUp</Link>
-            </li>
-          </ul>
-          <ul>
-            <li>
-              <Link to={'/login'}>Login</Link>
-            </li>
-          </ul>
-        </div>
-      </div>
+      <AppBar position="static" color="blue">
+        <Toolbar className="header-title">
+          <Typography variant="title" color="inherit">
+            Sentry Project Manager
+          </Typography>
+        </Toolbar>
+      </AppBar>
     );
   }
 }

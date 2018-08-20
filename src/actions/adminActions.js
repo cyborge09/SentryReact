@@ -4,6 +4,9 @@ export const PROJECT_DELETE_SUCCESS = 'PROJECT_DELETE_SUCCESS';
 export const PROJECT_INSTANCE_FETCH_BEGIN = 'PROJECT_INSTANCE_FETCH_BEGIN';
 export const PROJECT_INSTANCE_FETCH_SUCCESS = 'PROJECT_INSTANCE_FETCH_SUCCESS';
 export const PROJECT_INSTANCE_FETCH_ERROR = 'PROJECT_INSTANCE_FETCH_ERROR';
+export const LOG_FETCH_BEGIN = 'LOG_FETCH_BEGIN';
+export const LOG_FETCH_SUCCESS = 'LOG_FETCH_SUCCESS';
+export const LOG_FETCH_ERROR = 'LOG_FETCH_ERROR';
 export const PROJECT_INSTANCE_CREATE_SUCCESS =
   'PROJECT_INSTANCE_CREATE_SUCCESS';
 
@@ -43,4 +46,17 @@ export const projectInstanceDeleteSuccess = () => ({
 });
 export const projectInstanceCreateSuccess = () => ({
   type: PROJECT_INSTANCE_CREATE_SUCCESS,
+});
+
+export const logFetchBegin = () => ({
+  type: LOG_FETCH_BEGIN,
+});
+
+export const logFetchSuccess = logs => ({
+  type: LOG_FETCH_SUCCESS,
+  payload: { data: logs },
+});
+
+export const logFetchError = () => ({
+  type: LOG_FETCH_ERROR,
 });

@@ -1,28 +1,29 @@
 import { connect } from 'react-redux';
-import logUI from './logUI';
 import {
   logFetchBegin,
-  logFetchError,
   logFetchSuccess,
-} from '../actions/logAction';
+  logFetchError,
+} from '../actions/adminActions';
+
+import LogUI from './logUI';
 
 const mapStateToProps = state => {
   return {
-    isLogFetching: state.log.isLogFetching,
-    logList: state.log.logList,
+    userId: state.login.user.userId,
+    projectInstance: state.projectInstance.projectInstance.data,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLogFetchBegin: () => {
+    logFetchBegin: () => {
       dispatch(logFetchBegin());
     },
-    setLogFetchSucess: () => {
-      dispatch(logFetchSuccess());
+    logFetchSuccess: logs => {
+      dispatch(logFetchSuccess(logs));
     },
-    setLogFetchError: msg => {
-      dispatch(logFetchError(msg));
+    logFetchError: () => {
+      dispatch(logFetchError());
     },
   };
 };
@@ -30,6 +31,6 @@ const mapDispatchToProps = dispatch => {
 const log = connect(
   mapStateToProps,
   mapDispatchToProps
-)(logUI);
+)(LogUI);
 
 export default log;

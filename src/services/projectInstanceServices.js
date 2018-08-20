@@ -14,20 +14,14 @@ export const createNewProjectInstance = async (instanceName, projectID) => {
   }
 };
 
-export const getRelatedProjectInstances = async projectID => {
+export const getRelatedProjectInstances = async (projectID, userId) => {
   try {
     let headers = {
       projectID,
+      userId,
     };
 
     let response = await https.get('projectInstance', headers);
-    return response;
-  } catch (err) {}
-};
-
-export const getRelatedProjectName = async projectID => {
-  try {
-    let response = await https.get(`project/${projectID}`);
     return response;
   } catch (err) {}
 };

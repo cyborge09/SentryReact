@@ -9,7 +9,7 @@ const reducer = combineReducers({
   project: projectReducer,
   login: adminReducer,
   projectInstance: projectInstanceReducer,
-  log: logReducer,
+  logReducer: logReducer,
 });
 
 export default reducer;

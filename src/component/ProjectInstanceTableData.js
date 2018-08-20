@@ -2,12 +2,13 @@ import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
 
 const projectInstanceTableData = ({
   data = [],
-  // handleClick = f => f,
+  handleClick = f => f,
   // handleDeleteClick = f => f,
-  copyInstanceKey = f => f,
 }) => {
   return data.map((data, i) => (
     <TableRow key={i}>
@@ -16,8 +17,12 @@ const projectInstanceTableData = ({
       <TableCell
         className="td"
         onClick={() => {
-          // handleClick(data.project_name);
-          console.log('handleclick');
+          handleClick(
+            window.location.pathname,
+            data.id,
+            data.instance_name,
+            data.project_id
+          );
         }}
       >
         {data.instance_name}
@@ -25,19 +30,22 @@ const projectInstanceTableData = ({
 
       <TableCell className="instanceKey">
         {data.instance_key}
-        <CopyToClipboard text={data.instance_key}>
-          <img src={require('../img/copy.png')} alt="Copy" />
-        </CopyToClipboard>
+        <Tooltip TransitionComponent={Zoom} placement="top" title="Copy">
+          <CopyToClipboard text={data.instance_key}>
+            <img src={require('../img/copy.png')} alt="Copy" />
+          </CopyToClipboard>
+        </Tooltip>
       </TableCell>
 
       <TableCell
         className="delete"
         onClick={() => {
           // handleDeleteClick(data.id, data.project_name);
-          console.log('handleclick');
         }}
       >
-        <img src={require('../img/delete.png')} alt="delete" />
+        <Tooltip TransitionComponent={Zoom} placement="top" title="Delete">
+          <img src={require('../img/delete.png')} alt="delete" />
+        </Tooltip>
       </TableCell>
     </TableRow>
   ));

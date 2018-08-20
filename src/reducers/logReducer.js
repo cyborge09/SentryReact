@@ -1,32 +1,26 @@
 import {
   LOG_FETCH_BEGIN,
-  LOG_FETCH_ERROR,
   LOG_FETCH_SUCCESS,
-} from '../actions/logAction';
+  LOG_FETCH_ERROR,
+} from '../actions/adminActions';
+
 import { LOGOUT } from '../actions/loginoutActions';
 
 const INITIAL_STATE = {
-  isLogFetching: false,
-  logList: [],
+  projectLogs: {
+    logs: '',
+    error: '',
+  },
 };
 
-const logReducer = (state = INITIAL_STATE, action) => {
+const projectReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case LOG_FETCH_BEGIN: {
-      return {
-        ...state,
-        log: {
-          isLogFetching: true,
-        },
-      };
-    }
-
     case LOG_FETCH_SUCCESS: {
       return {
         ...state,
-        log: {
-          ...state.log,
-          list: action.payload.data,
+        projectLogs: {
+          ...state.projectLogs,
+          logs: action.payload.data,
         },
       };
     }
@@ -34,20 +28,24 @@ const logReducer = (state = INITIAL_STATE, action) => {
     case LOG_FETCH_ERROR: {
       return {
         ...state,
-        log: {
-          ...state.log,
-          isLogFetching: false,
+        projectInstance: {
+          ...state.projectInstance,
+          error: action.payload.data,
         },
       };
     }
 
-    case LOGOUT: {
-      return INITIAL_STATE;
+    case LOG_FETCH_BEGIN: {
+      return {
+        ...state,
+      };
     }
+
+    case LOGOUT:
+      return INITIAL_STATE;
 
     default:
       return state;
   }
 };
-
-export default logReducer;
+export default projectReducer;
