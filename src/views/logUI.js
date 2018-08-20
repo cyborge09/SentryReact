@@ -16,6 +16,8 @@ export default class Log extends Component {
       projectId: '--',
       logId: '--',
       fetchedAllProjectInstances: [],
+      activeProject: '',
+      activeInstance: '',
     };
   }
 
@@ -26,18 +28,58 @@ export default class Log extends Component {
   handleCloseModalChangeLog = () => {
     this.setState({
       showModalChangeLog: false,
-      projectId: '--',
-      logId: '--',
+      projectId: this.props.match.params.id,
+      logId: this.props.match.params.iid,
     });
   };
 
   componentDidMount = () => {
     ReactModal.setAppElement('body');
-
+    this.setState({
+      projectId: this.props.match.params.id,
+      logId: this.props.match.params.iid,
+    });
+    this.getProjectName();
+    this.getInstanceName();
     this.getRelatedLogs(
       this.props.match.params.iid,
       this.props.match.params.id
     );
+  };
+
+  getProjectName = async () => {
+    let projectID = this.props.match.params.id;
+
+    if (projectID === 'all') {
+      return this.setState({ activeProject: 'All Project' });
+    }
+    const respond = await projectServices.getRelatedProjectName(
+      projectID,
+      this.props.userId
+    );
+    console.log('res', respond);
+    if (respond.data.data.length !== 0) {
+      this.setState({ activeProject: respond.data.data[0].project_name });
+    } else {
+      this.setState({ activeProject: '' });
+    }
+  };
+  getInstanceName = async () => {
+    let logId = this.props.match.params.iid;
+    if (logId === 'all') {
+      return this.setState({ activeInstance: 'All Instances' });
+    }
+
+    const respond = await projectInstanceServices.getRelatedProjectInstances(
+      this.props.match.params.id,
+      this.props.userId,
+      logId
+    );
+    if (respond.data.data.length !== 0) {
+      this.setState({ activeInstance: respond.data.data[0].instance_name });
+    } else {
+      this.setState({ activeInstance: '' });
+    }
   };
 
   getAllProjects = async () => {
@@ -64,7 +106,7 @@ export default class Log extends Component {
           throw respond.err;
         }
       } catch (err) {
-        console.log('error', err);
+        console.log('No Instance Found');
       }
     }
   };
@@ -148,11 +190,23 @@ export default class Log extends Component {
                     <option key={'all'} value={'all'}>
                       All
                     </option>
-                    {this.state.allProjects.map((data, id) => (
-                      <option key={id} value={data.project_id}>
-                        {data.project_name}
-                      </option>
-                    ))}
+                    {this.state.allProjects.map(
+                      (data, id) =>
+                        data.project_id ===
+                        parseInt(this.props.match.params.id, 10) ? (
+                          <option
+                            key={id}
+                            value={data.project_id}
+                            selected="selected"
+                          >
+                            {data.project_name}
+                          </option>
+                        ) : (
+                          <option key={id} value={data.project_id}>
+                            {data.project_name}
+                          </option>
+                        )
+                    )}
                   </select>
                 </label>
               </div>
@@ -171,23 +225,31 @@ export default class Log extends Component {
                     <option key={'all'} value={'all'}>
                       All
                     </option>
-                    {this.state.fetchedAllProjectInstances.map((data, id) => (
-                      <option key={id} value={data.id}>
-                        {data.instance_name}
-                      </option>
-                    ))}
+                    {this.state.fetchedAllProjectInstances.map(
+                      (data, id) =>
+                        data.id ===
+                        parseInt(this.props.match.params.iid, 10) ? (
+                          <option key={id} value={data.id} selected="selected">
+                            {data.instance_name}
+                          </option>
+                        ) : (
+                          <option key={id} value={data.id}>
+                            {data.instance_name}
+                          </option>
+                        )
+                    )}
                   </select>
                 </label>
               </div>
 
               <button
                 onClick={() => {
-                  if (
-                    this.state.projectId !== '--' &&
-                    this.state.logId !== '--' &&
-                    this.state.projectId !== this.props.match.params.id &&
-                    this.state.logId !== this.props.match.params.iid
-                  ) {
+                  console.log(
+                    'asd',
+                    this.state.logId,
+                    this.props.match.params.iid
+                  );
+                  {
                     this.props.history.push({
                       pathname:
                         '/logs/' +
@@ -219,12 +281,16 @@ export default class Log extends Component {
                   this.getAllProjects();
                 }}
               >
-                LOGS <img src={require('../img/click.png')} alt="click" />
+                LOGS <img src={require('../img/dropdown.png')} alt="dropdown" />
               </span>
             </p>
+            <div className="project-log-id">
+              <div>CURRENT PROJECT: {this.state.activeProject}</div>
+              <div>CURRENT INSTANCE: {this.state.activeInstance}</div>
+            </div>
           </div>
+          {this.displayProject()}
         </div>
-        {this.displayProject()}
       </div>
     );
   }

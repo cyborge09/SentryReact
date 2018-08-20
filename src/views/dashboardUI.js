@@ -217,7 +217,7 @@ class DashboardUI extends React.Component {
 
             <div className="add-project-form-wrapper">
               <div className="delete-Info">
-                <img src={require('../img/deletePROJECT.png')} alt="delete" />
+                <img src={require('../img/deleteProjects.png')} alt="delete" />
                 <span>PROJECT NAME: {this.state.toDeleteProjectName}</span>
               </div>
               <span>

@@ -92,12 +92,11 @@ export default class ProjectInstance extends Component {
   };
 
   handleDeleteClick = async (IID, instanceName) => {
-    console.log('iid', IID);
     //api call for delete
     const respond = await projectInstanceServices.deleteSpecificProjectInstances(
       IID
     );
-    console.log('res', respond);
+
     if (respond.status === 204) {
       this.getProjectInstances(this.props.match.params.id, this.props.userId);
       this.props.projectInstanceDeleteSuccess();
@@ -273,11 +272,24 @@ export default class ProjectInstance extends Component {
                   <option key={'all'} value={'all'}>
                     All
                   </option>
-                  {this.state.allProjects.map((data, id) => (
-                    <option key={id} value={data.project_id}>
-                      {data.project_name}
-                    </option>
-                  ))}
+                  {this.state.allProjects.map(
+                    (data, id) =>
+                      parseInt(this.props.match.params.id, 10) ===
+                      data.project_id ? (
+                        <option
+                          key={id}
+                          value={data.project_id}
+                          // defaultChecked={data.project_name}
+                          selected="selected"
+                        >
+                          {data.project_name}
+                        </option>
+                      ) : (
+                        <option key={id} value={data.project_id}>
+                          {data.project_name}
+                        </option>
+                      )
+                  )}
                 </select>
               </label>
               <button
@@ -329,7 +341,7 @@ export default class ProjectInstance extends Component {
 
             <div className="add-project-form-wrapper">
               <div className="delete-Info">
-                <img src={require('../img/deletePROJECT.png')} alt="delete" />
+                <img src={require('../img/deleteProjects.png')} alt="delete" />
                 <span>INSTANCE NAME: {this.state.toDeleteInstanceName}</span>
               </div>
               <span>
@@ -374,7 +386,7 @@ export default class ProjectInstance extends Component {
                 }}
               >
                 {this.state.activeProject}
-                <img src={require('../img/click.png')} alt="click" />
+                <img src={require('../img/dropdown.png')} alt="dropdown" />
               </span>
             </p>
 
