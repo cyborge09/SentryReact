@@ -81,7 +81,11 @@ button {
 .login-wrapper,
 .signUp-Wrapper {
   height: auto;
+<<<<<<< HEAD
   background-color: lightgoldenrodyellow;
+=======
+  background-color: #7dc961;
+>>>>>>> 567ca8fc6557544fdbe19755418e493462855723
   padding-bottom: 10px;
   border-radius: 10px;
   border: 1px solid green;
@@ -148,6 +152,7 @@ form {
   color: black;
   font-size: 18px;
   background: white;
+  width: 80%;
 }
 
 .instanceKey img {
@@ -234,6 +239,15 @@ td {
   float: right;
   margin: 15px auto;
 }
+
+.project-log-id {
+  float: right;
+  margin: 15px auto;
+  font-size: 0.5em;
+}
+.project-log-id span {
+  color: #000;
+}
 /* for react modal animation */
 
 .ReactModal__Overlay {
@@ -257,10 +271,12 @@ td {
   text-align: center;
   padding: 0px;
 }
-.change-project {
+.change-project,
+.change-log {
   cursor: pointer;
 }
-.change-project:hover {
+.change-project:hover,
+.change-log:hover {
   color: rgb(35, 118, 182);
 }
 .change-project-select {
@@ -322,3 +338,45 @@ td {
   color: red;
 }
 /* css for react modal of add project ends */
+
+/** Select custom css */
+
+.custom-select {
+  position: relative;
+  display: block;
+  max-width: 400px;
+  min-width: 180px;
+  margin: 0 auto;
+  border: 1px solid #a696c4;
+  background-color: #dfd5d5;
+  z-index: 10;
+}
+.custom-select select {
+  border: none;
+  outline: none;
+  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  margin: 0;
+  display: block;
+  width: 100%;
+  padding: 12px 55px 15px 15px;
+  font-size: 14px;
+  color: #714bb9;
+}
+.custom-select:after {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50px;
+  height: 100%;
+  line-height: 38px;
+  content: '⇓';
+  text-align: center;
+  color: #714bb9;
+  font-size: 24px;
+  border-left: 1px solid #3c1c78;
+  z-index: -1;
+}

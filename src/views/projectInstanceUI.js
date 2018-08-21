@@ -27,6 +27,11 @@ export default class ProjectInstance extends Component {
       showModalChangeProject: false,
       allProjects: [],
       projectId: '--',
+      showModalDeleteInstance: false,
+      toDeleteInstanceId: '',
+      toDeleteInstanceName: '',
+      confirm: '',
+      searchQuery: '',
     };
   }
 
@@ -47,6 +52,23 @@ export default class ProjectInstance extends Component {
       allProjects: [],
     });
   };
+
+  handleOpenModalDeleteInstance = (IID, instanceName) => {
+    this.setState({
+      showModalDeleteInstance: true,
+      toDeleteInstanceId: IID,
+      toDeleteInstanceName: instanceName,
+    });
+  };
+
+  handleCloseModalDeleteInstance = () => {
+    this.setState({
+      showModalDeleteInstance: false,
+      toDeleteInstanceId: '',
+      toDeleteInstanceName: '',
+    });
+  };
+
   //to fetch and display project instances//
   async componentDidMount() {
     ReactModal.setAppElement('body');
@@ -54,6 +76,7 @@ export default class ProjectInstance extends Component {
       this.props.match.params.id,
       this.props.userId
     );
+
     this.setState({
       activeProject: projectName,
       projectId: this.props.match.params.id,
@@ -62,6 +85,12 @@ export default class ProjectInstance extends Component {
     this.props.setCurrentProject(projectName);
     this.getProjectInstances(this.props.match.params.id, this.props.userId);
   }
+  //searching from searchbox data
+  handleSearchQuery = async e => {
+    await this.setState({ searchQuery: e.target.value });
+    //fetch the query data
+    this.getProjectInstances(this.props.match.params.id, this.props.userId);
+  };
 
   getProjectName = async (projectID, userId) => {
     if (projectID === 'all') {
@@ -76,6 +105,18 @@ export default class ProjectInstance extends Component {
       return respond.data.data[0].project_name;
     } else {
       return '';
+    }
+  };
+
+  handleDeleteClick = async (IID, instanceName) => {
+    //api call for delete
+    const respond = await projectInstanceServices.deleteSpecificProjectInstances(
+      IID
+    );
+
+    if (respond.status === 204) {
+      this.getProjectInstances(this.props.match.params.id, this.props.userId);
+      this.props.projectInstanceDeleteSuccess();
     }
   };
 
@@ -115,7 +156,7 @@ export default class ProjectInstance extends Component {
         copyInstanceKey={this.copyInstanceKey}
         handleClick={this.handleClick}
         // handleDeleteClick={this.handleDeleteClick}
-        // handleDeleteClick={this.handleOpenModalDeleteProject}
+        handleDeleteClick={this.handleOpenModalDeleteInstance}
       />
     );
   };
@@ -227,6 +268,8 @@ export default class ProjectInstance extends Component {
 
         {/*Add Project Instances modal*/}
 
+        {/*Change project modal*/}
+
         <ReactModal
           isOpen={this.state.showModalChangeProject}
           onRequestClose={this.handleCloseModalChangeProject}
@@ -238,25 +281,40 @@ export default class ProjectInstance extends Component {
               <span onClick={this.handleCloseModalChangeProject}> X</span>
             </div>
             <div className="add-project-form-wrapper">
-              <select
-                className="change-project-select"
-                name="projectId"
-                onChange={e => {
-                  this.onChange(e);
-                }}
-              >
-                <option key={'--'} value={'--'}>
-                  --
-                </option>
-                <option key={'all'} value={'all'}>
-                  All
-                </option>
-                {this.state.allProjects.map((data, id) => (
-                  <option key={id} value={data.project_id}>
-                    {id + 1}. {data.project_name}
+              <label className="custom-select">
+                <select
+                  className="change-project-select"
+                  name="projectId"
+                  onChange={e => {
+                    this.onChange(e);
+                  }}
+                >
+                  <option key={'--'} value={'--'}>
+                    SELECT PROJECTS
                   </option>
-                ))}
-              </select>
+                  <option key={'all'} value={'all'}>
+                    All
+                  </option>
+                  {this.state.allProjects.map(
+                    (data, id) =>
+                      parseInt(this.props.match.params.id, 10) ===
+                      data.project_id ? (
+                        <option
+                          key={id}
+                          value={data.project_id}
+                          // defaultChecked={data.project_name}
+                          selected="selected"
+                        >
+                          {data.project_name}
+                        </option>
+                      ) : (
+                        <option key={id} value={data.project_id}>
+                          {data.project_name}
+                        </option>
+                      )
+                  )}
+                </select>
+              </label>
               <button
                 onClick={() => {
                   if (
@@ -278,6 +336,67 @@ export default class ProjectInstance extends Component {
           </form>
         </ReactModal>
 
+        {/*Delete instance modal*/}
+        <ReactModal
+          isOpen={this.state.showModalDeleteInstance}
+          onRequestClose={this.handleCloseModalDeleteInstance}
+          className="modal-AddProject"
+        >
+          <form
+            className="react-Modal"
+            onSubmit={() => {
+              if (this.state.confirm === 'CONFIRM') {
+                this.handleCloseModalDeleteInstance();
+                this.handleDeleteClick(
+                  this.state.toDeleteProjectId,
+                  this.state.toDeleteProjectName
+                );
+              } else {
+                this.setState({ confirm: '' });
+                this.handleCloseModalDeleteInstance();
+              }
+            }}
+          >
+            <div className="add-project-modal-header">
+              DELETE INSTANCE
+              <span onClick={this.handleCloseModalDeleteInstance}> X</span>
+            </div>
+
+            <div className="add-project-form-wrapper">
+              <div className="delete-Info">
+                <img src={require('../img/deleteProjects.png')} alt="delete" />
+                <span>INSTANCE NAME: {this.state.toDeleteInstanceName}</span>
+              </div>
+              <span>
+                <input
+                  name="confirm"
+                  value={this.state.confirm}
+                  placeholder="TYPE CONFIRM"
+                  onChange={this.onChange}
+                />
+              </span>
+
+              <button
+                onClick={async () => {
+                  if (this.state.confirm === 'CONFIRM') {
+                    this.setState({ confirm: '' });
+                    this.handleCloseModalDeleteInstance();
+                    await this.handleDeleteClick(
+                      this.state.toDeleteInstanceId,
+                      this.state.toDeleteInstanceName
+                    );
+                  } else {
+                    this.setState({ confirm: '' });
+                    this.handleCloseModalDeleteInstance();
+                  }
+                }}
+              >
+                CONFIRM
+              </button>
+            </div>
+          </form>
+        </ReactModal>
+
         <div className="dashboard-wrapper">
           <div className="project-name-add clearfix">
             <p>
@@ -290,9 +409,16 @@ export default class ProjectInstance extends Component {
                 }}
               >
                 {this.state.activeProject}
-                <img src={require('../img/click.png')} alt="click" />
+                <img src={require('../img/dropdown.png')} alt="dropdown" />
               </span>
             </p>
+            <input
+              type="text"
+              placeholder="search instance name"
+              onChange={e => {
+                this.handleSearchQuery(e);
+              }}
+            />
 
             <span> {this.addNewProjectInstance()}</span>
           </div>

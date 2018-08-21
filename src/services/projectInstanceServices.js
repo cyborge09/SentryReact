@@ -14,14 +14,32 @@ export const createNewProjectInstance = async (instanceName, projectID) => {
   }
 };
 
-export const getRelatedProjectInstances = async (projectID, userId) => {
+export const getRelatedProjectInstances = async (
+  projectID,
+  userId,
+  instanceId = undefined,
+  query = ''
+) => {
+  console.log('query', query);
+
   try {
     let headers = {
       projectID,
       userId,
+      instanceId,
     };
 
-    let response = await https.get('projectInstance', headers);
+    let response = await https.get('projectInstance?search=' + query, headers);
+
     return response;
   } catch (err) {}
+};
+
+export const deleteSpecificProjectInstances = async instanceId => {
+  try {
+    let response = await https.remove(`projectInstance/${instanceId}`);
+    return response;
+  } catch (err) {
+    console.error('error deleting data');
+  }
 };

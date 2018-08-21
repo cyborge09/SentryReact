@@ -2,6 +2,7 @@ import {
   LOG_FETCH_BEGIN,
   LOG_FETCH_SUCCESS,
   LOG_FETCH_ERROR,
+  LOG_RESOLVED_CHANGED,
 } from '../actions/adminActions';
 
 import { LOGOUT } from '../actions/loginoutActions';
@@ -38,6 +39,25 @@ const projectReducer = (state = INITIAL_STATE, action) => {
     case LOG_FETCH_BEGIN: {
       return {
         ...state,
+      };
+    }
+
+    case LOG_RESOLVED_CHANGED: {
+      let logData = state.projectLogs.logs;
+
+      logData.map(data => {
+        if (data.id === action.payload.logId) {
+          console.log('log resolved chage', action);
+          data.resolved = action.payload.resolve;
+        }
+      });
+      console.log(logData, 'log data');
+      return {
+        ...state,
+        projectLogs: {
+          ...state.projectLogs,
+          logs: logData,
+        },
       };
     }
 

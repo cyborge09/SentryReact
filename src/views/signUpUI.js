@@ -24,7 +24,6 @@ class SignUpUI extends React.Component {
 
   onSubmit = async e => {
     e.preventDefault();
-
     const validation = validateForm(
       this.state.email,
       this.state.password,

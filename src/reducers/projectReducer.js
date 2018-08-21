@@ -2,6 +2,7 @@ import {
   SET_CURRENT_PROJECT,
   PROJECT_FETCH_SUCCESS,
   PROJECT_DELETE_SUCCESS,
+  PROJECT_CREATE_SUCCESS,
 } from '../actions/adminActions';
 
 import { LOGOUT } from '../actions/loginoutActions';
@@ -36,6 +37,12 @@ const projectReducer = (state = INITIAL_STATE, action) => {
     }
 
     case PROJECT_DELETE_SUCCESS: {
+      return {
+        ...state,
+      };
+    }
+
+    case PROJECT_CREATE_SUCCESS: {
       return {
         ...state,
       };

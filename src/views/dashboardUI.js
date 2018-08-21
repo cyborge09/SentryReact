@@ -12,7 +12,12 @@ import Tooltip from '@material-ui/core/Tooltip';
 import * as projectServices from '../services/projectServices';
 import Table from '../component/ProjectTable';
 import Header from '../component/Header';
+import orderBy from 'lodash/orderBy';
 
+const invertDirection = {
+  asc: 'desc',
+  desc: 'asc',
+};
 class DashboardUI extends React.Component {
   constructor() {
     super();
@@ -25,6 +30,9 @@ class DashboardUI extends React.Component {
       toDeleteProjectId: '',
       toDeleteProjectName: '',
       confirm: '',
+      columnToSort: '',
+      sortDirection: 'desc',
+      instanceState: false,
     };
   }
 
@@ -88,6 +96,7 @@ class DashboardUI extends React.Component {
     );
     if (respond.status === 201) {
       this.setState({ projectName: '' });
+      this.props.projectCreateSuccess();
       this.getProject(this.state.userEmail);
       this.handleCloseModalAddProject();
       return true;
@@ -109,6 +118,16 @@ class DashboardUI extends React.Component {
         </Button>
       </Tooltip>
     );
+  };
+  //sorting function
+  handleSort = columnName => {
+    this.setState({
+      columnToSort: columnName,
+      sortDirection:
+        this.state.columnToSort === columnName
+          ? invertDirection[this.state.sortDirection]
+          : 'asc',
+    });
   };
 
   getProject = async email => {
@@ -132,11 +151,16 @@ class DashboardUI extends React.Component {
         </div>
       );
     }
+
     return (
       <Table
-        data={list}
+        data={orderBy(list, this.state.columnToSort, this.state.sortDirection)}
         handleClick={this.handleClick}
         handleDeleteClick={this.handleOpenModalDeleteProject}
+        handleChangeStatus={this.handleChangeStatus}
+        handleSort={this.handleSort}
+        sortDirection={this.state.sortDirection}
+        columnToSort={this.state.columnToSort}
       />
     );
   };
@@ -197,7 +221,9 @@ class DashboardUI extends React.Component {
         >
           <DialogTitle id="form-dialog-title">DELETE PROJECT</DialogTitle>
           <DialogContent>
-            <DialogContentText>Are you sure to Delete this Project?</DialogContentText>
+            <DialogContentText>
+              Are you sure to Delete this Project?
+            </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button
@@ -225,6 +251,7 @@ class DashboardUI extends React.Component {
               <img src={require('../img/project.png')} alt="Project" />{' '}
               <span> PROJECTS</span>
             </p>
+            ghfhfh
             <span> {this.addNewProject()}</span>
           </div>
 

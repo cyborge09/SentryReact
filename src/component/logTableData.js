@@ -1,6 +1,7 @@
 import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import Switch from '@material-ui/core/Switch';
 
 const getIssuedAt = data => {
   var issuedAt = data
@@ -14,12 +15,16 @@ const getIssuedAt = data => {
 const TableData = ({
   data = [],
   handleChangeStatus = f => f,
-  //   handleClick = f => f,
+  checkedState,
+  //   handleClick = f =s> f,
   //   handleDeleteClick = f => f,
 }) => {
   return data.map((data, i) => (
     <TableRow key={i}>
       <TableCell>{i + 1}</TableCell>
+      <TableCell>{data.project_name}</TableCell>
+
+      <TableCell>{data.instance_name}</TableCell>
 
       <TableCell
         onClick={() => {
@@ -62,11 +67,7 @@ const TableData = ({
         }}
       >
         <label className="switch">
-          {data.resolved ? (
-            <input type="checkbox" defaultChecked />
-          ) : (
-            <input type="checkbox" />
-          )}
+          <input type="checkbox" checked={data.resolved} />
 
           <span
             onClick={() => handleChangeStatus(data.id)}

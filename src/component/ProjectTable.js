@@ -5,11 +5,16 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import ArrowUpward from '@material-ui/icons/ArrowUpward';
 
 const table = ({
   data = [],
   handleClick = f => f,
   handleDeleteClick = f => f,
+  handleSort = f => f,
+  sortDirection,
+  columnToSort,
 }) => {
   return (
     <div>
@@ -17,7 +22,16 @@ const table = ({
         <TableHead>
           <TableRow>
             <TableCell numeric>ID</TableCell>
-            <TableCell>PROJECT NAME</TableCell>
+            <TableCell onClick={() => handleSort('project_name')}>
+              <span>PROJECT</span>
+              {columnToSort === 'project_name' ? (
+                sortDirection === 'asc' ? (
+                  <ArrowUpward />
+                ) : (
+                  <ArrowDownward />
+                )
+              ) : null}
+            </TableCell>
             <TableCell>DELETE</TableCell>
           </TableRow>
         </TableHead>
