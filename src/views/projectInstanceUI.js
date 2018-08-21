@@ -133,7 +133,9 @@ export default class ProjectInstance extends Component {
     try {
       var respond = await projectInstanceServices.getRelatedProjectInstances(
         projectID,
-        userId
+        userId,
+        undefined,
+        this.state.searchQuery
       );
       if (respond.status === 200) {
         this.setState({ fetchedProjectInstances: respond.data.data });
@@ -415,6 +417,7 @@ export default class ProjectInstance extends Component {
             <input
               type="text"
               placeholder="search instance name"
+              value={this.state.searchQuery}
               onChange={e => {
                 this.handleSearchQuery(e);
               }}

@@ -61,19 +61,13 @@ const TableData = ({
         <img src={require('../img/delete.png')} alt="delete" />
       </TableCell>
 
-      <TableCell
-        onClick={() => {
-          //   handleDeleteClick(data.id, data.project_name);
-        }}
-      >
-        <label className="switch">
-          <input type="checkbox" checked={data.resolved} />
-
-          <span
-            onClick={() => handleChangeStatus(data.id)}
-            className="slider"
-          />
-        </label>
+      <TableCell>
+        <Switch
+          disableRipple
+          checked={data.resolved}
+          onChange={() => handleChangeStatus(data.id)}
+          color="primary"
+        />
       </TableCell>
     </TableRow>
   ));
