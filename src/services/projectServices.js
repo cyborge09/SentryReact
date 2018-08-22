@@ -1,12 +1,28 @@
 import * as https from '../utils/https';
 
-export const fetchRelatedProjects = async adminEmail => {
+export const fetchRelatedProjects = async (
+  adminEmail,
+  searchQuery = '',
+  rowsPerPage,
+  page
+) => {
+  console.log(searchQuery, 'search query+++++++++____________ ');
+  console.log(page, '+++++++++++++rowpwr page in paglg___________');
+
   try {
     let headers = {
       email: adminEmail,
     };
 
-    let response = await https.get('project', headers);
+    let response = await https.get(
+      'project?rowsPerPage=' +
+        rowsPerPage +
+        '&&page=' +
+        page +
+        '&&search=' +
+        searchQuery,
+      headers
+    );
 
     return response;
   } catch (err) {

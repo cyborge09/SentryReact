@@ -18,10 +18,10 @@ export const getRelatedProjectInstances = async (
   projectID,
   userId,
   instanceId = undefined,
-  query = ''
+  searchQuery = '',
+  rowsPerPage,
+  page
 ) => {
-  console.log('query++', query);
-
   try {
     let headers = {
       projectID,
@@ -29,7 +29,15 @@ export const getRelatedProjectInstances = async (
       instanceId,
     };
 
-    let response = await https.get('projectInstance?search=' + query, headers);
+    let response = await https.get(
+      'projectInstance?rowsPerPage=' +
+        rowsPerPage +
+        '&&page=' +
+        page +
+        '&&search=' +
+        searchQuery,
+      headers
+    );
     console.log('response +++', response);
 
     return response;

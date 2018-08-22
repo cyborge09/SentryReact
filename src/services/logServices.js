@@ -1,9 +1,13 @@
 import * as https from '../utils/https';
 
-export const fetchRelatedLogs = async (instanceId, projectId, userId) => {
-  console.log('instance', instanceId);
-  console.log('instance33', projectId);
-  console.log('instance4444', userId);
+export const fetchRelatedLogs = async (
+  instanceId,
+  projectId,
+  userId,
+  searchQuery = '',
+  rowsPerPage,
+  page
+) => {
   try {
     let headers = {
       instanceId: instanceId,
@@ -11,7 +15,15 @@ export const fetchRelatedLogs = async (instanceId, projectId, userId) => {
       userId: userId,
     };
 
-    let response = await https.get('logs', headers);
+    let response = await https.get(
+      'logs?rowsPerPage=' +
+        rowsPerPage +
+        '&&page=' +
+        page +
+        '&&search=' +
+        searchQuery,
+      headers
+    );
     return response;
   } catch (err) {
     console.error('Log Fetch Error', err);

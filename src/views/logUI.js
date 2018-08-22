@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+
+import { TextField } from '@material-ui/core/TextField';
+
 import * as logServices from '../services/logServices';
 import * as projectServices from '../services/projectServices';
 import * as projectInstanceServices from '../services/projectInstanceServices';
@@ -12,6 +9,7 @@ import Header from '../component/Header';
 import LogTable from '../component/logTable';
 import ReactModal from 'react-modal';
 import orderBy from 'lodash/orderBy';
+import TablePagination from '@material-ui/core/TablePagination';
 
 const invertDirection = {
   asc: 'desc',
@@ -34,6 +32,10 @@ export default class Log extends Component {
       columnToSort: '',
       sortDirection: 'desc',
       checkedState: false,
+      searchQuery: '',
+      pagination: [],
+      page: 0,
+      rowsPerPage: 5,
     };
   }
 
@@ -136,7 +138,10 @@ export default class Log extends Component {
     const respond = await logServices.fetchRelatedLogs(
       instanceId,
       projectId,
-      this.props.userId
+      this.props.userId,
+      this.state.searchQuery,
+      this.state.rowsPerPage,
+      this.state.page
     );
 
     console.log('response +++++++', respond);
@@ -144,6 +149,7 @@ export default class Log extends Component {
       this.props.logFetchSuccess(respond.data.data);
       this.setState({
         fetchedLogs: respond.data.data,
+        pagination: respond.data.pagination,
       });
     } else {
       this.props.logFetchError(respond.status);
@@ -195,6 +201,38 @@ export default class Log extends Component {
           ? invertDirection[this.state.sortDirection]
           : 'asc',
     });
+  };
+
+  //handle pagination
+  handleChangePage = async (event, page) => {
+    await this.setState({ page });
+
+    this.getRelatedLogs(
+      this.props.match.params.iid,
+      this.props.match.params.id
+    );
+  };
+
+  handleChangeRowsPerPage = async event => {
+    const rows =
+      event.target.value < this.state.pagination.rowCount
+        ? event.target.value
+        : this.state.pagination.rowCount;
+    await this.setState({ rowsPerPage: rows });
+    this.getRelatedLogs(
+      this.props.match.params.iid,
+      this.props.match.params.id
+    );
+  };
+
+  //searching from searchbox data
+  handleSearchQuery = async e => {
+    await this.setState({ searchQuery: e.target.value });
+    //fetch the query data
+    this.getRelatedLogs(
+      this.props.match.params.iid,
+      this.props.match.params.id
+    );
   };
 
   render() {
@@ -327,6 +365,7 @@ export default class Log extends Component {
                 LOGS <img src={require('../img/dropdown.png')} alt="dropdown" />
               </span>
             </p>
+
             <div className="project-log-id">
               <div>CURRENT PROJECT: {this.state.activeProject}</div>
               <div>CURRENT INSTANCE: {this.state.activeInstance}</div>
@@ -334,8 +373,32 @@ export default class Log extends Component {
           </div>
 
           <div />
+          <input
+            type="text"
+            className="search-field"
+            placeholder="search log type"
+            value={this.state.searchQuery}
+            onChange={e => {
+              this.handleSearchQuery(e);
+            }}
+          />
 
           {this.displayProject()}
+
+          <TablePagination
+            component="div"
+            count={this.state.pagination.rowCount}
+            rowsPerPage={this.state.pagination.pageSize}
+            page={this.state.page}
+            backIconButtonProps={{
+              'aria-label': 'Previous Page',
+            }}
+            nextIconButtonProps={{
+              'aria-label': 'Next Page',
+            }}
+            onChangePage={this.handleChangePage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          />
         </div>
       </div>
     );
