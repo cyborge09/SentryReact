@@ -3,6 +3,7 @@ import {
   logFetchBegin,
   logFetchSuccess,
   logFetchError,
+  logDeleteSuccess,
 } from '../actions/adminActions';
 
 import LogUI from './logUI';
@@ -24,6 +25,9 @@ const mapDispatchToProps = dispatch => {
     },
     logFetchError: () => {
       dispatch(logFetchError());
+    },
+    logDeleteSuccess: () => {
+      dispatch(logDeleteSuccess());
     },
   };
 };

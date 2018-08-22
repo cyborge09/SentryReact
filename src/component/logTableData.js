@@ -1,11 +1,13 @@
 import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
 
 const getIssuedAt = data => {
   var issuedAt = data
     .split('T')
-    .join(', Time: ')
+    .join(', ')
     .split('Z');
 
   return issuedAt[0];
@@ -14,8 +16,8 @@ const getIssuedAt = data => {
 const TableData = ({
   data = [],
   handleChangeStatus = f => f,
-  //   handleClick = f => f,
-  //   handleDeleteClick = f => f,
+  handleClick = f => f,
+  handleDeleteClick = f => f,
 }) => {
   return data.map((data, i) => (
     <TableRow key={i}>
@@ -24,46 +26,31 @@ const TableData = ({
 
       <TableCell>{data.instance_name}</TableCell>
 
-      <TableCell
-        onClick={() => {
-          // handleClick(data.project_name);
-          //   handleClick({ id: data.id, name: data.project_name });
-        }}
-      >
-        {getIssuedAt(data.updated_at)}
-      </TableCell>
+      <TableCell onClick={() => {}}>{getIssuedAt(data.updated_at)}</TableCell>
 
-      <TableCell
-        onClick={() => {
-          // handleClick(data.project_name);
-          //   handleClick({ id: data.id, name: data.project_name });
-        }}
-      >
+      <TableCell id="log-type">
         {data.type}
-      </TableCell>
-
-      <TableCell
-        onClick={() => {
-          //   handleDeleteClick(data.id, data.project_name);
-        }}
-      >
-        {data.message}
+        <Tooltip TransitionComponent={Zoom} placement="top" title="Details">
+          <img
+            src={require('../img/details.png')}
+            alt="details"
+            onClick={() => {
+              handleClick(data, getIssuedAt(data.updated_at));
+            }}
+          />
+        </Tooltip>
       </TableCell>
 
       <TableCell
         className="delete"
         onClick={() => {
-          //   handleDeleteClick(data.id, data.project_name);
+          handleDeleteClick(data.id);
         }}
       >
         <img src={require('../img/delete.png')} alt="delete" />
       </TableCell>
 
-      <TableCell
-        onClick={() => {
-          //   handleDeleteClick(data.id, data.project_name);
-        }}
-      >
+      <TableCell>
         <label className="switch">
           {data.resolved ? (
             <input type="checkbox" defaultChecked />

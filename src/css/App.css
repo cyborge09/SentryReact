@@ -149,11 +149,16 @@ form {
   width: 80%;
 }
 
-.instanceKey img {
+.instanceKey img,
+#log-type img {
   float: right;
   height: 17px;
   width: 17px;
   cursor: pointer;
+}
+
+#log-type {
+  color: #00b44e;
 }
 
 .clearfix::after {
