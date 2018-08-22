@@ -9,8 +9,8 @@ import TableRow from '@material-ui/core/TableRow';
 const LogTable = ({
   data = [],
   handleChangeStatus = f => f,
-  //   handleClick = f => f,
-  // handleDeleteClick = f => f,
+  handleClick = f => f,
+  handleDeleteClick = f => f,
   //   copyInstanceKey = f => f,
 }) => {
   return (
@@ -23,7 +23,6 @@ const LogTable = ({
             <TableCell>INSTANCE</TableCell>
             <TableCell>ISSUED AT</TableCell>
             <TableCell>LOG TYPE</TableCell>
-            <TableCell>LOG DESCRIPTION</TableCell>
             <TableCell>Delete</TableCell>
             <TableCell>STATUS</TableCell>
           </TableRow>
@@ -34,8 +33,8 @@ const LogTable = ({
             data={data}
             handleChangeStatus={handleChangeStatus}
             // copyInstanceKey={copyInstanceKey}
-            // handleClick={handleClick}
-            // handleDeleteClick={handleDeleteClick}
+            handleClick={handleClick}
+            handleDeleteClick={handleDeleteClick}
           />
         </TableBody>
       </Table>

@@ -2,6 +2,7 @@ import {
   LOG_FETCH_BEGIN,
   LOG_FETCH_SUCCESS,
   LOG_FETCH_ERROR,
+  LOG_DELETE_SUCCESS,
 } from '../actions/adminActions';
 
 import { LOGOUT } from '../actions/loginoutActions';
@@ -36,6 +37,12 @@ const projectReducer = (state = INITIAL_STATE, action) => {
     }
 
     case LOG_FETCH_BEGIN: {
+      return {
+        ...state,
+      };
+    }
+
+    case LOG_DELETE_SUCCESS: {
       return {
         ...state,
       };

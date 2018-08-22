@@ -8,6 +8,8 @@ export const PROJECT_INSTANCE_FETCH_ERROR = 'PROJECT_INSTANCE_FETCH_ERROR';
 export const LOG_FETCH_BEGIN = 'LOG_FETCH_BEGIN';
 export const LOG_FETCH_SUCCESS = 'LOG_FETCH_SUCCESS';
 export const LOG_FETCH_ERROR = 'LOG_FETCH_ERROR';
+export const LOG_DELETE_SUCCESS = 'LOG_DELETE_SUCCESS';
+
 export const PROJECT_INSTANCE_CREATE_SUCCESS =
   'PROJECT_INSTANCE_CREATE_SUCCESS';
 
@@ -64,4 +66,8 @@ export const logFetchSuccess = logs => ({
 
 export const logFetchError = () => ({
   type: LOG_FETCH_ERROR,
+});
+
+export const logDeleteSuccess = () => ({
+  type: LOG_DELETE_SUCCESS,
 });

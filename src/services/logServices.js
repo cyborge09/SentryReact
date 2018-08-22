@@ -24,3 +24,12 @@ export const changeStatus = async logId => {
     return response;
   } catch (err) {}
 };
+
+export const deleteLog = async logId => {
+  try {
+    let response = await https.remove(`logs/${logId}`);
+    return response;
+  } catch (err) {
+    console.error('error deleting data');
+  }
+};
