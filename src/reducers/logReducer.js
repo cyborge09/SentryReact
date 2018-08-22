@@ -2,6 +2,7 @@ import {
   LOG_FETCH_BEGIN,
   LOG_FETCH_SUCCESS,
   LOG_FETCH_ERROR,
+  LOG_RESOLVED_CHANGED,
   LOG_DELETE_SUCCESS,
 } from '../actions/adminActions';
 
@@ -42,6 +43,24 @@ const projectReducer = (state = INITIAL_STATE, action) => {
       };
     }
 
+    case LOG_RESOLVED_CHANGED: {
+      let logData = state.projectLogs.logs;
+
+      logData.map(data => {
+        if (data.id === action.payload.logId) {
+          console.log('log resolved chage', action);
+          data.resolved = action.payload.resolve;
+        }
+      });
+
+      return {
+        ...state,
+        projectLogs: {
+          ...state.projectLogs,
+          logs: logData,
+        },
+      };
+    }
     case LOG_DELETE_SUCCESS: {
       return {
         ...state,

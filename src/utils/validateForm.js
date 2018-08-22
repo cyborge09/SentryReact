@@ -4,7 +4,8 @@ const validateForm = (email, password, type) => {
 
   if (email === '') {
     return false;
-  } else {
+  }
+  {
     if (!regularExpressionEmail.test(String(email).toLowerCase())) {
       return false;
     }
@@ -12,6 +13,9 @@ const validateForm = (email, password, type) => {
   if (password === '') {
     return false;
   } else if (password.length < 4 && type === 'singUp') {
+    return false;
+  }
+  if (password.length < 4 && type === 'signUp') {
     return false;
   }
 

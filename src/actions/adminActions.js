@@ -15,6 +15,8 @@ export const PROJECT_INSTANCE_CREATE_SUCCESS =
 
 export const PROJECT_INSTANCE_DELETE_SUCCESS =
   'PROJECT_INSTANCE_DELETE_SUCCESS';
+export const LOG_RESOLVED_CHANGED = 'LOG_RESOLVED_CHANGED';
+
 export const setCurrentProject = projectName => ({
   type: SET_CURRENT_PROJECT,
   payload: {
@@ -66,6 +68,14 @@ export const logFetchSuccess = logs => ({
 
 export const logFetchError = () => ({
   type: LOG_FETCH_ERROR,
+});
+
+export const logResolvedChange = (logId, resolve) => ({
+  type: LOG_RESOLVED_CHANGED,
+  payload: {
+    logId: logId,
+    resolve: resolve,
+  },
 });
 
 export const logDeleteSuccess = () => ({

@@ -12,7 +12,13 @@ import Tooltip from '@material-ui/core/Tooltip';
 import * as projectServices from '../services/projectServices';
 import Table from '../component/ProjectTable';
 import Header from '../component/Header';
+import orderBy from 'lodash/orderBy';
+import TablePagination from '@material-ui/core/TablePagination';
 
+const invertDirection = {
+  asc: 'desc',
+  desc: 'asc',
+};
 class DashboardUI extends React.Component {
   constructor() {
     super();
@@ -25,6 +31,13 @@ class DashboardUI extends React.Component {
       toDeleteProjectId: '',
       toDeleteProjectName: '',
       confirm: '',
+      columnToSort: '',
+      sortDirection: 'desc',
+      instanceState: false,
+      searchQuery: '',
+      pagination: [],
+      page: 0,
+      rowsPerPage: 5,
     };
   }
 
@@ -111,14 +124,59 @@ class DashboardUI extends React.Component {
       </Tooltip>
     );
   };
-
-  getProject = async email => {
-    let respond = await projectServices
-      .fetchRelatedProjects(email)
-      .then(res => res.data.data);
+  //sorting function
+  handleSort = columnName => {
     this.setState({
-      list: respond,
+      columnToSort: columnName,
+      sortDirection:
+        this.state.columnToSort === columnName
+          ? invertDirection[this.state.sortDirection]
+          : 'asc',
     });
+  };
+
+  //searching from searchbox data
+  handleSearchQuery = async e => {
+    await this.setState({ searchQuery: e.target.value });
+
+    //fetch the query data
+    this.getProject(this.props.userEmail, this.state.searchQuery);
+  };
+
+  //handle pagination
+  handleChangePage = async (event, page) => {
+    await this.setState({ page });
+    this.getProject(this.props.userEmail, this.state.searchQuery);
+  };
+
+  handleChangeRowsPerPage = async event => {
+    const rows =
+      event.target.value < this.state.pagination.rowCount
+        ? event.target.value
+        : this.state.pagination.rowCount;
+    await this.setState({ rowsPerPage: rows });
+    this.getProject(this.props.userEmail, this.state.searchQuery);
+  };
+
+  getProject = async (email, query = '') => {
+    let respond = await projectServices
+      .fetchRelatedProjects(
+        email,
+        query,
+        this.state.rowsPerPage,
+        this.state.page
+      )
+      .then(res => {
+        console.log(res, 'respond ++++++__________________+++++++++++++');
+        return res.data;
+      });
+
+    this.setState({
+      list: respond.data,
+      pagination: respond.pagination,
+    });
+
+    console.log(this.state.pagination, 'data from project');
     if (this.state.list !== []) {
       //callback function for project data fetch success
       this.props.onDataFetched(this.state.list);
@@ -133,12 +191,37 @@ class DashboardUI extends React.Component {
         </div>
       );
     }
+
     return (
-      <Table
-        data={list}
-        handleClick={this.handleClick}
-        handleDeleteClick={this.handleOpenModalDeleteProject}
-      />
+      <div>
+        <Table
+          data={orderBy(
+            list,
+            this.state.columnToSort,
+            this.state.sortDirection
+          )}
+          handleClick={this.handleClick}
+          handleDeleteClick={this.handleOpenModalDeleteProject}
+          handleChangeStatus={this.handleChangeStatus}
+          handleSort={this.handleSort}
+          sortDirection={this.state.sortDirection}
+          columnToSort={this.state.columnToSort}
+        />
+        <TablePagination
+          component="div"
+          count={this.state.pagination.rowCount}
+          rowsPerPage={this.state.pagination.pageSize}
+          page={this.state.page}
+          backIconButtonProps={{
+            'aria-label': 'Previous Page',
+          }}
+          nextIconButtonProps={{
+            'aria-label': 'Next Page',
+          }}
+          onChangePage={this.handleChangePage}
+          onChangeRowsPerPage={this.handleChangeRowsPerPage}
+        />
+      </div>
     );
   };
 
@@ -228,10 +311,18 @@ class DashboardUI extends React.Component {
               <img src={require('../img/project.png')} alt="Project" />{' '}
               <span> PROJECTS</span>
             </p>
+
             <span> {this.addNewProject()}</span>
           </div>
-
-          {/*display projeect Instances*/}
+          <input
+            className="search-field"
+            type="text"
+            placeholder="Search Project Name"
+            value={this.state.searchQuery}
+            onChange={e => {
+              this.handleSearchQuery(e);
+            }}
+          />
           <div>{this.displayProject(this.props.data)}</div>
         </div>
       </div>

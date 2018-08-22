@@ -41,7 +41,14 @@ class Header extends React.Component {
                   <Link to={'/projects/all'}>INSTANCES</Link>
                 </Button>
               </li>
-          
+
+              <li>
+                {' '}
+                <Button color="inherit">
+                  <Link to={'/logs/all/all'}>LOGS</Link>
+                </Button>
+              </li>
+
               <li onClick={this.logOut}>
                 <Button color="inherit">
                   <Link to={'/login'}>SIGN OUT</Link>

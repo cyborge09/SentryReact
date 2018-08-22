@@ -81,7 +81,13 @@ button {
 .login-wrapper,
 .signUp-Wrapper {
   height: auto;
+
   background-color: lightgoldenrodyellow;
+
+  background-color: #7dc961;
+
+  background-color: lightgoldenrodyellow;
+
   padding-bottom: 10px;
   border-radius: 10px;
   border: 1px solid green;
@@ -380,4 +386,16 @@ td {
   font-size: 24px;
   border-left: 1px solid #3c1c78;
   z-index: -1;
+}
+
+.search-field{
+
+  border-radius: 10px;
+  float: right;
+  padding: 6px;
+  border: none;
+  margin-top: 8px;
+  margin-right: 16px;
+  font-size: 17px;
+  margin-bottom: 10px;
 }

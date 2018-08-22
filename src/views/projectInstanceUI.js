@@ -13,6 +13,7 @@ import * as projectServices from '../services/projectServices';
 import Header from '../component/Header';
 import ProjectInstanceTable from '../component/ProjectInstanceTable';
 import ReactModal from 'react-modal';
+import TablePagination from '@material-ui/core/TablePagination';
 
 export default class ProjectInstance extends Component {
   constructor() {
@@ -21,7 +22,6 @@ export default class ProjectInstance extends Component {
       showModalAddProject: false,
       showModalDeleteProject: false,
       instanceName: '',
-      fetchedLogs: [],
       activeProject: '',
       fetchedProjectInstances: [],
       showModalChangeProject: false,
@@ -31,6 +31,10 @@ export default class ProjectInstance extends Component {
       toDeleteInstanceId: '',
       toDeleteInstanceName: '',
       confirm: '',
+      searchQuery: '',
+      pagination: [],
+      page: 0,
+      rowsPerPage: 5,
     };
   }
 
@@ -67,6 +71,7 @@ export default class ProjectInstance extends Component {
       toDeleteInstanceName: '',
     });
   };
+
   //to fetch and display project instances//
   async componentDidMount() {
     ReactModal.setAppElement('body');
@@ -83,6 +88,29 @@ export default class ProjectInstance extends Component {
     this.props.setCurrentProject(projectName);
     this.getProjectInstances(this.props.match.params.id, this.props.userId);
   }
+  //handle pagination
+  handleChangePage = async (event, page) => {
+    await this.setState({ page });
+
+    this.getProjectInstances(this.props.match.params.id, this.props.userId);
+    console.log('project instanc epageginaton ', this.state.pagination);
+  };
+
+  handleChangeRowsPerPage = async event => {
+    const rows =
+      event.target.value < this.state.pagination.rowCount
+        ? event.target.value
+        : this.state.pagination.rowCount;
+    await this.setState({ rowsPerPage: rows });
+    this.getProjectInstances(this.props.match.params.id, this.props.userId);
+  };
+
+  //searching from searchbox data
+  handleSearchQuery = async e => {
+    await this.setState({ searchQuery: e.target.value });
+    //fetch the query data
+    this.getProjectInstances(this.props.match.params.id, this.props.userId);
+  };
 
   getProjectName = async (projectID, userId) => {
     if (projectID === 'all') {
@@ -125,10 +153,17 @@ export default class ProjectInstance extends Component {
     try {
       var respond = await projectInstanceServices.getRelatedProjectInstances(
         projectID,
-        userId
+        userId,
+        undefined,
+        this.state.searchQuery,
+        this.state.rowsPerPage,
+        this.state.page
       );
       if (respond.status === 200) {
-        this.setState({ fetchedProjectInstances: respond.data.data });
+        this.setState({
+          fetchedProjectInstances: respond.data.data,
+          pagination: respond.data.pagination,
+        });
         this.props.projectInstanceFetchSuccess(respond.data.data);
       } else {
         throw respond.err;
@@ -407,10 +442,33 @@ export default class ProjectInstance extends Component {
 
             <span> {this.addNewProjectInstance()}</span>
           </div>
+          <input
+            type="text"
+            className="search-field"
+            placeholder="Search Instance Name"
+            value={this.state.searchQuery}
+            onChange={e => {
+              this.handleSearchQuery(e);
+            }}
+          />
 
           {/*display projeect Instances*/}
 
           <div> {this.displayProjectInstances(this.props.projectInstance)}</div>
+          <TablePagination
+            component="div"
+            count={this.state.pagination.rowCount}
+            rowsPerPage={this.state.pagination.pageSize}
+            page={this.state.page}
+            backIconButtonProps={{
+              'aria-label': 'Previous Page',
+            }}
+            nextIconButtonProps={{
+              'aria-label': 'Next Page',
+            }}
+            onChangePage={this.handleChangePage}
+            onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          />
         </div>
       </div>
     );

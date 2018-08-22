@@ -1,6 +1,7 @@
 import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import Switch from '@material-ui/core/Switch';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
@@ -16,6 +17,8 @@ const getIssuedAt = data => {
 const TableData = ({
   data = [],
   handleChangeStatus = f => f,
+  //   handleClick = f =s> f,
+  //   handleDeleteClick = f => f,
   handleClick = f => f,
   handleDeleteClick = f => f,
 }) => {
@@ -51,18 +54,12 @@ const TableData = ({
       </TableCell>
 
       <TableCell>
-        <label className="switch">
-          {data.resolved ? (
-            <input type="checkbox" defaultChecked />
-          ) : (
-            <input type="checkbox" />
-          )}
-
-          <span
-            onClick={() => handleChangeStatus(data.id)}
-            className="slider"
-          />
-        </label>
+        <Switch
+          disableRipple
+          checked={data.resolved}
+          onChange={() => handleChangeStatus(data.id)}
+          color="primary"
+        />
       </TableCell>
     </TableRow>
   ));

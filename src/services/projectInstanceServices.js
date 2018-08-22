@@ -17,7 +17,10 @@ export const createNewProjectInstance = async (instanceName, projectID) => {
 export const getRelatedProjectInstances = async (
   projectID,
   userId,
-  instanceId
+  instanceId = undefined,
+  searchQuery = '',
+  rowsPerPage,
+  page
 ) => {
   try {
     let headers = {
@@ -26,7 +29,17 @@ export const getRelatedProjectInstances = async (
       instanceId,
     };
 
-    let response = await https.get('projectInstance', headers);
+    let response = await https.get(
+      'projectInstance?rowsPerPage=' +
+        rowsPerPage +
+        '&&page=' +
+        page +
+        '&&search=' +
+        searchQuery,
+      headers
+    );
+    console.log('response +++', response);
+
     return response;
   } catch (err) {}
 };
