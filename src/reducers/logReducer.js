@@ -3,6 +3,7 @@ import {
   LOG_FETCH_SUCCESS,
   LOG_FETCH_ERROR,
   LOG_RESOLVED_CHANGED,
+  LOG_DELETE_SUCCESS,
 } from '../actions/adminActions';
 
 import { LOGOUT } from '../actions/loginoutActions';
@@ -51,13 +52,18 @@ const projectReducer = (state = INITIAL_STATE, action) => {
           data.resolved = action.payload.resolve;
         }
       });
-      console.log(logData, 'log data');
+
       return {
         ...state,
         projectLogs: {
           ...state.projectLogs,
           logs: logData,
         },
+      };
+    }
+    case LOG_DELETE_SUCCESS: {
+      return {
+        ...state,
       };
     }
 

@@ -16,6 +16,8 @@ const LogTable = ({
   columnToSort,
   checkedState,
   // handleDeleteClick = f => f,
+  handleClick = f => f,
+  handleDeleteClick = f => f,
   //   copyInstanceKey = f => f,
 }) => {
   return (
@@ -48,7 +50,6 @@ const LogTable = ({
             </TableCell>
             <TableCell>ISSUED AT</TableCell>
             <TableCell>LOG TYPE</TableCell>
-            <TableCell>LOG DESCRIPTION</TableCell>
             <TableCell>Delete</TableCell>
             <TableCell onClick={() => handleSort('resolved')}>
               <span>STATUS</span>
@@ -71,8 +72,8 @@ const LogTable = ({
             handleChangeStatus={handleChangeStatus}
             checkedState={checkedState}
             // copyInstanceKey={copyInstanceKey}
-            // handleClick={handleClick}
-            // handleDeleteClick={handleDeleteClick}
+            handleClick={handleClick}
+            handleDeleteClick={handleDeleteClick}
           />
         </TableBody>
       </Table>

@@ -11,6 +11,17 @@ import ReactModal from 'react-modal';
 import orderBy from 'lodash/orderBy';
 import TablePagination from '@material-ui/core/TablePagination';
 
+
+
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import Slide from '@material-ui/core/Slide';
 const invertDirection = {
   asc: 'desc',
   desc: 'asc',
@@ -22,6 +33,7 @@ export default class Log extends Component {
     this.state = {
       fetchedLogs: [],
       showModalChangeLog: false,
+      showModalLogDetails: false,
       allProjects: [],
       projectId: '--',
       logId: '--',
@@ -36,8 +48,35 @@ export default class Log extends Component {
       pagination: [],
       page: 0,
       rowsPerPage: 5,
+
+      logMessage: '',
+      logName: '',
+      logStack: '',
+      logInstanceName: '',
+      customMessage: '',
+      updated_at: '',
     };
   }
+
+  transition = props => {
+    return <Slide direction="up" {...props} />;
+  };
+
+  handleOpenModalLogDetails = () => {
+    this.setState({ showModalLogDetails: true });
+  };
+
+  handleCloseModalLogDetails = () => {
+    this.setState({
+      showModalLogDetails: false,
+      logMessage: '',
+      logName: '',
+      logStack: '',
+      logInstanceName: '',
+      customMessage: '',
+      updated_at: '',
+    });
+  };
 
   handleOpenModalChangeLog = () => {
     this.setState({ showModalChangeLog: true });
@@ -75,7 +114,7 @@ export default class Log extends Component {
       projectID,
       this.props.userId
     );
-    console.log('res', respond);
+
     if (respond.data.data.length !== 0) {
       this.setState({ activeProject: respond.data.data[0].project_name });
     } else {
@@ -176,10 +215,37 @@ export default class Log extends Component {
         sortDirection={this.state.sortDirection}
         columnToSort={this.state.columnToSort}
         checkedState={this.state.checkedState}
-
         // handleDeleteClick={this.handleOpenModalDeleteProject}
+        handleClick={this.handleClick}
+        handleDeleteClick={this.handleDeleteClick}
       />
     );
+  };
+
+  handleClick = async (data, date) => {
+    console.log('data', data);
+    await this.setState({
+      logMessage: data.errorDetails.message,
+      logName: data.errorDetails.name,
+      logStack: data.errorDetails.stack,
+      customMessage: data.message,
+      logInstanceName: data.instance_name,
+      updated_at: date,
+    });
+
+    this.handleOpenModalLogDetails();
+  };
+
+  handleDeleteClick = async logId => {
+    const respond = await logServices.deleteLog(logId);
+    console.log('res', respond);
+    if (respond.status === 204) {
+      this.props.logDeleteSuccess();
+      this.getRelatedLogs(
+        this.props.match.params.iid,
+        this.props.match.params.id
+      );
+    }
   };
 
   handleChangeStatus = async logId => {
@@ -325,12 +391,13 @@ export default class Log extends Component {
 
               <button
                 onClick={() => {
-                  console.log(
-                    'asd',
-                    this.state.logId,
-                    this.props.match.params.iid
-                  );
-                  {
+                  if (
+                    (this.props.match.params.id === this.state.projectId &&
+                      this.props.match.params.iid === this.state.logId) ||
+                    this.state.projectId === '--' ||
+                    this.state.logId === '--'
+                  ) {
+                  } else {
                     this.props.history.push({
                       pathname:
                         '/logs/' +
@@ -349,6 +416,74 @@ export default class Log extends Component {
             <div />
           </form>
         </ReactModal>
+        {/*------------------------*/}
+
+        {/*------------------materials modal log details*/}
+        <Dialog
+          fullScreen
+          open={this.state.showModalLogDetails}
+          onClose={this.handleCloseModalLogDetails}
+          TransitionComponent={this.transition}
+        >
+          <DialogTitle id="log-head">
+            <AppBar>
+              <Toolbar>
+                <IconButton
+                  color="inherit"
+                  onClick={this.handleCloseModalLogDetails}
+                  aria-label="Close"
+                >
+                  <CloseIcon />
+                </IconButton>
+                <Typography variant="title" color="inherit">
+                  LOG DETAILS
+                </Typography>
+              </Toolbar>
+            </AppBar>
+          </DialogTitle>
+          <DialogContent id="log-body">
+            <div>
+              <div>
+                <div className="detail-wrapper">
+                  <div className="log-head-title">
+                    <div className="log-instance">
+                      {this.state.logInstanceName}
+                    </div>
+                    <div className="log-date">{this.state.updated_at}</div>
+                  </div>
+                  <div className="log-Custom-message">
+                    <div className="log-custom-message-label">
+                      Custom Message
+                    </div>
+                    <div className="log-custom-message">
+                      {this.state.customMessage}
+                    </div>
+                  </div>
+                  <div className="log-details-wrapper">
+                    <div className="log-label">LOGS</div>
+                    <div className="log-detail-bottom">
+                      <div className="log-type">{this.state.logName}</div>
+                      <div className="log-message">{this.state.logMessage}</div>
+                      <div className="log-stack">
+                        <div>
+                          {this.state.logStack.split('\n').map((item, key) => {
+                            return (
+                              <span key={key}>
+                                {item}
+                                <br />
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
         {/*------------------------*/}
         <div className="dashboard-wrapper">
           <div className="project-name-add clearfix">

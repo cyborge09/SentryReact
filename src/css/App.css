@@ -81,11 +81,13 @@ button {
 .login-wrapper,
 .signUp-Wrapper {
   height: auto;
-<<<<<<< HEAD
+
   background-color: lightgoldenrodyellow;
-=======
+
   background-color: #7dc961;
->>>>>>> 567ca8fc6557544fdbe19755418e493462855723
+
+  background-color: lightgoldenrodyellow;
+
   padding-bottom: 10px;
   border-radius: 10px;
   border: 1px solid green;
@@ -155,11 +157,16 @@ form {
   width: 80%;
 }
 
-.instanceKey img {
+.instanceKey img,
+#log-type img {
   float: right;
   height: 17px;
   width: 17px;
   cursor: pointer;
+}
+
+#log-type {
+  color: #00b44e;
 }
 
 .clearfix::after {

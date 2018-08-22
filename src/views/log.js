@@ -4,6 +4,7 @@ import {
   logFetchSuccess,
   logFetchError,
   logResolvedChange,
+  logDeleteSuccess,
 } from '../actions/adminActions';
 
 import LogUI from './logUI';
@@ -30,6 +31,10 @@ const mapDispatchToProps = dispatch => {
 
     logResolvedChange: (logId, resolve) => {
       dispatch(logResolvedChange(logId, resolve));
+    },
+
+    logDeleteSuccess: () => {
+      dispatch(logDeleteSuccess());
     },
   };
 };
