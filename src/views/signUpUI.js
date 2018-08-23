@@ -32,7 +32,6 @@ class SignUpUI extends React.Component {
       'signUp'
     );
 
-    console.log('validate', validation);
     if (validation) {
       let data = {
         email: this.state.email,
@@ -51,7 +50,6 @@ class SignUpUI extends React.Component {
           }
         })
         .catch(err => console.log(err));
-      console.log(response, 'this is response messsage from signup form ');
       if (response) {
         this.setState({
           newAdminSuccess: true,
@@ -60,7 +58,9 @@ class SignUpUI extends React.Component {
         this.setState({ errorMessages: 'email is Already in use' });
       }
     } else {
-      this.setState({ errorMessages: 'password lenght must be more than 4' });
+      this.setState({
+        errorMessages: 'password lenght must be more than 4',
+      });
     }
   };
 

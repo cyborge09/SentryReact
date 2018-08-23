@@ -9,15 +9,15 @@ import { logout } from '../actions/loginoutActions';
 import { Redirect } from 'react-router-dom';
 
 class Header extends React.Component {
-  logOut = async () => {
-    await store.dispatch(logout());
-    await localStorage.clear();
-  };
+    logOut = async () => {
+        await store.dispatch(logout());
+        await localStorage.clear();
+    };
 
-  forceLogOut = () => {
-    this.logOut();
-    return <Redirect to="/login" />;
-  };
+    forceLogOut = () => {
+        this.logOut();
+        return <Redirect to="/login" />;
+    };
 
   render() {
     return localStorage.getItem('RefreshToken') === null ? (
