@@ -19,47 +19,53 @@ class Header extends React.Component {
         return <Redirect to="/login" />;
     };
 
-    render() {
-        return localStorage.getItem('RefreshToken') === null ? (
-            this.forceLogOut()
-        ) : (
-            <div>
-                <AppBar position="static" className="header-Head">
-                    <Toolbar className="header-Wrapper clearfix">
-                        <Typography variant="title" color="inherit">
-                            DASHBOARD
-                        </Typography>
+  render() {
+    return localStorage.getItem('RefreshToken') === null ? (
+      this.forceLogOut()
+    ) : (
+      <div>
+        <AppBar
+          position="static"
+          className="header-Head"
+          style={{
+            background: 'linear-gradient(45deg, #000000 30%, #000000 90%)',
+          }}
+        >
+          <Toolbar className="header-Wrapper clearfix">
+            <Typography variant="title" color="inherit">
+              DASHBOARD
+            </Typography>
 
-                        <ul>
-                            <li>
-                                <Button component={Link} to="/projects">
-                                    Projects
-                                </Button>
-                            </li>
+            <ul>
+              <li>
+                <Button component={Link} to="/projects">
+                  Projects
+                </Button>
+              </li>
 
-                            <li>
-                                <Button component={Link} to="/projects/all">
-                                    INSTANCES
-                                </Button>
-                            </li>
+              <li>
+                <Button component={Link} to="/projects/all">
+                  INSTANCES
+                </Button>
+              </li>
 
-                            <li>
-                                <Button component={Link} to="/logs/all/all">
-                                    LOGS
-                                </Button>
-                            </li>
+              <li>
+                <Button component={Link} to="/logs/all/all">
+                  LOGS
+                </Button>
+              </li>
 
-                            <li onClick={this.logOut}>
-                                <Button component={Link} to="/login">
-                                    SIGN OUT
-                                </Button>
-                            </li>
-                        </ul>
-                    </Toolbar>
-                </AppBar>
-            </div>
-        );
-    }
+              <li onClick={this.logOut}>
+                <Button component={Link} to="/login">
+                  SIGN OUT
+                </Button>
+              </li>
+            </ul>
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
 
 export default Header;
