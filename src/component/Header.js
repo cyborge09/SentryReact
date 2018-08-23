@@ -24,34 +24,40 @@ class Header extends React.Component {
       this.forceLogOut()
     ) : (
       <div>
-        <AppBar position="static" className="header-Head">
+        <AppBar
+          position="static"
+          className="header-Head"
+          style={{
+            background: 'linear-gradient(45deg, #000000 30%, #000000 90%)',
+          }}
+        >
           <Toolbar className="header-Wrapper clearfix">
             <Typography variant="title" color="inherit">
               DASHBOARD
             </Typography>
+
             <ul>
               <li>
-                <Button color="inherit">
-                  <Link to={'/projects'}>PROJECTS</Link>
-                </Button>
-              </li>
-              <li>
-                {' '}
-                <Button color="inherit">
-                  <Link to={'/projects/all'}>INSTANCES</Link>
+                <Button component={Link} to="/projects">
+                  Projects
                 </Button>
               </li>
 
               <li>
-                {' '}
-                <Button color="inherit">
-                  <Link to={'/logs/all/all'}>LOGS</Link>
+                <Button component={Link} to="/projects/all">
+                  INSTANCES
+                </Button>
+              </li>
+
+              <li>
+                <Button component={Link} to="/logs/all/all">
+                  LOGS
                 </Button>
               </li>
 
               <li onClick={this.logOut}>
-                <Button color="inherit">
-                  <Link to={'/login'}>SIGN OUT</Link>
+                <Button component={Link} to="/login">
+                  SIGN OUT
                 </Button>
               </li>
             </ul>

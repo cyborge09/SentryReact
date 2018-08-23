@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import validateForm from '../utils/validateForm';
+import Typography from '@material-ui/core/Typography';
+import Loader from '../component/Loader';
 
 class SignUpUI extends React.Component {
   constructor() {
@@ -69,13 +71,16 @@ class SignUpUI extends React.Component {
   };
 
   render() {
+    console.log('singing up', this.props.signingUp);
     return (
       <div>
         <UserActionHeader />
         {this.adminCreated()}
         <div className="signUp-Wrapper">
           <div className="signUp-form-header">
-            <span> SIGN UP</span>
+            <Typography variant="headline">
+              {this.props.signingUp ? <Loader /> : <span>signUp</span>}
+            </Typography>
           </div>
 
           <ValidatorForm ref="form" className="form" onSubmit={this.onSubmit}>
