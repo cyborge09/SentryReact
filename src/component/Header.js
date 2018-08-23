@@ -9,57 +9,57 @@ import { logout } from '../actions/loginoutActions';
 import { Redirect } from 'react-router-dom';
 
 class Header extends React.Component {
-  logOut = async () => {
-    await store.dispatch(logout());
-    await localStorage.clear();
-  };
+    logOut = async () => {
+        await store.dispatch(logout());
+        await localStorage.clear();
+    };
 
-  forceLogOut = () => {
-    this.logOut();
-    return <Redirect to="/login" />;
-  };
+    forceLogOut = () => {
+        this.logOut();
+        return <Redirect to="/login" />;
+    };
 
-  render() {
-    return localStorage.getItem('RefreshToken') === null ? (
-      this.forceLogOut()
-    ) : (
-      <div>
-        <AppBar position="static" className="header-Head">
-          <Toolbar className="header-Wrapper clearfix">
-            <Typography variant="title" color="inherit">
-              DASHBOARD
-            </Typography>
-            <ul>
-              <li>
-                <Button color="inherit">
-                  <Link to={'/projects'}>PROJECTS</Link>
-                </Button>
-              </li>
-              <li>
-                {' '}
-                <Button color="inherit">
-                  <Link to={'/projects/all'}>INSTANCES</Link>
-                </Button>
-              </li>
+    render() {
+        return localStorage.getItem('RefreshToken') === null ? (
+            this.forceLogOut()
+        ) : (
+            <div>
+                <AppBar position="static" className="header-Head">
+                    <Toolbar className="header-Wrapper clearfix">
+                        <Typography variant="title" color="inherit">
+                            DASHBOARD
+                        </Typography>
 
-              <li>
-                {' '}
-                <Button color="inherit">
-                  <Link to={'/logs/all/all'}>LOGS</Link>
-                </Button>
-              </li>
+                        <ul>
+                            <li>
+                                <Button component={Link} to="/projects">
+                                    Projects
+                                </Button>
+                            </li>
 
-              <li onClick={this.logOut}>
-                <Button color="inherit">
-                  <Link to={'/login'}>SIGN OUT</Link>
-                </Button>
-              </li>
-            </ul>
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
-  }
+                            <li>
+                                <Button component={Link} to="/projects/all">
+                                    INSTANCES
+                                </Button>
+                            </li>
+
+                            <li>
+                                <Button component={Link} to="/logs/all/all">
+                                    LOGS
+                                </Button>
+                            </li>
+
+                            <li onClick={this.logOut}>
+                                <Button component={Link} to="/login">
+                                    SIGN OUT
+                                </Button>
+                            </li>
+                        </ul>
+                    </Toolbar>
+                </AppBar>
+            </div>
+        );
+    }
 }
 
 export default Header;
