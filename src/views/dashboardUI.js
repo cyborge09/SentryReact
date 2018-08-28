@@ -111,6 +111,7 @@ class DashboardUI extends React.Component {
     };
 
     onSubmit = async () => {
+        console.log('called');
         //make an api call
         if (this.state.projectName === '') {
             return false;

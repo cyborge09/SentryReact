@@ -195,7 +195,6 @@ export default class Log extends Component {
     displayProject = () => {
         var logList = this.state.fetchedLogs;
 
-
         if (logList.length === 0) {
             return <div>NO LOGS!!!!</div>;
         }
@@ -223,7 +222,7 @@ export default class Log extends Component {
             logMessage: data.errorDetails.message,
             logName: data.errorDetails.name,
             logStack: data.errorDetails.stack,
-            customMessage: data.message,
+            customMessage: data.custom_message,
             logInstanceName: data.instance_name,
             updated_at: date,
         });
