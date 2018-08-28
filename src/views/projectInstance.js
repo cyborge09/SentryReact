@@ -14,6 +14,7 @@ const mapStateToProps = state => {
   return {
     userId: state.login.user.userId,
     projectInstance: state.projectInstance.projectInstance.data,
+    userEmail: state.login.user.userEmail,
   };
 };
 

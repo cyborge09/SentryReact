@@ -5,6 +5,7 @@ import UserActionHeader from '../component/UserActionHeader';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import Snackbar from '@material-ui/core/Snackbar';
 import validateForm from '../utils/validateForm';
 import Typography from '@material-ui/core/Typography';
 import Loader from '../component/Loader';
@@ -17,11 +18,22 @@ class SignUpUI extends React.Component {
       password: '',
       newAdminSuccess: false,
       errorMessages: '',
+      open: false,
+      vertical: 'top',
+      horizontal: 'center',
     };
   }
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  handleClick = state => () => {
+    this.setState({ open: true, ...state });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
   onSubmit = async e => {
@@ -53,13 +65,17 @@ class SignUpUI extends React.Component {
       if (response) {
         this.setState({
           newAdminSuccess: true,
+          open: true,
         });
       } else {
-        this.setState({ errorMessages: 'email is Already in use' });
+        this.props.setSignupError();
+
+        this.setState({ errorMessages: 'Email is Already in use' });
       }
     } else {
+      this.props.setSignupError();
       this.setState({
-        errorMessages: 'password lenght must be more than 4',
+        errorMessages: 'Password lenght must be more than 3',
       });
     }
   };
@@ -71,15 +87,15 @@ class SignUpUI extends React.Component {
   };
 
   render() {
-    console.log('singing up', this.props.signingUp);
+    const { vertical, horizontal, open } = this.state;
     return (
       <div>
         <UserActionHeader />
-        {this.adminCreated()}
+
         <div className="signUp-Wrapper">
-          <div className="signUp-form-header">
-            <Typography variant="headline">
-              {this.props.signingUp ? <Loader /> : <span>signUp</span>}
+          <div>
+            <Typography variant="headline" align="center">
+              {this.props.signingUp ? <Loader /> : <span>SignUp</span>}
             </Typography>
           </div>
 
@@ -123,6 +139,16 @@ class SignUpUI extends React.Component {
               SIGN UP
             </Button>
           </ValidatorForm>
+
+          <Snackbar
+            anchorOrigin={{ vertical, horizontal }}
+            open={this.state.newAdminSuccess}
+            onClose={this.handleClose}
+            ContentProps={{
+              'aria-describedby': 'message-id',
+            }}
+            message={<span id="message-id">Sign Up Sucessful Goto Login</span>}
+          />
 
           <div className="redirect-LogIn">
             <p>

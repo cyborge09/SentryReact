@@ -1,10 +1,14 @@
+a{
+  
+    text-decoration: none;
+    color: black;
+}
 .header-Head {
   background-color: #000000;
 }
 
 .header-Wrapper {
-  width: 96.5%;
-  margin: 0 auto;
+  margin-left: 20px;
 }
 .header-Wrapper ul {
   list-style-type: none;
@@ -25,4 +29,9 @@
   padding: 15px 30px;
 }
 
-
+.account-icon{
+  position: absolute;
+  top: 10;
+  right: 0;
+  z-index: 33;
+}
