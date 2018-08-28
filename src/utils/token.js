@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
-const ACCESS_TOKEN_SALT = "secretKey";
-const REFRESH_TOKEN_SALT = "refreshSecretKey";
+const ACCESS_TOKEN_SALT = 'secretKey';
+const REFRESH_TOKEN_SALT = 'refreshSecretKey';
 
 export function verifyAccessToken(jwtToken) {
   return jwt.verify(jwtToken, ACCESS_TOKEN_SALT);

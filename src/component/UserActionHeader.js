@@ -1,42 +1,19 @@
 import React from 'react';
-import { Redirect } from "react-router-dom";
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 class UserActionHeader extends React.Component {
-
-    redirect = (redirectLocation) => {
-        console.log("asdsaddasad", this.props);
-        switch (redirectLocation) {
-            case "SignUp":
-                {
-                    this.props.history.push(`/signUp`)
-                    
-                    // // this.context.router.history.push(`/signUp`)
-                    // return <Redirect to="/signUp" />
-                }
-
-            case "Login":
-                {
-                    this.props.history.push(`/login`)
-                }
-        }
-    }
-
     render() {
         return (
-            <div className="user-Header-Head ">
-                <div className="user-Header-Wrapper clearfix">
-                    {/* name not sure */}
-
-                    <ul>
-                        <li><a href="#" onClick={() => this.redirect("SignUp")}>SignUp</a></li>
-                    </ul>
-                    <ul>
-                        <li><a href="#" onClick={() => this.redirect("Login")}>Login</a></li>
-                    </ul>
-
-                </div>
-            </div>
-        )
+            <AppBar position="static" color="primary">
+                <Toolbar className="header-title">
+                    <Typography variant="title" color="inherit">
+                        Sentry Project Manager
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+        );
     }
 }
 

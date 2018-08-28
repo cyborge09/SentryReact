@@ -1,46 +1,46 @@
 import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
 
-const TableData = ({
+const projectInstanceTableData = ({
   data = [],
-  handleUpdateClick = f => f,
   handleClick = f => f,
   handleDeleteClick = f => f,
 }) => {
   return data.map((data, i) => (
     <TableRow key={i}>
       <TableCell>{i + 1}</TableCell>
+
       <TableCell
         className="td"
         onClick={() => {
-          // handleClick(data.project_name);
-          handleClick({ id: data.id, name: data.project_name });
+          handleClick(
+            window.location.pathname,
+            data.id,
+            data.instance_name,
+            data.project_id
+          );
         }}
       >
-        {data.project_name}
+        {data.instance_name}
       </TableCell>
-      <TableCell
-        onClick={() => {
-          // handleClick(data.project_name);
-        }}
-      >
-        {data.description}
-      </TableCell>
-      <TableCell
-        onClick={() => {
-          handleUpdateClick(data);
-        }}
-      >
-        <Tooltip TransitionComponent={Zoom} placement="top" title="update">
-          <img src={require('../img/update.png')} alt="delete" />
+      <TableCell>{data.project_name}</TableCell>
+      <TableCell className="instanceKey">
+        {data.instance_key}
+        <Tooltip TransitionComponent={Zoom} placement="top" title="Copy">
+          <CopyToClipboard text={data.instance_key}>
+            <img src={require('../img/copy.png')} alt="Copy" />
+          </CopyToClipboard>
         </Tooltip>
       </TableCell>
+
       <TableCell
+        className="delete"
         onClick={() => {
-          handleDeleteClick(data.id, data.project_name);
+          handleDeleteClick(data.id, data.instance_name);
         }}
       >
         <Tooltip TransitionComponent={Zoom} placement="top" title="Delete">
@@ -51,4 +51,4 @@ const TableData = ({
   ));
 };
 
-export default TableData;
+export default projectInstanceTableData;

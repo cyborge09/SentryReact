@@ -1,26 +1,49 @@
-import { connect } from "react-redux";
-import { setLoginSuccess } from "../actions/loginoutActions";
-import projectInstanceUI from "./projectInstanceUI";
+import { connect } from 'react-redux';
+import {
+  setCurrentProject,
+  projectInstanceFetchBegin,
+  projectInstanceFetchSuccess,
+  projectInstanceFetchError,
+  projectInstanceDeleteSuccess,
+  projectInstanceCreateSuccess,
+} from '../actions/adminActions';
+
+import projectInstanceUI from './projectInstanceUI';
 
 const mapStateToProps = state => {
   return {
-    activeProject: state.admin.project.currentProject
+    userId: state.login.user.userId,
+    projectInstance: state.projectInstance.projectInstance.data,
+    userEmail: state.login.user.userEmail,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setLoginSuccess: (accessToken, refreshToken) => {
-      localStorage.setItem("RefreshToken", refreshToken);
-      localStorage.setItem("AccessToken", accessToken);
-      dispatch(setLoginSuccess(accessToken, refreshToken));
-    }
+    setCurrentProject: projectName => {
+      dispatch(setCurrentProject(projectName));
+    },
+    projectInstanceFetchBegin: () => {
+      dispatch(projectInstanceFetchBegin());
+    },
+    projectInstanceFetchSuccess: projectInstances => {
+      dispatch(projectInstanceFetchSuccess(projectInstances));
+    },
+    projectInstanceFetchError: error => {
+      dispatch(projectInstanceFetchError(error));
+    },
+    projectInstanceDeleteSuccess: () => {
+      dispatch(projectInstanceDeleteSuccess());
+    },
+    projectInstanceCreateSuccess: () => {
+      dispatch(projectInstanceCreateSuccess());
+    },
   };
 };
 
-const logIn = connect(
+const projectInstance = connect(
   mapStateToProps,
   mapDispatchToProps
 )(projectInstanceUI);
 
-export default logIn;
+export default projectInstance;

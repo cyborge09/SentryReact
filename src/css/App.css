@@ -1,0 +1,419 @@
+.App {
+  text-align: center;
+}
+
+button {
+  cursor: pointer;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  /* background: url('../img/back.jpg');
+   */
+  /* background: #222; */
+  background-size: contain;
+  /* height: 670px;; */
+  /* color:  white; */
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.dashboard-wrapper {
+  width: 92%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.project {
+  float: left;
+  font-size: xx-large;
+  font-family: initial;
+}
+
+.show-add-project {
+  margin: 25px 0px;
+}
+
+.add-new-project {
+  float: right;
+}
+
+.search-btn {
+  float: right;
+  background-color: #3fb53f;
+  height: 38px;
+  border: none;
+  border-radius: 0px;
+  padding: 5px;
+}
+
+.instance-key-wrapper {
+  width: 400px;
+
+  font-size: 15px;
+  color: black;
+  background: red;
+  word-wrap: break-word;
+}
+
+.login-wrapper,
+.signUp-Wrapper {
+  height: auto;
+
+
+  background-color: #f7f7f7;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);x
+
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid green;
+  margin: 100px auto;
+  display: block;
+  width: 400px;
+}
+
+form {
+  display: block;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.login-form-header,
+.signUp-form-header {
+  text-align: center;
+  background-color: green;
+  padding: 10px;
+  font-weight: bolder;
+  color: #d8d0d0;
+  font-size: 1.3em;
+  width: 100%;
+}
+
+.login-btn,
+.signUp-btn {
+  width: 60%;
+  border: none;
+  border-radius: 0px;
+  background-color: #000;
+  color: #d8d0d0;
+  font-size: 0.8em;
+  padding: 10px;
+  margin: 15px auto;
+  display: block;
+}
+
+.redirect-SignUp,
+.redirect-LogIn {
+  margin: 0 auto;
+  display: block;
+  width: 80%;
+  text-align: center;
+}
+
+.redirect-SignUp a {
+  text-decoration: none;
+}
+
+.redirect-LogIn a {
+  text-decoration: none;
+}
+
+.redirect-LogIn a:hover {
+  color: wheat;
+}
+
+.redirect-SignUp a:hover {
+  color: wheat;
+}
+.my-table {
+  color: black;
+  font-size: 18px;
+  background: white;
+  width: 80%;
+}
+
+.instanceKey img,
+#log-type img {
+  float: right;
+  height: 17px;
+  width: 17px;
+  cursor: pointer;
+}
+
+#log-type {
+  color: #00b44e;
+}
+
+.clearfix::after {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+.my-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+}
+
+.my-table tr,
+td {
+  /* border: 1px solid #ddd; */
+  padding: 8px;
+  background-color: #ffffff;
+}
+
+.td:hover {
+  color: green;
+  cursor: pointer;
+}
+
+.td a {
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 5px;
+  color: black;
+}
+
+/* .td a:hover {
+  color: #4caf50;
+} */
+
+.delete {
+  cursor: pointer;
+}
+.delete:hover img {
+  height: 20px;
+  width: 20px;
+}
+
+.header {
+  width: 100%;
+  background-color: #3fb53f;
+  padding: 10px 0px;
+}
+
+.title {
+  float: left;
+}
+
+.header-dashboard-wrapper {
+  width: 92%;
+  margin: 0 auto;
+}
+
+.user {
+  float: right;
+}
+
+.project-name-add {
+  margin: 25px auto;
+  font-size: 2em;
+  color: #00b44e;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.project-name-add p {
+  float: left;
+}
+.project-name-add span {
+  float: right;
+  margin: 15px auto;
+}
+
+.project-log-id {
+  float: right;
+  margin: 15px auto;
+  font-size: 0.5em;
+}
+.project-log-id span {
+  color: #000;
+}
+/* for react modal animation */
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+/* css for react modal of add and delete project */
+
+.react-Modal {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0px;
+}
+.change-project,
+.change-log {
+  cursor: pointer;
+}
+.change-project:hover,
+.change-log:hover {
+  color: rgb(35, 118, 182);
+}
+.change-project-select {
+  border: none;
+
+  width: auto;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 5px;
+}
+.modal-AddProject {
+  position: relative;
+  width: 250px;
+  /* height:250px; */
+  top: 25%;
+  margin: auto auto;
+  background-color: rgb(244, 244, 244);
+}
+.add-project-modal-header {
+  background-color: #00b44e;
+  text-align: center;
+  padding: 10px;
+}
+.add-project-modal-header span {
+  float: right;
+  color: #ffffff;
+  cursor: pointer;
+}
+.add-project-form-wrapper {
+  padding: 20px;
+  width: 100%;
+}
+
+.add-project-form-wrapper input {
+  width: 100%;
+  border: none;
+  padding: 10px;
+  border-radius: 0px;
+  background-color: #d8d0d0;
+  margin: 5px 0px;
+}
+.add-project-form-wrapper button {
+  border-radius: 0px;
+  background-color: #00b44e;
+  border: none;
+  padding: 10px;
+  width: 50%;
+  display: block;
+  margin: 5px auto;
+}
+
+.delete-Info img {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 5px;
+}
+
+.error {
+  padding-top: 5px;
+  color: red;
+}
+/* css for react modal of add project ends */
+
+/** Select custom css */
+
+.custom-select {
+  position: relative;
+  display: block;
+  max-width: 400px;
+  min-width: 180px;
+  margin: 0 auto;
+  border: 1px solid #a696c4;
+  background-color: #dfd5d5;
+  z-index: 10;
+}
+.custom-select select {
+  border: none;
+  outline: none;
+  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  margin: 0;
+  display: block;
+  width: 100%;
+  padding: 12px 55px 15px 15px;
+  font-size: 14px;
+  color: #714bb9;
+}
+.custom-select:after {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50px;
+  height: 100%;
+  line-height: 38px;
+  content: '⇓';
+  text-align: center;
+  color: #714bb9;
+  font-size: 24px;
+  border-left: 1px solid #3c1c78;
+  z-index: -1;
+}
+
+.search-field{
+
+  border-radius: 10px;
+  /* float: right; */
+  padding: 6px;
+  border: none;
+  margin-top: 8px;
+  margin-right: 16px;
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+.active{
+  background-color: #0099;
+  color: #ffffff;
+  opacity: 0.6;
+
+}
+.inactive{
+
+  background-color: #003323;
+  color: #ffffff;
+
+}
+
+.active:hover {
+  background-color: #00aacc;
+  color: #ffffff;
+}
