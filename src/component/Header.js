@@ -1,71 +1,178 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import store from '../store';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import IconButton from '@material-ui/core/IconButton';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuList from '@material-ui/core/MenuList';
+import { withStyles } from '@material-ui/core/styles';
 import { logout } from '../actions/loginoutActions';
+
 import { Redirect } from 'react-router-dom';
 
+const styles = theme => ({
+	root: {
+		display: 'flex',
+	},
+	paper: {
+		marginRight: theme.spacing.unit * 2,
+	},
+	menuButton: {
+		marginLeft: -12,
+		marginRight: 100,
+	},
+});
+
 class Header extends React.Component {
-    logOut = async () => {
-        await store.dispatch(logout());
-        await localStorage.clear();
-    };
+	constructor() {
+		super();
+		this.state = { open: false };
+	}
+	handleToggle = () => {
+		this.setState(state => ({ open: !state.open }));
+	};
 
-    forceLogOut = () => {
-        this.logOut();
-        return <Redirect to="/login" />;
-    };
+	handleClose = event => {
+		if (this.anchorEl.contains(event.target)) {
+			return;
+		}
 
-  render() {
-    return localStorage.getItem('RefreshToken') === null ? (
-      this.forceLogOut()
-    ) : (
-      <div>
-        <AppBar
-          position="static"
-          className="header-Head"
-          style={{
-            background: 'linear-gradient(45deg, #000000 30%, #000000 90%)',
-          }}
-        >
-          <Toolbar className="header-Wrapper clearfix">
-            <Typography variant="title" color="inherit">
-              DASHBOARD
-            </Typography>
+		this.setState({ open: false });
+	};
 
-            <ul>
-              <li>
-                <Button component={Link} to="/projects">
-                  Projects
-                </Button>
-              </li>
+	logOut = async () => {
+		await store.dispatch(logout());
+		await localStorage.clear();
+	};
 
-              <li>
-                <Button component={Link} to="/projects/all">
-                  INSTANCES
-                </Button>
-              </li>
+	forceLogOut = () => {
+		this.logOut();
+		return <Redirect to="/login" />;
+	};
 
-              <li>
-                <Button component={Link} to="/logs/all/all">
-                  LOGS
-                </Button>
-              </li>
+	render() {
+		const { classes } = this.props;
+		const { open } = this.state;
 
-              <li onClick={this.logOut}>
-                <Button component={Link} to="/login">
-                  SIGN OUT
-                </Button>
-              </li>
-            </ul>
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
-  }
+		return localStorage.getItem('RefreshToken') === null ? (
+			this.forceLogOut()
+		) : (
+			<div>
+				<AppBar position="static">
+					<Toolbar id="Main-header-wrapper">
+						<Typography variant="display3" color="inherit">
+							Sentry
+						</Typography>
+						<div className="header-Wrapper">
+							<ul>
+								<li>
+									<Button
+										component={Link}
+										to="/projects"
+										className={
+											this.props.location.pathname === '/projects'
+												? 'active'
+												: 'inactive'
+										}
+									>
+										Projects
+									</Button>
+								</li>
+
+								<li>
+									<Button
+										component={Link}
+										to="/projects/all"
+										className={
+											this.props.match.path ===
+											'/projects/:id/project-instances'
+												? 'active'
+												: 'inactive'
+										}
+									>
+										INSTANCES
+									</Button>
+								</li>
+
+								<li>
+									<Button
+										component={Link}
+										to="/logs/all/all"
+										className={
+											this.props.match.path ===
+											'/projects/:id/project-instances/:iid/logs'
+												? 'active'
+												: 'inactive'
+										}
+									>
+										LOGS
+									</Button>
+								</li>
+							</ul>
+						</div>
+
+						<div className="account-icon">
+							<IconButton
+								id="logout-button"
+								// className={classes.menuButton}
+								color="inherit"
+								aria-label="Menu"
+								buttonRef={node => {
+									this.anchorEl = node;
+								}}
+								aria-owns={open ? 'menu-list-grow' : null}
+								aria-haspopup="true"
+								onClick={this.handleToggle}
+							>
+								<AccountCircle />
+							</IconButton>
+							<Popper
+								open={open}
+								anchorEl={this.anchorEl}
+								transition
+								disablePortal
+							>
+								{({ TransitionProps, placement }) => (
+									<Grow
+										{...TransitionProps}
+										id="menu-list-grow"
+										style={{
+											transformOrigin:
+												placement === 'bottom' ? 'center top' : 'center bottom',
+										}}
+									>
+										<Paper className={classes.paper}>
+											<ClickAwayListener onClickAway={this.handleClose}>
+												<MenuList>
+													<MenuItem onClick={this.handleClose}>
+														{this.props.userName}
+													</MenuItem>
+
+													<MenuItem onClick={this.handleClose}>
+														<Link to="/login" onClick={this.logOut}>
+															SIGN OUT
+														</Link>
+													</MenuItem>
+												</MenuList>
+											</ClickAwayListener>
+										</Paper>
+									</Grow>
+								)}
+							</Popper>
+						</div>
+					</Toolbar>
+				</AppBar>
+			</div>
+		);
+	}
 }
 
-export default Header;
+export default withStyles(styles)(Header);

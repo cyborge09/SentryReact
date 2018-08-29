@@ -1,10 +1,20 @@
+a {
+  text-decoration: none;
+  color: black;
+}
 .header-Head {
   background-color: #000000;
 }
 
-.header-Wrapper {
-  width: 96.5%;
+#Main-header-wrapper {
+  width: 92%;
   margin: 0 auto;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.header-Wrapper {
+  margin-left: 20px;
 }
 .header-Wrapper ul {
   list-style-type: none;
@@ -13,6 +23,11 @@
   overflow: hidden;
 }
 
+#logout-button {
+  margin-left: -12px;
+  margin-right: 30px;
+  text-align: center;
+}
 .header-Wrapper li {
   float: left;
 }
@@ -25,4 +40,9 @@
   padding: 15px 30px;
 }
 
-
+.account-icon {
+  position: absolute;
+  top: 10;
+  right: 0;
+  z-index: 33;
+}
