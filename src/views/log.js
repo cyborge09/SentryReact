@@ -14,6 +14,7 @@ const mapStateToProps = state => {
     userId: state.login.user.userId,
     projectInstance: state.projectInstance.projectInstance.data,
     log: state.logReducer.projectLogs.logs,
+    userEmail: state.login.user.userEmail,
   };
 };
 
