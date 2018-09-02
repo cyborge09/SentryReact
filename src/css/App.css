@@ -417,3 +417,13 @@ td {
   background-color: #00aacc;
   color: #ffffff;
 }
+
+#message-id a{
+  color:silver;
+
+}
+
+#message-id a:hover{
+  color: greenyellow;
+
+}
