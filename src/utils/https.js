@@ -3,7 +3,7 @@ import store from '../store';
 import { tokenChange } from '../actions/loginoutActions';
 
 const axiosInstance = axios.create({
-    baseURL: 'http://127.0.0.1:8848/api/',
+    baseURL: 'https://sentry-replica.herokuapp.com/api',
 });
 
 axiosInstance.interceptors.response.use(
@@ -19,7 +19,7 @@ axiosInstance.interceptors.response.use(
         if (error.response.status === 401) {
             let res = await axios({
                 method: 'post',
-                url: 'http://127.0.0.1:8848/api/auth/refresh',
+                url: 'https://sentry-replica.herokuapp.com/api/refresh',
                 headers: {
                     'Content-Type': 'application/json',
                     refreshToken: store.getState().login.user.refreshToken,

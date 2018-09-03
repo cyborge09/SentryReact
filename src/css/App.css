@@ -418,3 +418,10 @@ td {
   height: 48px;
   background-position: center;
 }
+#message-id a {
+  color: silver;
+}
+
+#message-id a:hover {
+  color: greenyellow;
+}

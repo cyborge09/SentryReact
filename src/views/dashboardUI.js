@@ -12,6 +12,7 @@ import {
 	DialogContentText,
 	TablePagination,
 } from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
 import AddIcon from '@material-ui/icons/Add';
 import * as projectServices from '../services/projectServices';
 import Table from '../component/ProjectTable';
@@ -44,8 +45,13 @@ class DashboardUI extends React.Component {
 			description: '',
 			showModalUpdateProject: false,
 			updateProjectId: '',
+			open: false,
 		};
 	}
+
+	handleClose = () => {
+		this.setState({ open: false });
+	};
 
 	handleOpenModalAddProject = () => {
 		this.setState({ showModalAddProject: true });
@@ -101,10 +107,21 @@ class DashboardUI extends React.Component {
 	};
 
 	onSubmit = async () => {
+<<<<<<< HEAD
+=======
+		this.handleCloseModalAddProject();
+>>>>>>> f2187f9f9af945d4cfa770b91a9048d7eaabc11b
 		//make an api call
 		if (this.state.projectName === '') {
 			return false;
 		}
+<<<<<<< HEAD
+=======
+		this.setState({ open: true });
+		setTimeout(() => {
+			this.setState({ open: false });
+		}, 5000);
+>>>>>>> f2187f9f9af945d4cfa770b91a9048d7eaabc11b
 		const respond = await projectServices.createNewProject(
 			this.state.projectName,
 			this.state.description,
@@ -114,7 +131,11 @@ class DashboardUI extends React.Component {
 			this.setState({ projectName: '', description: '' });
 			this.props.projectCreateSuccess();
 			this.getProject(this.state.userEmail);
+<<<<<<< HEAD
 			this.handleCloseModalAddProject();
+=======
+
+>>>>>>> f2187f9f9af945d4cfa770b91a9048d7eaabc11b
 			return true;
 		}
 
@@ -123,6 +144,7 @@ class DashboardUI extends React.Component {
 
 	addNewProject = () => {
 		return (
+<<<<<<< HEAD
 			<Tooltip title="Add Project">
 				<Button
 					variant="fab"
@@ -133,6 +155,29 @@ class DashboardUI extends React.Component {
 					<AddIcon />
 				</Button>
 			</Tooltip>
+=======
+			<div>
+				<Tooltip title="Add Project">
+					<Button
+						variant="fab"
+						onClick={this.handleOpenModalAddProject}
+						color="primary"
+						aria-label="Add"
+					>
+						<AddIcon />
+					</Button>
+				</Tooltip>
+				<Snackbar
+					anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+					open={this.state.open}
+					onClose={this.handleClose}
+					ContentProps={{
+						'aria-describedby': 'message-id',
+					}}
+					message={<span id="message-id">PRoject Added</span>}
+				/>
+			</div>
+>>>>>>> f2187f9f9af945d4cfa770b91a9048d7eaabc11b
 		);
 	};
 	//sorting function
@@ -257,6 +302,10 @@ class DashboardUI extends React.Component {
 			this.state.updateProjectId
 		);
 
+<<<<<<< HEAD
+=======
+		console.log('res', respond);
+>>>>>>> f2187f9f9af945d4cfa770b91a9048d7eaabc11b
 		if (respond.status === 200) {
 			this.props.projectUpdateSuccess();
 			this.setState({ projectName: '', description: '' });
@@ -366,7 +415,18 @@ class DashboardUI extends React.Component {
 							<Button onClick={this.handleCloseModalAddProject} color="primary">
 								Cancel
 							</Button>
+<<<<<<< HEAD
 							<Button onClick={e => this.onSubmit()} color="primary">
+=======
+							<Button
+								onClick={e =>
+									this.onSubmit()
+										? console.log('thisis true')
+										: console.log('this is false')
+								}
+								color="primary"
+							>
+>>>>>>> f2187f9f9af945d4cfa770b91a9048d7eaabc11b
 								ADD
 							</Button>
 						</DialogActions>

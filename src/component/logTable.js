@@ -44,11 +44,23 @@ const LogTable = ({
 								) : (
 									<ArrowDownward />
 								)
-							) : (
-								<ArrowDownward />
-							)}
+							) : null}
 						</TableCell>
-						<TableCell>ISSUED AT</TableCell>
+						<TableCell onClick={() => handleSort('updated_at')}>
+							<span>
+								{' '}
+								ISSUED AT
+								{columnToSort === 'updated_at' ? (
+									sortDirection === 'asc' ? (
+										<ArrowDownward />
+									) : (
+										<ArrowUpward />
+									)
+								) : (
+									<ArrowDownward />
+								)}
+							</span>
+						</TableCell>
 						<TableCell>LOG TYPE</TableCell>
 						<TableCell>Delete</TableCell>
 						<TableCell onClick={() => handleSort('resolved')}>
