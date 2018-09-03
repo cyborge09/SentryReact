@@ -125,10 +125,10 @@ class SignUpUI extends React.Component {
 							errorMessages={['this field is required']}
 						/>
 						<br />
-						<br />
+
 						<div className="error"> {this.state.errorMessages}</div>
 						<br />
-						<br />
+
 						<Button
 							variant="contained"
 							color="primary"
@@ -147,11 +147,15 @@ class SignUpUI extends React.Component {
 						ContentProps={{
 							'aria-describedby': 'message-id',
 						}}
+<<<<<<< HEAD
+						message={<span id="message-id">Sign Up Sucessful Goto Login</span>}
+=======
 						message={
 							<span id="message-id">
 								Sign Up Sucessful Goto <Link to="/login"> Login</Link>
 							</span>
 						}
+>>>>>>> f2187f9f9af945d4cfa770b91a9048d7eaabc11b
 					/>
 
 					<div className="redirect-LogIn">
