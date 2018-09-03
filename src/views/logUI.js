@@ -19,9 +19,47 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
+import Chart from 'react-google-charts';
 const invertDirection = {
 	asc: 'desc',
 	desc: 'asc',
+};
+
+const pieOptions = {
+	title: '',
+	pieHole: 0.5,
+	slices: [
+		{
+			color: '#2BB673',
+		},
+		{
+			color: '#d91e48',
+		},
+		{
+			color: '#007fad',
+		},
+		{
+			color: '#e9a227',
+		},
+	],
+	legend: {
+		position: 'bottom',
+		alignment: 'center',
+		textStyle: {
+			color: '233238',
+			fontSize: 14,
+		},
+	},
+	tooltip: {
+		showColorCode: true,
+	},
+	chartArea: {
+		left: 0,
+		top: 15,
+		width: '100%',
+		height: '100%',
+	},
+	fontName: 'Roboto',
 };
 
 export default class Log extends Component {
@@ -52,6 +90,7 @@ export default class Log extends Component {
 			logInstanceName: '',
 			customMessage: '',
 			updated_at: '',
+			chartData: [],
 		};
 	}
 
@@ -195,8 +234,38 @@ export default class Log extends Component {
 		}
 	};
 
+	sortByKey = (array, key) => {
+		return array.sort(function(a, b) {
+			var x = a[key];
+			var y = b[key];
+			return x < y ? -1 : x > y ? 1 : 0;
+		});
+	};
+
+	extractDataForChart = async () => {
+		await this.setState({ chartData: [] });
+		var sortedData = this.state.fetchedLogs;
+		let count = 0;
+		let previousData = sortedData[0].type;
+		for (let i = 0; i < sortedData.length; i++) {
+			if (sortedData[i].type === previousData) {
+				count++;
+			} else {
+				await this.setState({
+					chartData: [...this.state.chartData, [previousData, count]],
+				});
+				previousData = sortedData[i].type;
+				count = 1;
+			}
+		}
+		await this.setState({
+			chartData: [...this.state.chartData, [previousData, count]],
+		});
+	};
 	displayProject = () => {
+		//data are sorted by type
 		var logList = this.state.fetchedLogs;
+		logList = this.sortByKey(logList, 'type');
 
 		if (logList.length === 0) {
 			return <div>NO LOGS!!!!</div>;
@@ -537,6 +606,24 @@ export default class Log extends Component {
 					</Tooltip>
 
 					{this.displayProject()}
+					<button
+						onClick={() => {
+							this.extractDataForChart();
+						}}
+					>
+						clickme
+					</button>
+					<div>
+						<Chart
+							chartType="PieChart"
+							data={[['Data', 'Value'], ...this.state.chartData]}
+							options={pieOptions}
+							graph_id="PieChart"
+							width={'100%'}
+							height={'300px'}
+							legend_toggle
+						/>
+					</div>
 				</div>
 			</div>
 		);
