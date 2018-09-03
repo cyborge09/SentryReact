@@ -49,6 +49,12 @@
   padding: 10px 0;
 }
 
+#log-text {
+  text-align: center;
+}
+#log-dialog-wrapper {
+  padding: 10px;
+}
 .log-custom-message-label {
   font-size: 14px;
   text-transform: uppercase;
