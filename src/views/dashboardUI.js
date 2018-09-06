@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactModal from 'react-modal';
-import ErrorBoundary from './errorBoundary';
+import { sortByKey } from '../utils/extra';
+
 import {
 	Button,
 	TextField,
@@ -12,10 +13,11 @@ import {
 	DialogContentText,
 	TablePagination,
 } from '@material-ui/core';
+import Tile from '../component/ProjectTiles';
 import Snackbar from '@material-ui/core/Snackbar';
 import AddIcon from '@material-ui/icons/Add';
 import * as projectServices from '../services/projectServices';
-import Table from '../component/ProjectTable';
+// import Table from '../component/ProjectTable';
 import Header from '../component/Header';
 import orderBy from 'lodash/orderBy';
 
@@ -45,12 +47,13 @@ class DashboardUI extends React.Component {
 			description: '',
 			showModalUpdateProject: false,
 			updateProjectId: '',
-			open: false,
+			snackOpen: false,
+			snackBarText: '',
 		};
 	}
 
-	handleClose = () => {
-		this.setState({ open: false });
+	handleCloseSnack = () => {
+		this.setState({ snackBarText: '', snackOpen: false });
 	};
 
 	handleOpenModalAddProject = () => {
@@ -78,8 +81,9 @@ class DashboardUI extends React.Component {
 		});
 	};
 
-	handleOpenModalDeleteProject = (PID, projectName) => {
-		this.setState({
+	handleOpenModalDeleteProject = async (PID, projectName) => {
+		console.log('proje', projectName);
+		await this.setState({
 			showModalDeleteProject: true,
 			toDeleteProjectId: PID,
 			toDeleteProjectName: projectName,
@@ -90,7 +94,6 @@ class DashboardUI extends React.Component {
 		this.setState({
 			showModalDeleteProject: false,
 			toDeleteProjectId: '',
-			toDeleteProjectName: '',
 		});
 	};
 
@@ -107,11 +110,21 @@ class DashboardUI extends React.Component {
 	};
 
 	onSubmit = async () => {
-		this.handleCloseModalAddProject();
 		//make an api call
 		if (this.state.projectName === '') {
+			this.setState({
+				snackOpen: true,
+				snackBarText: 'Empty Project Name',
+			});
+			return false;
+		} else if (this.state.projectName.length >= 14) {
+			this.setState({
+				snackOpen: true,
+				snackBarText: 'String length exceed the limit(limit=14)',
+			});
 			return false;
 		}
+		this.handleCloseModalAddProject();
 		this.setState({ open: true });
 		setTimeout(() => {
 			this.setState({ open: false });
@@ -122,6 +135,10 @@ class DashboardUI extends React.Component {
 			this.state.userEmail
 		);
 		if (respond.status === 201) {
+			this.setState({
+				snackOpen: true,
+				snackBarText: 'PROJECT ADDED',
+			});
 			this.setState({ projectName: '', description: '' });
 			this.props.projectCreateSuccess();
 			this.getProject(this.state.userEmail);
@@ -136,6 +153,7 @@ class DashboardUI extends React.Component {
 			<div>
 				<Tooltip title="Add Project">
 					<Button
+						id="add-button"
 						variant="fab"
 						onClick={this.handleOpenModalAddProject}
 						color="primary"
@@ -144,15 +162,6 @@ class DashboardUI extends React.Component {
 						<AddIcon />
 					</Button>
 				</Tooltip>
-				<Snackbar
-					anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-					open={this.state.open}
-					onClose={this.handleClose}
-					ContentProps={{
-						'aria-describedby': 'message-id',
-					}}
-					message={<span id="message-id">PROJECT ADDED</span>}
-				/>
 			</div>
 		);
 	};
@@ -214,6 +223,11 @@ class DashboardUI extends React.Component {
 	};
 
 	displayProject = list => {
+		if (list) {
+			list = sortByKey(list, 'id');
+		}
+
+		// console.log('adasd', list);
 		if (list.length === 0 && !this.state.searchQuery) {
 			return (
 				<div>
@@ -234,7 +248,8 @@ class DashboardUI extends React.Component {
 					}}
 				/>
 
-				<Table
+				{/*
+			<Table
 					data={orderBy(
 						list,
 						this.state.columnToSort,
@@ -246,7 +261,23 @@ class DashboardUI extends React.Component {
 					handleSort={this.handleSort}
 					sortDirection={this.state.sortDirection}
 					columnToSort={this.state.columnToSort}
-				/>
+				/>*/}
+				<div className="tile-wrapper">
+					<Tile
+						data={orderBy(
+							list,
+							this.state.columnToSort,
+							this.state.sortDirection
+						)}
+						handleClick={this.handleClick}
+						handleDeleteClick={this.handleOpenModalDeleteProject}
+						handleUpdateClick={this.handleOpenModalUpdateProject}
+						handleSort={this.handleSort}
+						sortDirection={this.state.sortDirection}
+						columnToSort={this.state.columnToSort}
+					/>
+				</div>
+
 				<TablePagination
 					component="div"
 					count={this.state.pagination.rowCount}
@@ -265,8 +296,15 @@ class DashboardUI extends React.Component {
 		);
 	};
 	handleUpdateClick = async () => {
+		console.log('length', this.state.projectName.length);
 		//api call for update
 		if (this.state.projectName === '') {
+			return false;
+		} else if (this.state.projectName.length >= 14) {
+			this.setState({
+				snackOpen: true,
+				snackBarText: 'String length exceed the limit(limit=14)',
+			});
 			return false;
 		}
 		this.props.projectUpdateBegin();
@@ -283,6 +321,11 @@ class DashboardUI extends React.Component {
 			this.setState({ projectName: '', description: '' });
 			this.getProject(this.state.userEmail);
 			this.handleCloseModalUpdateProject();
+			this.setState({
+				snackOpen: true,
+				snackBarText: 'UPDATE SUCCESSFULL',
+			});
+
 			return true;
 		} else {
 			this.props.projectUpdateError();
@@ -300,7 +343,13 @@ class DashboardUI extends React.Component {
 	handleDeleteClick = async PID => {
 		//api call for delete
 		const respond = await projectServices.deleteSpecificProject(PID);
+
 		if (respond.status === 204) {
+			await this.setState({
+				snackOpen: true,
+				snackBarText: 'Project ' + this.state.toDeleteProjectName + ' Deleted',
+				toDeleteProjectName: '',
+			});
 			this.getProject(this.state.userEmail);
 			this.props.onDataDelete();
 		}
@@ -308,7 +357,7 @@ class DashboardUI extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className="fix">
 				<Header {...this.props} userName={this.state.userEmail} />
 				{/*UPDATE */}
 				<Dialog
@@ -443,6 +492,18 @@ class DashboardUI extends React.Component {
 					</div>
 
 					<div>{this.displayProject(this.props.data)}</div>
+				</div>
+				<div>
+					<Snackbar
+						anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+						open={this.state.snackOpen}
+						onClose={this.handleCloseSnack}
+						ContentProps={{
+							'aria-describedby': 'message-id',
+						}}
+						message={<span>{this.state.snackBarText}</span>}
+						autoHideDuration={1000}
+					/>
 				</div>
 			</div>
 		);

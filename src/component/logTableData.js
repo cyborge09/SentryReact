@@ -4,15 +4,15 @@ import TableCell from '@material-ui/core/TableCell';
 import Switch from '@material-ui/core/Switch';
 import Tooltip from '@material-ui/core/Tooltip';
 import Zoom from '@material-ui/core/Zoom';
+import { getIssuedAt } from '../utils/extra';
+// const getIssuedAt = data => {
+// 	var issuedAt = data
+// 		.split('T')
+// 		.join(', ')
+// 		.split('Z');
 
-const getIssuedAt = data => {
-	var issuedAt = data
-		.split('T')
-		.join(', ')
-		.split('Z');
-
-	return issuedAt[0];
-};
+// 	return issuedAt[0];
+// };
 
 const TableData = ({
 	data = [],

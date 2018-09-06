@@ -87,7 +87,7 @@ class SignUpUI extends React.Component {
 	};
 
 	render() {
-		const { vertical, horizontal, open } = this.state;
+		const { vertical, horizontal } = this.state;
 		return (
 			<div>
 				<UserActionHeader />
