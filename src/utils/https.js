@@ -20,7 +20,7 @@ axiosInstance.interceptors.response.use(
 			let res = await axios({
 				method: 'post',
 				// url: 'https://sentry-replica.herokuapp.com/api/refresh',
-				url: 'http://127.0.0.1:8848/api/',
+				url: 'http://127.0.0.1:8848/api/auth/refresh',
 				headers: {
 					'Content-Type': 'application/json',
 					refreshToken: store.getState().login.user.refreshToken,

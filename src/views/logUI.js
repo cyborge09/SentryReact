@@ -20,9 +20,19 @@ import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import Chart from 'react-google-charts';
+import socketIOClient from 'socket.io-client';
+import Grid from '@material-ui/core/Grid';
+
 const invertDirection = {
 	asc: 'desc',
 	desc: 'asc',
+};
+
+const lineChartOptions = {
+	legend: { position: 'top' },
+  chartArea: {'width': '80%', 'height': '80%'},
+
+
 };
 
 const pieOptions = {
@@ -65,6 +75,7 @@ const pieOptions = {
 export default class Log extends Component {
 	constructor() {
 		super();
+
 		this.state = {
 			fetchedLogs: [],
 			showModalChangeLog: false,
@@ -83,7 +94,6 @@ export default class Log extends Component {
 			pagination: [],
 			page: 0,
 			rowsPerPage: 5,
-
 			logMessage: '',
 			logName: '',
 			logStack: '',
@@ -91,6 +101,7 @@ export default class Log extends Component {
 			customMessage: '',
 			updated_at: '',
 			chartData: [],
+			fetchedWeeklyLogs: [],
 		};
 	}
 
@@ -127,6 +138,41 @@ export default class Log extends Component {
 	};
 
 	componentDidMount = () => {
+		this.getWeekelyLogs(
+			this.props.match.params.iid,
+			this.props.match.params.id
+		);
+		var room = this.props.userEmail;
+		console.log(room, 'room in clienet');
+
+		const socket = socketIOClient('http://127.0.0.1:8848');
+
+		socket.on('connect', function() {
+			// Connected, let's sign-up for to receive messages for this room
+			socket.emit('room', room);
+			console.log('connection fsf++++++++++');
+		});
+		socket.on('message', data => {
+			console.log('Incoming message:', data);
+
+			if (data === 'fetchdata') {
+				this.getWeekelyLogs(
+					this.props.match.params.iid,
+					this.props.match.params.id
+				);
+				this.setState({
+					projectId: this.props.match.params.id,
+					logId: this.props.match.params.iid,
+				});
+				this.getProjectName();
+				this.getInstanceName();
+				this.getRelatedLogs(
+					this.props.match.params.iid,
+					this.props.match.params.id
+				);
+			}
+		});
+
 		ReactModal.setAppElement('body');
 		this.setState({
 			projectId: this.props.match.params.id,
@@ -210,6 +256,61 @@ export default class Log extends Component {
 
 	onChange = e => {
 		this.setState({ [e.target.name]: e.target.value });
+	};
+
+	last7Days = () => {
+		let result = [];
+		for (let i = 0; i < 7; i++) {
+			let d = new Date();
+			d.setDate(d.getDate() - 6 + i);
+			let dateString = new Date(d).toDateString();
+			dateString = dateString
+				.split(' ')
+				.slice(0, 3)
+				.join(' ');
+
+			result.push([dateString, 0]);
+		}
+
+		return result;
+	};
+
+	getWeekelyLogs = async (instanceId, projectId) => {
+		const respond = await logServices.fetchWeaklyLogs(
+			instanceId,
+			projectId,
+			this.props.userId
+		);
+
+		console.log(respond, 'respond ++++++++++++++');
+
+		// //make an array from 7 days date
+		let weekelyDate = this.last7Days();
+
+		let result = respond.data.data.map(object1 => {
+			let dateString = new Date(object1.daily).toDateString();
+			dateString = dateString
+				.split(' ')
+				.slice(0, 3)
+				.join(' ');
+			object1.daily = dateString;
+			object1.count = parseInt(object1.count);
+			return Object.values(object1);
+		});
+
+		let resultDate = weekelyDate;
+		for (let k = 0; k < weekelyDate.length; k++) {
+			for (let i = 0; i < result.length; i++) {
+				if (weekelyDate[k][0] === result[i][0]) {
+					resultDate.splice(k, 1, [weekelyDate[k][0], result[i][1]]);
+				}
+			}
+		}
+		console.log('result Date ', resultDate);
+
+		let res = [['Date', 'Error'], ...resultDate];
+
+		this.setState({ fetchedWeeklyLogs: res });
 	};
 
 	getRelatedLogs = async (instanceId, projectId) => {
@@ -585,25 +686,24 @@ export default class Log extends Component {
 								LOGS <img src={require('../img/dropdown.png')} alt="dropdown" />
 							</span>
 						</p>
-
-						<div className="project-log-id">
-							<div>CURRENT PROJECT: {this.state.activeProject}</div>
-							<div>CURRENT INSTANCE: {this.state.activeInstance}</div>
-						</div>
 					</div>
 
 					<div />
-					<Tooltip TransitionComponent={Zoom} placement="top" title="REFRESH">
-						<button
-							className="refresh"
-							onClick={() => {
-								this.getRelatedLogs(
-									this.props.match.params.iid,
-									this.props.match.params.id
-								);
-							}}
-						/>
-					</Tooltip>
+
+					<Grid container>
+						<Grid item xs={8}>
+
+						<h2> Weekly Report </	h2>
+							<Chart
+								chartType="LineChart"
+								width="100%"
+								height="400px"
+								data={this.state.fetchedWeeklyLogs}
+								options={lineChartOptions}
+							/>
+						</Grid>
+						<Grid item>pie chart goes here</Grid>
+					</Grid>
 
 					{this.displayProject()}
 					<button
