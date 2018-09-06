@@ -23,6 +23,7 @@ import Chart from 'react-google-charts';
 import socketIOClient from 'socket.io-client';
 import Grid from '@material-ui/core/Grid';
 
+import { sortByKey } from '../utils/extra';
 const invertDirection = {
 	asc: 'desc',
 	desc: 'asc',
@@ -30,9 +31,7 @@ const invertDirection = {
 
 const lineChartOptions = {
 	legend: { position: 'top' },
-  chartArea: {'width': '80%', 'height': '80%'},
-
-
+	chartArea: { width: '80%', height: '80%' },
 };
 
 const pieOptions = {
@@ -52,24 +51,20 @@ const pieOptions = {
 			color: '#e9a227',
 		},
 	],
-	legend: {
-		position: 'bottom',
-		alignment: 'center',
-		textStyle: {
-			color: '233238',
-			fontSize: 14,
-		},
-	},
+	legend: 'none',
 	tooltip: {
-		showColorCode: true,
+		// showColorCode: true,
+		// ignoreBounds: true,
+		trigger: 'selection',
 	},
 	chartArea: {
 		left: 0,
-		top: 15,
+		top: 0,
 		width: '100%',
-		height: '100%',
+		height: '800px',
 	},
 	fontName: 'Roboto',
+	backgroundColor: 'transparent',
 };
 
 export default class Log extends Component {
@@ -184,6 +179,10 @@ export default class Log extends Component {
 			this.props.match.params.iid,
 			this.props.match.params.id
 		);
+	};
+
+	componentWillMount = () => {
+		this.extractDataForChart();
 	};
 
 	getProjectName = async () => {
@@ -335,17 +334,29 @@ export default class Log extends Component {
 		}
 	};
 
-	sortByKey = (array, key) => {
-		return array.sort(function(a, b) {
-			var x = a[key];
-			var y = b[key];
-			return x < y ? -1 : x > y ? 1 : 0;
-		});
-	};
+	// sortByKey = (array, key) => {
+	// 	return array.sort(function(a, b) {
+	// 		var x = a[key];
+	// 		var y = b[key];
+	// 		return x < y ? -1 : x > y ? 1 : 0;
+	// 	});
+	// };
 
 	extractDataForChart = async () => {
 		await this.setState({ chartData: [] });
-		var sortedData = this.state.fetchedLogs;
+		let sortedData = await logServices
+			.fetchRelatedLogs(
+				this.props.match.params.iid,
+				this.props.match.params.id,
+				this.props.userId
+			)
+			.then(data => {
+				console.log('ASddasdasd', data.data.data);
+				return data.data.data;
+			});
+
+		sortedData = sortByKey(sortedData, 'type');
+
 		let count = 0;
 		let previousData = sortedData[0].type;
 		for (let i = 0; i < sortedData.length; i++) {
@@ -366,7 +377,7 @@ export default class Log extends Component {
 	displayProject = () => {
 		//data are sorted by type
 		var logList = this.state.fetchedLogs;
-		logList = this.sortByKey(logList, 'type');
+		logList = sortByKey(logList, 'type');
 
 		if (logList.length === 0) {
 			return <div>NO LOGS!!!!</div>;
@@ -496,7 +507,7 @@ export default class Log extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="fix">
 				{/*header Component*/}
 				<Header {...this.props} userName={this.props.userEmail} />
 				{/*--------------*/}
@@ -613,7 +624,7 @@ export default class Log extends Component {
 				>
 					<DialogTitle id="log-head">
 						<AppBar>
-							<Toolbar>
+							<Toolbar id="main">
 								<IconButton
 									color="inherit"
 									onClick={this.handleCloseModalLogDetails}
@@ -631,13 +642,13 @@ export default class Log extends Component {
 						<div>
 							<div>
 								<div className="detail-wrapper">
-									<div className="log-head-title">
+									<div className="box  ">
 										<div className="log-instance">
 											{this.state.logInstanceName}
 										</div>
 										<div className="log-date">{this.state.updated_at}</div>
 									</div>
-									<div className="log-Custom-message">
+									<div className="box  ">
 										<div className="log-custom-message-label">
 											Custom Message
 										</div>
@@ -645,7 +656,7 @@ export default class Log extends Component {
 											{this.state.customMessage}
 										</div>
 									</div>
-									<div className="log-details-wrapper">
+									<div className=" box  ">
 										<div className="log-label">LOGS</div>
 										<div className="log-detail-bottom">
 											<div className="log-type">{this.state.logName}</div>
@@ -686,14 +697,18 @@ export default class Log extends Component {
 								LOGS <img src={require('../img/dropdown.png')} alt="dropdown" />
 							</span>
 						</p>
+
+						{/*<div className="project-log-id">
+							<div>CURRENT PROJECT: {this.state.activeProject}</div>
+							<div>CURRENT INSTANCE: {this.state.activeInstance}</div>
+							</div>*/}
 					</div>
 
 					<div />
 
 					<Grid container>
 						<Grid item xs={8}>
-
-						<h2> Weekly Report </	h2>
+							<h2> Weekly Report </h2>
 							<Chart
 								chartType="LineChart"
 								width="100%"
@@ -702,28 +717,20 @@ export default class Log extends Component {
 								options={lineChartOptions}
 							/>
 						</Grid>
-						<Grid item>pie chart goes here</Grid>
+						<Grid item xs={4}>
+							<Chart
+								chartType="PieChart"
+								data={[['Data', 'Value'], ...this.state.chartData]}
+								options={pieOptions}
+								graph_id="PieChart"
+								width={'200px'}
+								height={'200px'}
+								legend_toggle
+							/>
+						</Grid>
 					</Grid>
 
 					{this.displayProject()}
-					<button
-						onClick={() => {
-							this.extractDataForChart();
-						}}
-					>
-						clickme
-					</button>
-					<div>
-						<Chart
-							chartType="PieChart"
-							data={[['Data', 'Value'], ...this.state.chartData]}
-							options={pieOptions}
-							graph_id="PieChart"
-							width={'100%'}
-							height={'300px'}
-							legend_toggle
-						/>
-					</div>
 				</div>
 			</div>
 		);

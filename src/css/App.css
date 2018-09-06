@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+.fix {
+  margin-top: 100px;
+}
 
 button {
   cursor: pointer;
@@ -62,7 +65,7 @@ button {
 
 .search-btn {
   float: right;
-  background-color: #3fb53f;
+  background-color: #3f51b5;
   height: 38px;
   border: none;
   border-radius: 0px;
@@ -103,14 +106,17 @@ form {
 .login-form-header,
 .signUp-form-header {
   text-align: center;
-  background-color: green;
+  background-color: #3f51b5;
   padding: 10px;
   font-weight: bolder;
   color: #d8d0d0;
   font-size: 1.3em;
   width: 100%;
 }
-
+#add-button {
+  color: #fff;
+  background-color: #6c5fc7;
+}
 .login-btn,
 .signUp-btn {
   width: 60%;
@@ -163,7 +169,7 @@ form {
 }
 
 #log-type {
-  color: #00b44e;
+  color: #3f51b5;
 }
 
 .clearfix::after {
@@ -186,7 +192,7 @@ td {
 }
 
 .td:hover {
-  color: green;
+  color: #3f51b5;
   cursor: pointer;
 }
 
@@ -212,7 +218,7 @@ td {
 
 .header {
   width: 100%;
-  background-color: #3fb53f;
+  background-color: #3f51b5;
   padding: 10px 0px;
 }
 
@@ -232,7 +238,7 @@ td {
 .project-name-add {
   margin: 25px auto;
   font-size: 2em;
-  color: #00b44e;
+  color: #8c8c8c;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
     'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -300,7 +306,7 @@ td {
   background-color: rgb(244, 244, 244);
 }
 .add-project-modal-header {
-  background-color: #00b44e;
+  background-color: #3f51b5;
   text-align: center;
   padding: 10px;
 }
@@ -387,10 +393,11 @@ td {
 }
 
 .search-field {
+  border: 2px solid rgb(200, 178, 223);
   border-radius: 10px;
   /* float: right; */
   padding: 6px;
-  border: none;
+
   margin-top: 8px;
   margin-right: 16px;
   font-size: 17px;
@@ -418,9 +425,9 @@ td {
   height: 48px;
   background-position: center;
 }
-#message-id a {
-  color: silver;
+#message-id {
   text-align: center;
+  justify-content: center;
 }
 
 #message-id a:hover {

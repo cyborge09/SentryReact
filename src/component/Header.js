@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import store from '../store';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -50,7 +50,6 @@ class Header extends React.Component {
 
 	logOut = async () => {
 		await store.dispatch(logout());
-		await localStorage.clear();
 	};
 
 	forceLogOut = () => {
@@ -66,8 +65,10 @@ class Header extends React.Component {
 			this.forceLogOut()
 		) : (
 			<div>
-				<AppBar position="static">
+				<AppBar id="main" position="static">
 					<Toolbar id="Main-header-wrapper">
+						<img src={require('../img/sentryIcon.png')} alt="sentryIcon" />
+
 						<Typography variant="display3" color="inherit">
 							Sentry
 						</Typography>
@@ -120,6 +121,8 @@ class Header extends React.Component {
 						</div>
 
 						<div className="account-icon">
+							<span>{this.props.userName}</span>
+
 							<IconButton
 								id="logout-button"
 								// className={classes.menuButton}
@@ -152,15 +155,11 @@ class Header extends React.Component {
 										<Paper className={classes.paper}>
 											<ClickAwayListener onClickAway={this.handleClose}>
 												<MenuList>
-													<MenuItem onClick={this.handleClose}>
-														{this.props.userName}
-													</MenuItem>
-
-													<MenuItem onClick={this.handleClose}>
-														<Link to="/login" onClick={this.logOut}>
+													<Link to="/login" onClick={this.logOut}>
+														<MenuItem onClick={this.handleClose}>
 															SIGN OUT
-														</Link>
-													</MenuItem>
+														</MenuItem>
+													</Link>
 												</MenuList>
 											</ClickAwayListener>
 										</Paper>

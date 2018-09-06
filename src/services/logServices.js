@@ -20,8 +20,8 @@ export const fetchRelatedLogs = async (
 	projectId,
 	userId,
 	searchQuery = '',
-	rowsPerPage,
-	page
+	rowsPerPage = '',
+	page = ''
 ) => {
 	try {
 		let headers = {
