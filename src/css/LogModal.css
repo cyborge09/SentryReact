@@ -4,6 +4,8 @@
 #log-body {
   margin-top: 15px;
   margin-bottom: 15px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 .log-modal {
   position: absolute;
@@ -25,18 +27,22 @@
   color: #000000;
 }
 .detail-wrapper {
-  border: 1px solid rgb(190, 190, 190);
   padding: 10px;
 }
 
+.box {
+  padding: 15px;
+  border: 2px solid rgb(190, 190, 190);
+  border-radius: 10px;
+  margin: 5px;
+}
+
 .log-head-title {
-  padding: 15px 0;
-  border-bottom: 1px solid rgb(190, 190, 190);
 }
 
 .log-instance {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 30px;
   color: #0c0c0c;
 }
 .log-date {
@@ -56,7 +62,7 @@
   padding: 10px;
 }
 .log-custom-message-label {
-  font-size: 14px;
+  font-size: 30px;
   text-transform: uppercase;
   margin-bottom: 15px;
   color: #000000;
