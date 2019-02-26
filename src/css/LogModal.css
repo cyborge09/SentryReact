@@ -1,0 +1,114 @@
+#log-head {
+  margin-bottom: 15px;
+}
+#log-body {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.log-modal {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  right: 40px;
+  bottom: 40px;
+  border: 1px solid rgb(167, 167, 167);
+  background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+  overflow: auto;
+  border-radius: 4px;
+  outline: currentcolor none medium;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.log-detail {
+  font-size: 30px;
+  font-family: 'Times New Roman', Times, serif;
+  color: #000000;
+}
+.detail-wrapper {
+  padding: 10px;
+}
+
+.box {
+  padding: 15px;
+  border: 2px solid rgb(190, 190, 190);
+  border-radius: 10px;
+  margin: 5px;
+}
+
+.log-head-title {
+}
+
+.log-instance {
+  font-weight: bold;
+  font-size: 30px;
+  color: #0c0c0c;
+}
+.log-date {
+  font-size: 15px;
+  color: rgba(34, 58, 165, 0.363);
+}
+
+.log-Custom-message {
+  border-bottom: 1px solid rgb(190, 190, 190);
+  padding: 10px 0;
+}
+
+#log-text {
+  text-align: center;
+}
+#log-dialog-wrapper {
+  padding: 10px;
+}
+.log-custom-message-label {
+  font-size: 30px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  color: #000000;
+  font-weight: 600;
+}
+
+.log-custom-message {
+  white-space: pre-wrap;
+  word-break: break-all;
+  box-shadow: none;
+  color: #2f2936;
+  font-size: 13px;
+  background-color: #f7f8f9;
+}
+
+.log-details-wrapper {
+  padding: 10px 0;
+}
+
+.log-label {
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  color: #141414;
+  font-weight: 600;
+}
+.log-detail-bottom {
+  margin: 0 0 20px;
+}
+
+.log-type {
+  font-size: 18px;
+  margin: 0 0 5px;
+  font-weight: 600;
+  color: rgb(226, 96, 96);
+}
+.log-message {
+  font-family: Monaco, Consolas, Courier New, monospace;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #2f2936;
+}
+
+.log-stack {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: rgb(235, 235, 222);
+  color: rgb(226, 96, 96);
+}

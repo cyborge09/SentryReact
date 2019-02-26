@@ -1,5 +1,5 @@
 .user-Header-Head {
-  background-color: #000000;
+ 
 }
 
 .user-Header-Wrapper {
@@ -30,4 +30,9 @@
 
 .user-Header-Wrapper li a:hover {
   background-color: #3fb53f;
+}
+
+.header-title{
+  margin:  0 auto;
+  font-size: 30px;
 }

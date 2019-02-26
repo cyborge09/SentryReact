@@ -1,10 +1,15 @@
 import { connect } from 'react-redux';
 
 import DashboardUI from './dashboardUI';
+
 import {
   setCurrentProject,
   projectFetchSuccess,
   projectDeleteSuccess,
+  projectCreateSuccess,
+  projectUpdateBegin,
+  projectUpdateError,
+  projectUpdateSuccess,
 } from '../actions/adminActions';
 
 const mapStateToProps = state => {
@@ -20,6 +25,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setCurrentProject: projectName => dispatch(setCurrentProject(projectName)),
 
+    projectCreateSuccess: () => dispatch(projectCreateSuccess()),
+
     onDataFetched: data => {
       dispatch(projectFetchSuccess(data));
     },
@@ -28,7 +35,15 @@ const mapDispatchToProps = dispatch => {
       dispatch(projectDeleteSuccess());
     },
 
-    OnDispatch: dispatch,
+    projectUpdateSuccess: () => {
+      dispatch(projectUpdateSuccess());
+    },
+    projectUpdateBegin: () => {
+      dispatch(projectUpdateBegin());
+    },
+    projectUpdateError: () => {
+      dispatch(projectUpdateError());
+    },
   };
 };
 

@@ -1,0 +1,120 @@
+.tile-wrapper {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+}
+.tile-data-wrapper {
+  width: 33%;
+  box-sizing: border-box;
+  padding: 0px 10px 10px 0px;
+}
+.tiles {
+  background-color: white;
+  border: 1px solid rgb(200, 178, 223);
+  border-radius: 4px;
+  box-shadow: rgba(37, 11, 54, 0.04) 0px 2px 0px;
+}
+
+.top-part {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  -moz-box-align: center;
+  -moz-box-pack: justify;
+  justify-content: space-between;
+  padding-bottom: 5px;
+  padding: 10px;
+}
+
+.top-left-wrapper {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  -moz-box-align: center;
+}
+
+.icon {
+  margin-right: 4px;
+  display: flex;
+  flex-direction: row;
+  -moz-box-pack: end;
+  justify-content: flex-end;
+}
+
+.project-name {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  padding: 0px 4px;
+  color: #3b6ecc;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.project-name span {
+  color: #6c5fc7;
+  font-style: normal;
+  font-size: 18px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  text-transform: uppercase;
+}
+.project-name span:hover {
+  color: black;
+}
+
+.top-right-wrapper {
+  float: right;
+  color: rgb(175, 163, 187);
+}
+
+.middle-part-wrapper {
+  padding: 10px;
+}
+
+.middle-description-part {
+  position: relative;
+  background: linear-gradient(to right, #d3cce3, #e9e4f0);
+  padding-top: 8px;
+}
+
+.description {
+  margin-left: 13px;
+  height: 68px;
+  color: rgb(75, 0, 141);
+  word-wrap: break-word;
+  overflow: auto;
+}
+
+/* hr {
+  height: 10px;
+  border: 0;
+  box-shadow: 0 10px 10px -10px #8c8b8b inset;
+} */
+
+.bottom-part-wrapper {
+  box-sizing: border-box;
+  padding: 16px;
+  height: 92px;
+}
+.bottom-part {
+  justify-content: center;
+  height: 100%;
+  background: linear-gradient(to right, #d3cce3, #e9e4f0);
+  align-items: center;
+  display: flex;
+}
+.buttons {
+  padding: 5px;
+  margin: 5px;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+  background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+}

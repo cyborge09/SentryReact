@@ -1,10 +1,29 @@
+a {
+  text-decoration: none;
+  color: black;
+}
+#main {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  color: #fff;
+  background: rgba(0, 0, 0, 0) linear-gradient(rgb(74, 62, 86), rgb(48, 40, 57))
+    repeat scroll 0% 0%;
+}
+
 .header-Head {
   background-color: #000000;
 }
 
-.header-Wrapper {
-  width: 96.5%;
+#Main-header-wrapper {
+  width: 92%;
   margin: 0 auto;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.header-Wrapper {
+  margin-left: 20px;
 }
 .header-Wrapper ul {
   list-style-type: none;
@@ -13,6 +32,9 @@
   overflow: hidden;
 }
 
+#logout-button {
+  text-align: center;
+}
 .header-Wrapper li {
   float: left;
 }
@@ -25,6 +47,9 @@
   padding: 15px 30px;
 }
 
-.header-Wrapper li a:hover {
-  background-color: #3fb53f;
+.account-icon {
+  position: absolute;
+  top: 10;
+  right: 0;
+  z-index: 33;
 }

@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+.fix {
+  margin-top: 100px;
+}
 
 button {
   cursor: pointer;
@@ -62,7 +65,7 @@ button {
 
 .search-btn {
   float: right;
-  background-color: #3fb53f;
+  background-color: #3f51b5;
   height: 38px;
   border: none;
   border-radius: 0px;
@@ -81,8 +84,13 @@ button {
 .login-wrapper,
 .signUp-Wrapper {
   height: auto;
-  background-color: lightslategray;
-  padding-bottom: 10px;
+  background-color: #f7f7f7;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid green;
   margin: 100px auto;
   display: block;
   width: 400px;
@@ -98,14 +106,17 @@ form {
 .login-form-header,
 .signUp-form-header {
   text-align: center;
-  background-color: green;
+  background-color: #3f51b5;
   padding: 10px;
   font-weight: bolder;
   color: #d8d0d0;
   font-size: 1.3em;
   width: 100%;
 }
-
+#add-button {
+  color: #fff;
+  background-color: #6c5fc7;
+}
 .login-btn,
 .signUp-btn {
   width: 60%;
@@ -146,13 +157,19 @@ form {
   color: black;
   font-size: 18px;
   background: white;
+  width: 80%;
 }
 
-.instanceKey img {
+.instanceKey img,
+#log-type img {
   float: right;
   height: 17px;
   width: 17px;
   cursor: pointer;
+}
+
+#log-type {
+  color: #3f51b5;
 }
 
 .clearfix::after {
@@ -175,10 +192,8 @@ td {
 }
 
 .td:hover {
-  color: green;
+  color: #3f51b5;
   cursor: pointer;
-  font-size: 18px;
-  padding: 5px;
 }
 
 .td a {
@@ -203,7 +218,7 @@ td {
 
 .header {
   width: 100%;
-  background-color: #3fb53f;
+  background-color: #3f51b5;
   padding: 10px 0px;
 }
 
@@ -223,7 +238,7 @@ td {
 .project-name-add {
   margin: 25px auto;
   font-size: 2em;
-  color: #00b44e;
+  color: #8c8c8c;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
     'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -233,6 +248,15 @@ td {
 .project-name-add span {
   float: right;
   margin: 15px auto;
+}
+
+.project-log-id {
+  float: right;
+  margin: 15px auto;
+  font-size: 0.5em;
+}
+.project-log-id span {
+  color: #000;
 }
 /* for react modal animation */
 
@@ -255,12 +279,14 @@ td {
   display: block;
   margin: 0 auto;
   text-align: center;
-  padding: 0px;
+  padding: 10px;
 }
-.change-project {
+.change-project,
+.change-log {
   cursor: pointer;
 }
-.change-project:hover {
+.change-project:hover,
+.change-log:hover {
   color: rgb(35, 118, 182);
 }
 .change-project-select {
@@ -269,7 +295,7 @@ td {
   width: auto;
   padding: 10px;
   text-align: center;
-  background-color: rgb(35, 118, 182);
+  margin-bottom: 5px;
 }
 .modal-AddProject {
   position: relative;
@@ -280,7 +306,7 @@ td {
   background-color: rgb(244, 244, 244);
 }
 .add-project-modal-header {
-  background-color: #00b44e;
+  background-color: #3f51b5;
   text-align: center;
   padding: 10px;
 }
@@ -319,6 +345,91 @@ td {
 }
 
 .error {
+  padding-top: 5px;
   color: red;
 }
 /* css for react modal of add project ends */
+
+/** Select custom css */
+
+.custom-select {
+  position: relative;
+  display: block;
+  max-width: 400px;
+  min-width: 180px;
+  margin: 0 auto;
+  border: 1px solid #a696c4;
+  background-color: #dfd5d5;
+  z-index: 10;
+}
+.custom-select select {
+  border: none;
+  outline: none;
+  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  margin: 0;
+  display: block;
+  width: 100%;
+  padding: 12px 55px 15px 15px;
+  font-size: 14px;
+  color: #714bb9;
+}
+.custom-select:after {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50px;
+  height: 100%;
+  line-height: 38px;
+  content: '⇓';
+  text-align: center;
+  color: #714bb9;
+  font-size: 24px;
+  border-left: 1px solid #3c1c78;
+  z-index: -1;
+}
+
+.search-field {
+  border: 2px solid rgb(200, 178, 223);
+  border-radius: 10px;
+  /* float: right; */
+  padding: 6px;
+
+  margin-top: 8px;
+  margin-right: 16px;
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+.active {
+  background-color: #0099;
+  color: #ffffff;
+  opacity: 0.6;
+}
+.inactive {
+  background-color: #003323;
+  color: #ffffff;
+}
+
+.active:hover {
+  background-color: #00aacc;
+  color: #ffffff;
+}
+
+.refresh {
+  background: url('../img/refresh.png');
+  border-radius: 24px;
+  width: 48px;
+  height: 48px;
+  background-position: center;
+}
+#message-id {
+  text-align: center;
+  justify-content: center;
+}
+
+#message-id a:hover {
+  color: greenyellow;
+}
