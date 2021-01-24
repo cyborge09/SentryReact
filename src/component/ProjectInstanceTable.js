@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 const projectInstanceTable = ({
   data = [],
   handleClick = f => f,
-  // handleDeleteClick = f => f,
+  handleDeleteClick = f => f,
   copyInstanceKey = f => f,
 }) => {
   return (
@@ -19,6 +19,7 @@ const projectInstanceTable = ({
           <TableRow>
             <TableCell numeric>ID</TableCell>
             <TableCell>INSTANCE NAME</TableCell>
+            <TableCell>PROJECT</TableCell>
             <TableCell>INSTANCE KEY</TableCell>
             <TableCell>DELETE</TableCell>
           </TableRow>
@@ -29,7 +30,7 @@ const projectInstanceTable = ({
             data={data}
             copyInstanceKey={copyInstanceKey}
             handleClick={handleClick}
-            // handleDeleteClick={handleDeleteClick}
+            handleDeleteClick={handleDeleteClick}
           />
         </TableBody>
       </Table>
